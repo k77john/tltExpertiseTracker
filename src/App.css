@@ -1,0 +1,15 @@
+.layout_container{
+  display: flex;
+  width: 100vw;
+  background-color: white;
+}
+
+.side_bar_container{
+  width: 23%;
+}
+
+.pages_cont{
+  padding: 2rem;
+  width: 77%;
+  background-color: var(--light-gray-color);
+}
