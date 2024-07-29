@@ -19,13 +19,6 @@ interface StatusTabs {
 }
 
 const ManageSubCategories = () => {
-
-
-
-
-
-
-    
     const cateogryTabs: CategoryTabs = {
         new: 'New Category',
         edit: 'Edit Category',

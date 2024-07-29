@@ -1,12 +1,11 @@
-import { Header } from "../../components";
+import { Header } from '../../components'
 
 const DashBoard = () => {
+    return (
+        <div>
+            <Header title="This is dashboard" />
+        </div>
+    )
+}
 
-  return (
-    <div>
-       <Header title="This is dashboard" />
-    </div>
-  );
-};
-
-export default DashBoard;
+export default DashBoard

@@ -1,47 +1,47 @@
 .input_container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .input_container p {
-  font-size: 0.8rem;
+    font-size: 0.8rem;
 }
 
 .input_field {
-  width: 100%;
-  padding: 1rem;
-  border: 0.1rem solid var(--dark-gray-color);
-  border-radius: 0.3rem;
+    width: 100%;
+    padding: 1rem;
+    border: 0.1rem solid var(--dark-gray-color);
+    border-radius: 0.3rem;
 }
 
 .dropdown_menu {
-  position: absolute;
-  width: 100%;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 10;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .dropdown_menu.down {
-  top: calc(100% + 0.5rem);
+    top: calc(100% + 0.5rem);
 }
 
 .dropdown_menu.up {
-  bottom: calc(100% + 0.5rem);
+    bottom: calc(100% + 0.5rem);
 }
 
 .dropdown_item {
-  padding: 0.5rem;
-  cursor: pointer;
-  font-size: 0.8rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    font-size: 0.8rem;
 }
 
 .dropdown_item:hover {
-  background-color: #f0f0f0;
+    background-color: #f0f0f0;
 }
