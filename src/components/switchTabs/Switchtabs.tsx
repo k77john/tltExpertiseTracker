@@ -15,9 +15,9 @@ const Switchtabs: FC<SwitchtabsProps> = ({ value, tabValues, label }) => {
     }
 
     return (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 w-fit">
             <p className="text-xs">{label}</p>
-            <div className="flex items-center p-1 bg-gray-300 rounded-md">
+            <div className="flex items-center p-1 bg-gray-300 rounded-md w-fit">
                 <button
                     className={`py-2 px-3 text-xs cursor-pointer border-none w-28 rounded-md ${
                         selectedTab === tabValues.left

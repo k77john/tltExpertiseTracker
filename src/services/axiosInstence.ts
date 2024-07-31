@@ -12,8 +12,8 @@ interface ErrorResponseData {
 }
 
 const axiosInstance = axios.create({
-    baseURL: 'https://api.example.com', // Replace with your API base URL
-    timeout: 10000, // Optional: Set a timeout for requests
+    baseURL: 'https://api.example.com',
+    timeout: 10000,
 })
 
 axiosRetry(axiosInstance, {
@@ -36,7 +36,6 @@ axiosInstance.interceptors.request.use(
         return config
     },
     (error: AxiosError) => {
-        // Handle request errors here
         console.error('Request error:', error)
         return Promise.reject(error)
     }
