@@ -1,30 +1,24 @@
 import { useState } from 'react'
-import {
-    Button,
-    DropdownInputField,
-    Header,
-    InputField,
-} from '../../components'
+import { DropdownInputField, Header } from '../../components'
+import { RatingsAndStatus } from './components'
 
-interface CategoryTabs {
+interface Tabs {
     new: string
     edit: string
     delete: string
 }
 
-const ManageSubCategories = () => {
-    const subCateogryTabs: CategoryTabs = {
-        new: 'New Sub Category',
-        edit: 'Edit Sub Category',
-        delete: 'Delete Sub Category',
+const UserExpertiesMaping = () => {
+    const tabs: Tabs = {
+        new: 'New User Experties Maping',
+        edit: 'Edit User Experties Maping',
+        delete: 'Delete User Experties Maping',
     }
 
-    const [currentSubCategoryTab, setSubCurrentCategoryTab] = useState<string>(
-        subCateogryTabs.new
-    )
+    const [currentTab, setCurrentTab] = useState<string>(tabs.new)
 
     const handleSubCategoryTabs = (value: string) => {
-        setSubCurrentCategoryTab(value)
+        setCurrentTab(value)
     }
 
     return (
@@ -33,11 +27,11 @@ const ManageSubCategories = () => {
             <div className="bg-white-color rounded-lg border border-light-gray-color">
                 <div className="flex flex-col">
                     <div className="flex items-center gap-4 border-b border-light-gray-color p-4">
-                        {Object.values(subCateogryTabs).map((tab) => (
+                        {Object.values(tabs).map((tab) => (
                             <button
                                 key={tab}
                                 className={`py-2 px-4 text-xs font-medium rounded-md ${
-                                    currentSubCategoryTab === tab
+                                    currentTab === tab
                                         ? 'bg-primary-color text-white-color'
                                         : 'bg-white-color text-body-text-color'
                                 }`}
@@ -49,36 +43,9 @@ const ManageSubCategories = () => {
                     </div>
                     <div className="flex flex-col gap-4 p-4">
                         <h4 className="text-base text-black-color font-semibold">
-                            {currentSubCategoryTab}
+                            {currentTab}
                         </h4>
-                        {currentSubCategoryTab === subCateogryTabs.new && (
-                            <div className="flex flex-col gap-4">
-                                <div className="flex flex-col gap-4 md:flex-row">
-                                    <InputField
-                                        label="Category"
-                                        placeholder="Enter value"
-                                        width="65%"
-                                    />
-                                </div>
-                                <div className="flex flex-col gap-4">
-                                    <InputField
-                                        label="Description"
-                                        placeholder="Enter value"
-                                        width="65%"
-                                        type="textarea"
-                                        height="10rem"
-                                    />
-                                </div>
-                                <div className="flex justify-end">
-                                    <Button
-                                        width="15%"
-                                        title="Submit"
-                                        onClick={() => {}}
-                                    />
-                                </div>
-                            </div>
-                        )}
-                        {currentSubCategoryTab === subCateogryTabs.edit && (
+                        {currentTab === tabs.new && (
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-col gap-4 md:flex-row">
                                     <DropdownInputField
@@ -88,30 +55,29 @@ const ManageSubCategories = () => {
                                             'Option 3',
                                             'Option 4',
                                         ]}
-                                        label="Category"
+                                        label="Select Category"
                                         placeholder="Select value"
                                         width="65%"
                                     />
                                 </div>
                                 <div className="flex flex-col gap-4">
-                                    <InputField
-                                        label="Description"
-                                        placeholder="Enter value"
+                                    <DropdownInputField
+                                        options={[
+                                            'User 1',
+                                            'User 2',
+                                            'User 3',
+                                            'User 4',
+                                        ]}
+                                        label="Select User"
+                                        placeholder="Select value"
                                         width="65%"
-                                        type="textarea"
-                                        height="10rem"
                                     />
                                 </div>
-                                <div className="flex justify-end">
-                                    <Button
-                                        width="15%"
-                                        title="Update"
-                                        onClick={() => {}}
-                                    />
-                                </div>
+                                <RatingsAndStatus buttonTitle="Map" />
+                                <RatingsAndStatus buttonTitle="Map" />
                             </div>
                         )}
-                        {currentSubCategoryTab === subCateogryTabs.delete && (
+                        {currentTab === tabs.edit && (
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-col gap-4 md:flex-row">
                                     <DropdownInputField
@@ -121,18 +87,64 @@ const ManageSubCategories = () => {
                                             'Option 3',
                                             'Option 4',
                                         ]}
-                                        label="Category"
+                                        label="Select Category"
                                         placeholder="Select value"
                                         width="65%"
                                     />
                                 </div>
-                                <div className="flex justify-end">
-                                    <Button
-                                        width="15%"
-                                        title="Delete"
-                                        onClick={() => {}}
+                                <div className="flex flex-col gap-4">
+                                    <DropdownInputField
+                                        options={[
+                                            'User 1',
+                                            'User 2',
+                                            'User 3',
+                                            'User 4',
+                                        ]}
+                                        label="Select User"
+                                        placeholder="Select value"
+                                        width="65%"
                                     />
                                 </div>
+                                <RatingsAndStatus buttonTitle="Update" />
+                                <RatingsAndStatus buttonTitle="Update" />
+                            </div>
+                        )}
+                        {currentTab === tabs.delete && (
+                            <div className="flex flex-col gap-4">
+                                <div className="flex flex-col gap-4 md:flex-row">
+                                    <DropdownInputField
+                                        options={[
+                                            'Option 1',
+                                            'Option 2',
+                                            'Option 3',
+                                            'Option 4',
+                                        ]}
+                                        label="Select Category"
+                                        placeholder="Select value"
+                                        width="65%"
+                                    />
+                                </div>
+                                <div className="flex flex-col gap-4">
+                                    <DropdownInputField
+                                        options={[
+                                            'User 1',
+                                            'User 2',
+                                            'User 3',
+                                            'User 4',
+                                        ]}
+                                        label="Select User"
+                                        placeholder="Select value"
+                                        width="65%"
+                                    />
+                                </div>
+                                <RatingsAndStatus
+                                    forDelete={true}
+                                    buttonTitle="UnMap"
+                                />
+                                <RatingsAndStatus
+                                    forDelete={true}
+                                    buttonTitle="UnMap"
+                                />
                             </div>
                         )}
                     </div>
@@ -142,4 +154,4 @@ const ManageSubCategories = () => {
     )
 }
 
-export default ManageSubCategories
+export default UserExpertiesMaping
