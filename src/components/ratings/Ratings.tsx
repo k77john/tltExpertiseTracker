@@ -5,7 +5,7 @@ interface RatingsProps {
     width?: string
     label: string
     rating?: number
-    setRating: (e: number | null) => void
+    setRating: (e: number) => void
 }
 
 const Ratings: FC<RatingsProps> = ({
@@ -21,8 +21,8 @@ const Ratings: FC<RatingsProps> = ({
                 <Rating
                     name="customized-10"
                     value={rating}
-                    onChange={(event, newValue) => {
-                        setRating(newValue)
+                    onChange={(_, newValue) => {
+                        setRating(newValue || 0)
                     }}
                     precision={0.5}
                     max={10}

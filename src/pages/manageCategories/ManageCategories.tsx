@@ -1,11 +1,8 @@
-import { useState } from 'react'
-import {
-    Button,
-    DropdownInputField,
-    Header,
-    InputField,
-    Switchtabs,
-} from '../../components'
+import { useEffect, useState } from 'react'
+import { Header, Loader } from '../../components'
+import { useAppDispatch, useAppSelector } from '../../store'
+import { getCategoriesAction } from '../../store/reducersAndActions/category/category.actions'
+import { AddNewCategory, DeleteCategory, EditCategory } from './components'
 
 interface CategoryTabs {
     new: string
@@ -13,35 +10,36 @@ interface CategoryTabs {
     delete: string
 }
 
-interface StatusTabs {
-    left: string
-    right: string
-}
+const ManageCategories = () => {
+    const dispatch = useAppDispatch()
+    const loading = useAppSelector((state) => state.category.loading)
 
-const ManageSubCategories = () => {
     const cateogryTabs: CategoryTabs = {
         new: 'New Category',
         edit: 'Edit Category',
         delete: 'Delete Category',
     }
 
-    const statusTabs: StatusTabs = {
-        left: 'Active',
-        right: 'In Active',
-    }
-
     const [currentCategoryTab, setCurrentCategoryTab] = useState<string>(
         cateogryTabs.new
     )
-    const [status, setStatus] = useState<string>(statusTabs.left)
 
     const handleCategoryTabs = (value: string) => {
         setCurrentCategoryTab(value)
     }
 
+    const getCategory = async () => {
+        dispatch(getCategoriesAction())
+    }
+
+    useEffect(() => {
+        getCategory()
+    }, [])
+
     return (
         <div>
-            <Header title="Manage Sub Categories" />
+            {loading && <Loader />}
+            <Header title="Manage Categories" />
             <div className="bg-white-color rounded-lg border border-secondary-color">
                 <div className="flex flex-col">
                     <div className="flex items-center gap-4 border-b border-secondary-color p-4">
@@ -64,94 +62,13 @@ const ManageSubCategories = () => {
                             {currentCategoryTab}
                         </h4>
                         {currentCategoryTab === cateogryTabs.new && (
-                            <div className="flex flex-col gap-4">
-                                <div className="flex flex-col gap-4 md:flex-row">
-                                    <InputField
-                                        label="Category"
-                                        placeholder="Enter value"
-                                        width="65%"
-                                    />
-                                    <Switchtabs
-                                        label="Status"
-                                        onClick={(value) => setStatus(value)}
-                                        tabValues={statusTabs}
-                                        value={status}
-                                    />
-                                </div>
-                                <div className="flex flex-col gap-4">
-                                    <InputField
-                                        label="Description"
-                                        placeholder="Enter value"
-                                        width="65%"
-                                        type="textarea"
-                                        height="10rem"
-                                    />
-                                </div>
-                                <div className="flex justify-end">
-                                    <Button
-                                        width="15%"
-                                        title="Submit"
-                                        onClick={() => {}}
-                                    />
-                                </div>
-                            </div>
+                            <AddNewCategory />
                         )}
                         {currentCategoryTab === cateogryTabs.edit && (
-                            <div className="flex flex-col gap-4">
-                                <div className="flex flex-col gap-4 md:flex-row">
-                                    <DropdownInputField
-                                        options={[
-                                            'Option 1',
-                                            'Option 2',
-                                            'Option 3',
-                                            'Option 4',
-                                        ]}
-                                        label="Category"
-                                        placeholder="Select value"
-                                        width="65%"
-                                    />
-                                </div>
-                                <div className="flex flex-col gap-4">
-                                    <InputField
-                                        label="Description"
-                                        placeholder="Enter value"
-                                        width="65%"
-                                        type="textarea"
-                                        height="10%"
-                                    />
-                                </div>
-                                <div className="flex justify-end">
-                                    <Button
-                                        width="15%"
-                                        title="Update"
-                                        onClick={() => {}}
-                                    />
-                                </div>
-                            </div>
+                            <EditCategory />
                         )}
                         {currentCategoryTab === cateogryTabs.delete && (
-                            <div className="flex flex-col gap-4">
-                                <div className="flex flex-col gap-4 md:flex-row">
-                                    <DropdownInputField
-                                        options={[
-                                            'Option 1',
-                                            'Option 2',
-                                            'Option 3',
-                                            'Option 4',
-                                        ]}
-                                        label="Category"
-                                        placeholder="Select value"
-                                        width="65%"
-                                    />
-                                </div>
-                                <div className="flex justify-end">
-                                    <Button
-                                        width="15%"
-                                        title="Delete"
-                                        onClick={() => {}}
-                                    />
-                                </div>
-                            </div>
+                            <DeleteCategory />
                         )}
                     </div>
                 </div>
@@ -160,4 +77,4 @@ const ManageSubCategories = () => {
     )
 }
 
-export default ManageSubCategories
+export default ManageCategories

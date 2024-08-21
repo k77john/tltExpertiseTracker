@@ -1,17 +1,18 @@
-import { ChangeEvent, FC, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 
-interface DropdownInputFieldProps {
+interface DropdownInputFieldProps<T> {
     height?: string
     width?: string
     label: string
     placeholder?: string
     disabled?: boolean
     backgroundColor?: string
-    onSelect?: (option: string) => void
-    options: string[]
+    onSelect?: (option: T) => void
+    options: T[]
+    getOptionLabel: (option: T) => string
 }
 
-const DropdownInputField: FC<DropdownInputFieldProps> = ({
+const DropdownInputField = <T extends object>({
     height = '2.5rem',
     width = '100%',
     label = '',
@@ -20,8 +21,9 @@ const DropdownInputField: FC<DropdownInputFieldProps> = ({
     backgroundColor = 'white',
     onSelect = () => {},
     options,
-}) => {
-    const [filteredOptions, setFilteredOptions] = useState<string[]>(options)
+    getOptionLabel,
+}: DropdownInputFieldProps<T>) => {
+    const [filteredOptions, setFilteredOptions] = useState<T[]>(options)
     const [inputValue, setInputValue] = useState<string>('')
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
     const [dropdownDirection, setDropdownDirection] = useState<'down' | 'up'>(
@@ -34,7 +36,9 @@ const DropdownInputField: FC<DropdownInputFieldProps> = ({
         setInputValue(value)
         setFilteredOptions(
             options.filter((option) =>
-                option.toLowerCase().includes(value.toLowerCase())
+                getOptionLabel(option)
+                    .toLowerCase()
+                    .includes(value.toLowerCase())
             )
         )
     }
@@ -53,8 +57,8 @@ const DropdownInputField: FC<DropdownInputFieldProps> = ({
         }
     }
 
-    const handleOptionClick = (option: string) => {
-        setInputValue(option)
+    const handleOptionClick = (option: T) => {
+        setInputValue(getOptionLabel(option))
         setFilteredOptions([])
         setIsDropdownOpen(false)
         onSelect(option)
@@ -82,7 +86,7 @@ const DropdownInputField: FC<DropdownInputFieldProps> = ({
             style={{ width }}
             ref={dropdownRef}
         >
-            <p className="text-xs sm:text-sm text-black-color">{label}</p>
+            <p className="text-sm text-black-color">{label}</p>
             <input
                 className="w-full p-3 sm:p-4 border border-light-gray-color rounded-md text-sm"
                 style={{ height, backgroundColor }}
@@ -104,11 +108,11 @@ const DropdownInputField: FC<DropdownInputFieldProps> = ({
                 >
                     {filteredOptions.map((option) => (
                         <li
-                            key={option}
+                            key={getOptionLabel(option)}
                             className="p-2 text-xs sm:text-sm cursor-pointer hover:bg-gray-100"
                             onClick={() => handleOptionClick(option)}
                         >
-                            {option}
+                            {getOptionLabel(option)}
                         </li>
                     ))}
                 </ul>

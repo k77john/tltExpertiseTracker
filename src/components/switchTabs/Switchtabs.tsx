@@ -1,16 +1,19 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 
 interface SwitchtabsProps {
-    value: string
     tabValues: { left: string; right: string }
-    onClick: (value: string) => void
+    setSelectedTab: (value: boolean) => void
     label: string
+    selectedTab: boolean
 }
 
-const Switchtabs: FC<SwitchtabsProps> = ({ value, tabValues, label }) => {
-    const [selectedTab, setSelectedTab] = useState<string>(value || '')
-
-    const handleTabClick = (value: string) => {
+const Switchtabs: FC<SwitchtabsProps> = ({
+    tabValues,
+    label,
+    setSelectedTab,
+    selectedTab,
+}) => {
+    const handleTabClick = (value: boolean) => {
         setSelectedTab(value)
     }
 
@@ -20,21 +23,21 @@ const Switchtabs: FC<SwitchtabsProps> = ({ value, tabValues, label }) => {
             <div className="flex items-center p-1 bg-gray-300 rounded-md w-fit">
                 <button
                     className={`py-2 px-3 text-xs cursor-pointer border-none w-28 rounded-md ${
-                        selectedTab === tabValues.left
+                        selectedTab
                             ? 'bg-white text-black'
                             : 'bg-gray-300 text-gray-600'
                     }`}
-                    onClick={() => handleTabClick(tabValues.left)}
+                    onClick={() => handleTabClick(true)}
                 >
                     {tabValues.left}
                 </button>
                 <button
                     className={`py-2 px-3 text-xs cursor-pointer border-none w-28 rounded-md ${
-                        selectedTab === tabValues.right
+                        !selectedTab
                             ? 'bg-white text-black'
                             : 'bg-gray-300 text-gray-600'
                     }`}
-                    onClick={() => handleTabClick(tabValues.right)}
+                    onClick={() => handleTabClick(false)}
                 >
                     {tabValues.right}
                 </button>

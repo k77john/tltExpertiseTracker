@@ -34,7 +34,7 @@ const CategorySubCategoryMaping = () => {
         CateogrySubCategoryMapingTabs.new
     )
 
-    const [status, setStatus] = useState<string>(statusTabs.left)
+    const [status, setStatus] = useState<boolean>(false)
 
     const handleTabs = (value: string) => {
         setCurrentTab(value)
@@ -70,31 +70,25 @@ const CategorySubCategoryMaping = () => {
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-col gap-4 md:flex-row">
                                     <DropdownInputField
-                                        options={[
-                                            'Option 1',
-                                            'Option 2',
-                                            'Option 3',
-                                            'Option 4',
-                                        ]}
+                                        options={[]}
+                                        getOptionLabel={() => 'Demo'}
                                         label="Select category"
                                         placeholder="Select value"
                                         width="65%"
                                     />
                                     <Switchtabs
                                         label="Status"
-                                        onClick={(value) => setStatus(value)}
+                                        setSelectedTab={(value) =>
+                                            setStatus(value)
+                                        }
                                         tabValues={statusTabs}
-                                        value={status}
+                                        selectedTab={status}
                                     />
                                 </div>
                                 <div className="flex flex-col gap-4">
                                     <DropdownInputField
-                                        options={[
-                                            'Option 1',
-                                            'Option 2',
-                                            'Option 3',
-                                            'Option 4',
-                                        ]}
+                                        options={[]}
+                                        getOptionLabel={() => 'Demo'}
                                         label="Select sub category"
                                         placeholder="Select value"
                                         width="65%"
@@ -107,6 +101,7 @@ const CategorySubCategoryMaping = () => {
                                         width="65%"
                                         type="textarea"
                                         height="10rem"
+                                        onChange={() => {}}
                                     />
                                 </div>
                                 <div className="flex justify-end">
@@ -122,31 +117,25 @@ const CategorySubCategoryMaping = () => {
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-col gap-4 md:flex-row">
                                     <DropdownInputField
-                                        options={[
-                                            'Option 1',
-                                            'Option 2',
-                                            'Option 3',
-                                            'Option 4',
-                                        ]}
+                                        options={[]}
+                                        getOptionLabel={() => 'Demo'}
                                         label="Select category"
                                         placeholder="Select value"
                                         width="65%"
                                     />
                                     <Switchtabs
                                         label="Status"
-                                        onClick={(value) => setStatus(value)}
+                                        setSelectedTab={(value) =>
+                                            setStatus(value)
+                                        }
                                         tabValues={statusTabs}
-                                        value={status}
+                                        selectedTab={status}
                                     />
                                 </div>
                                 <div className="flex flex-col gap-4">
                                     <DropdownInputField
-                                        options={[
-                                            'Option 1',
-                                            'Option 2',
-                                            'Option 3',
-                                            'Option 4',
-                                        ]}
+                                        options={[]}
+                                        getOptionLabel={() => 'Demo'}
                                         label="Select mapped sub category"
                                         placeholder="Select value"
                                         width="65%"
@@ -154,12 +143,8 @@ const CategorySubCategoryMaping = () => {
                                 </div>
                                 <div className="flex flex-col gap-4">
                                     <DropdownInputField
-                                        options={[
-                                            'Option 1',
-                                            'Option 2',
-                                            'Option 3',
-                                            'Option 4',
-                                        ]}
+                                        options={[]}
+                                        getOptionLabel={() => 'Demo'}
                                         label="Change sub category"
                                         placeholder="Select value"
                                         width="65%"
@@ -172,6 +157,7 @@ const CategorySubCategoryMaping = () => {
                                         width="65%"
                                         type="textarea"
                                         height="10rem"
+                                        onChange={() => {}}
                                     />
                                 </div>
                                 <div className="flex justify-end">
@@ -188,12 +174,8 @@ const CategorySubCategoryMaping = () => {
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-col gap-4 md:flex-row">
                                     <DropdownInputField
-                                        options={[
-                                            'Option 1',
-                                            'Option 2',
-                                            'Option 3',
-                                            'Option 4',
-                                        ]}
+                                        options={[]}
+                                        getOptionLabel={() => 'Demo'}
                                         label="Select category"
                                         placeholder="Select value"
                                         width="65%"
@@ -201,12 +183,8 @@ const CategorySubCategoryMaping = () => {
                                 </div>
                                 <div className="flex flex-col gap-4">
                                     <DropdownInputField
-                                        options={[
-                                            'Option 1',
-                                            'Option 2',
-                                            'Option 3',
-                                            'Option 4',
-                                        ]}
+                                        options={[]}
+                                        getOptionLabel={() => 'Demo'}
                                         label="Select mapped sub category"
                                         placeholder="Select value"
                                         width="65%"

@@ -5,6 +5,7 @@ import DropdownInputField from './dropdownInput/DropdownInput'
 import Header from './header/Header'
 import Switchtabs from './switchTabs/Switchtabs'
 import Ratings from './ratings/Ratings'
+import Loader from './Loader/Loader'
 
 export {
     SideBarMenu,
@@ -14,4 +15,5 @@ export {
     Header,
     Switchtabs,
     Ratings,
+    Loader,
 }

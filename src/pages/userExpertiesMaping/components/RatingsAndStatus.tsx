@@ -9,18 +9,28 @@ interface StatusTabs {
 interface RatingsAndStatusProps {
     buttonTitle: string
     forDelete?: boolean
+    onClick: (value: { status: boolean; ratings: number }) => void
 }
 
 const RatingsAndStatus: FC<RatingsAndStatusProps> = ({
     buttonTitle,
     forDelete,
+    onClick,
 }) => {
     const statusTabs: StatusTabs = {
         left: 'Active',
         right: 'In Active',
     }
 
-    const [status, setStatus] = useState<string>(statusTabs.left)
+    const [status, setStatus] = useState<boolean>(false)
+    const [ratings, setRatings] = useState<number>(0)
+
+    const handleMaping = (ratings: number, status: boolean) => {
+        onClick({
+            status: status,
+            ratings: ratings,
+        })
+    }
 
     return (
         <div className="bg-white rounded-lg border border-light-gray-color">
@@ -40,15 +50,19 @@ const RatingsAndStatus: FC<RatingsAndStatusProps> = ({
                         <div className="flex gap-4 flex-col lg:flex-row">
                             <Switchtabs
                                 label="Status"
-                                onClick={(value) => setStatus(value)}
+                                setSelectedTab={(value) => setStatus(value)}
                                 tabValues={statusTabs}
-                                value={status}
+                                selectedTab={status}
                             />
-                            <Ratings label="Ratings" setRating={() => {}} />
+                            <Ratings
+                                label="Ratings"
+                                rating={ratings}
+                                setRating={(v) => setRatings(v)}
+                            />
                         </div>
                     )}
                     <Button
-                        onClick={() => {}}
+                        onClick={() => handleMaping(ratings, status)}
                         title={buttonTitle}
                         width={'20%'}
                     />

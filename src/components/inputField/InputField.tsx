@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, CSSProperties } from 'react'
+import { CSSProperties, FC } from 'react'
 
 interface InputFieldProps {
     height?: string
@@ -8,9 +8,8 @@ interface InputFieldProps {
     placeholder?: string
     disabled?: boolean
     backgroundColor?: string
-    onChange?: (
-        event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => void
+    onChange: (e: string) => void
+    value?: string
 }
 
 const InputField: FC<InputFieldProps> = ({
@@ -22,6 +21,7 @@ const InputField: FC<InputFieldProps> = ({
     disabled = false,
     backgroundColor = 'white',
     onChange,
+    value,
 }) => {
     const commonStyles: CSSProperties = {
         height,
@@ -36,7 +36,8 @@ const InputField: FC<InputFieldProps> = ({
                 title={label}
                 placeholder={placeholder}
                 disabled={disabled}
-                onChange={onChange}
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
                 className="p-4 rounded border border-light-gray-color w-full text-sm"
             />
         </div>
@@ -47,10 +48,11 @@ const InputField: FC<InputFieldProps> = ({
                 className="p-4 rounded border border-light-gray-color w-full text-sm"
                 style={commonStyles}
                 type={type}
+                value={value}
                 title={label}
                 placeholder={placeholder}
                 disabled={disabled}
-                onChange={onChange}
+                onChange={(e) => onChange(e.target.value)}
             />
         </div>
     )
