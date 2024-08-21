@@ -16,6 +16,18 @@ const UserExpertiesMaping = () => {
     }
 
     const [currentTab, setCurrentTab] = useState<string>(tabs.new)
+    const [maping, setmaping] = useState({ status: false, ratings: 0 })
+
+    console.log('====================================')
+    console.log(maping)
+    console.log('====================================')
+
+    const handleMaping = (ratings: number, status: boolean) => {
+        setmaping({
+            status,
+            ratings,
+        })
+    }
 
     const handleSubCategoryTabs = (value: string) => {
         setCurrentTab(value)
@@ -48,13 +60,10 @@ const UserExpertiesMaping = () => {
                         {currentTab === tabs.new && (
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-col gap-4 md:flex-row">
+                                    \{' '}
                                     <DropdownInputField
-                                        options={[
-                                            'Option 1',
-                                            'Option 2',
-                                            'Option 3',
-                                            'Option 4',
-                                        ]}
+                                        options={[]}
+                                        getOptionLabel={() => 'Demo'}
                                         label="Select Category"
                                         placeholder="Select value"
                                         width="65%"
@@ -62,31 +71,33 @@ const UserExpertiesMaping = () => {
                                 </div>
                                 <div className="flex flex-col gap-4">
                                     <DropdownInputField
-                                        options={[
-                                            'User 1',
-                                            'User 2',
-                                            'User 3',
-                                            'User 4',
-                                        ]}
+                                        options={[]}
+                                        getOptionLabel={() => 'Demo'}
                                         label="Select User"
                                         placeholder="Select value"
                                         width="65%"
                                     />
                                 </div>
-                                <RatingsAndStatus buttonTitle="Map" />
-                                <RatingsAndStatus buttonTitle="Map" />
+                                <RatingsAndStatus
+                                    buttonTitle="Map"
+                                    onClick={({ ratings, status }) =>
+                                        handleMaping(ratings, status)
+                                    }
+                                />
+                                <RatingsAndStatus
+                                    buttonTitle="Map"
+                                    onClick={({ ratings, status }) =>
+                                        handleMaping(ratings, status)
+                                    }
+                                />
                             </div>
                         )}
                         {currentTab === tabs.edit && (
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-col gap-4 md:flex-row">
                                     <DropdownInputField
-                                        options={[
-                                            'Option 1',
-                                            'Option 2',
-                                            'Option 3',
-                                            'Option 4',
-                                        ]}
+                                        options={[]}
+                                        getOptionLabel={() => 'Demo'}
                                         label="Select Category"
                                         placeholder="Select value"
                                         width="65%"
@@ -94,31 +105,33 @@ const UserExpertiesMaping = () => {
                                 </div>
                                 <div className="flex flex-col gap-4">
                                     <DropdownInputField
-                                        options={[
-                                            'User 1',
-                                            'User 2',
-                                            'User 3',
-                                            'User 4',
-                                        ]}
+                                        options={[]}
+                                        getOptionLabel={() => 'Demo'}
                                         label="Select User"
                                         placeholder="Select value"
                                         width="65%"
                                     />
                                 </div>
-                                <RatingsAndStatus buttonTitle="Update" />
-                                <RatingsAndStatus buttonTitle="Update" />
+                                <RatingsAndStatus
+                                    buttonTitle="Update"
+                                    onClick={({ ratings, status }) =>
+                                        handleMaping(ratings, status)
+                                    }
+                                />
+                                <RatingsAndStatus
+                                    buttonTitle="Update"
+                                    onClick={({ ratings, status }) =>
+                                        handleMaping(ratings, status)
+                                    }
+                                />
                             </div>
                         )}
                         {currentTab === tabs.delete && (
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-col gap-4 md:flex-row">
                                     <DropdownInputField
-                                        options={[
-                                            'Option 1',
-                                            'Option 2',
-                                            'Option 3',
-                                            'Option 4',
-                                        ]}
+                                        options={[]}
+                                        getOptionLabel={() => 'Demo'}
                                         label="Select Category"
                                         placeholder="Select value"
                                         width="65%"
@@ -126,12 +139,8 @@ const UserExpertiesMaping = () => {
                                 </div>
                                 <div className="flex flex-col gap-4">
                                     <DropdownInputField
-                                        options={[
-                                            'User 1',
-                                            'User 2',
-                                            'User 3',
-                                            'User 4',
-                                        ]}
+                                        options={[]}
+                                        getOptionLabel={() => 'Demo'}
                                         label="Select User"
                                         placeholder="Select value"
                                         width="65%"
@@ -140,10 +149,16 @@ const UserExpertiesMaping = () => {
                                 <RatingsAndStatus
                                     forDelete={true}
                                     buttonTitle="UnMap"
+                                    onClick={({ ratings, status }) =>
+                                        handleMaping(ratings, status)
+                                    }
                                 />
                                 <RatingsAndStatus
                                     forDelete={true}
                                     buttonTitle="UnMap"
+                                    onClick={({ ratings, status }) =>
+                                        handleMaping(ratings, status)
+                                    }
                                 />
                             </div>
                         )}

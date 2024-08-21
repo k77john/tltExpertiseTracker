@@ -1,6 +1,8 @@
+import { Outlet, Route, Routes } from 'react-router-dom'
 import './App.css'
-import { Routes, Route, Outlet } from 'react-router-dom'
 
+import { SideBarMenu } from './components'
+import { ROUTES } from './constants/routes'
 import {
     CategorySubCategoryMaping,
     DashBoard,
@@ -8,8 +10,6 @@ import {
     ManageSubCategories,
     UserExpertiesMaping,
 } from './pages'
-import { SideBarMenu } from './components'
-import { ROUTES } from './constants/routes'
 
 function App() {
     return (

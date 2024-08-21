@@ -1,6 +1,6 @@
 import DashBoard from './employeeExpertiseDashboard/DashBoard'
 import ManageCategories from './manageCategories/ManageCategories'
-import ManageSubCategories from './manageSubCategories/ManageCategories'
+import ManageSubCategories from './manageSubCategories/ManageSubCategories'
 import CategorySubCategoryMaping from './categorySubCategoryMaping/CategorySubCategoryMaping'
 import UserExpertiesMaping from './userExpertiesMaping/UserExpertiesMaping'
 
