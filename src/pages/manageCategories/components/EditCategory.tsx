@@ -9,6 +9,7 @@ import { DUMMY_USER_ID, statusTabs } from '../../../constants/constents'
 import { Category } from '../../../constants/types'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { editCategoryAction } from '../../../store/reducersAndActions/category/category.actions'
+import { showErrorToast } from '../../../utils/toast'
 
 const EditCategory = () => {
     const categoryList = useAppSelector((state) => state.category.category)
@@ -30,6 +31,20 @@ const EditCategory = () => {
     const dispatch = useAppDispatch()
 
     const editCategoryHandler = (data: Category) => {
+        if (!category.categoryID) {
+            showErrorToast('Please Select Category')
+            return
+        }
+
+        if (!category.categoryName) {
+            showErrorToast('Category Name Is Required')
+            return
+        }
+
+        if (!category.description) {
+            showErrorToast('Category Description Is Required')
+            return
+        }
         dispatch(editCategoryAction(data))
         setCategory({
             categoryName: '',

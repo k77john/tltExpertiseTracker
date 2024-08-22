@@ -13,6 +13,8 @@ export const getCategoriesAction = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         const resp = await getCategories()
         if (resp?.isSuccessful) {
+            const updatedData = resp.data.filter((item) => !item.isDeleted)
+            resp.data = updatedData
             return resp
         } else {
             return rejectWithValue(resp)

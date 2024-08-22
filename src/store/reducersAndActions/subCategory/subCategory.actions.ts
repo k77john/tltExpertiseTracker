@@ -1,7 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { Category } from '../../../constants/types'
+import { SubCategory } from '../../../constants/types'
 import {
     addSubCategory,
+    deleteSubCategory,
+    editSubCategory,
     getSubCategories,
 } from '../../../services/subCategory.services'
 import { showSuccessToast } from '../../../utils/toast'
@@ -11,6 +13,8 @@ export const getSubCategoriesAction = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         const resp = await getSubCategories()
         if (resp?.isSuccessful) {
+            const updatedData = resp.data.filter((item) => !item.isDeleted)
+            resp.data = updatedData
             return resp
         } else {
             return rejectWithValue(resp)
@@ -20,7 +24,7 @@ export const getSubCategoriesAction = createAsyncThunk(
 
 export const addSubCategoryAction = createAsyncThunk(
     'category/addCategories',
-    async (payload: Category, { rejectWithValue, dispatch }) => {
+    async (payload: SubCategory, { rejectWithValue, dispatch }) => {
         console.log(payload)
 
         const resp = await addSubCategory(payload)
@@ -34,32 +38,32 @@ export const addSubCategoryAction = createAsyncThunk(
     }
 )
 
-// export const deleteCategoryAction = createAsyncThunk(
-//     'category/deleteCategories',
-//     async (payload: Category, { rejectWithValue, dispatch }) => {
-//         const resp = await deleteCategory(payload)
-//         if (resp?.isSuccessful) {
-//             showSuccessToast(resp?.data.statusMessage || '')
-//             dispatch(getCategoriesAction())
-//             return resp
-//         } else {
-//             return rejectWithValue(resp)
-//         }
-//     }
-// )
+export const deleteSubCategoryAction = createAsyncThunk(
+    'category/deleteCategories',
+    async (payload: SubCategory, { rejectWithValue, dispatch }) => {
+        const resp = await deleteSubCategory(payload)
+        if (resp?.isSuccessful) {
+            showSuccessToast(resp?.data.statusMessage || '')
+            dispatch(getSubCategoriesAction())
+            return resp
+        } else {
+            return rejectWithValue(resp)
+        }
+    }
+)
 
-// export const editCategoryAction = createAsyncThunk(
-//     'category/editCategories',
-//     async (payload: Category, { rejectWithValue, dispatch }) => {
-//         console.log(payload)
+export const editSubCategoryAction = createAsyncThunk(
+    'category/editCategories',
+    async (payload: SubCategory, { rejectWithValue, dispatch }) => {
+        console.log(payload)
 
-//         const resp = await editCategory(payload)
-//         if (resp?.isSuccessful) {
-//             showSuccessToast(resp?.data.statusMessage || '')
-//             dispatch(getCategoriesAction())
-//             return resp
-//         } else {
-//             return rejectWithValue(resp)
-//         }
-//     }
-// )
+        const resp = await editSubCategory(payload)
+        if (resp?.isSuccessful) {
+            showSuccessToast(resp?.data.statusMessage || '')
+            dispatch(getSubCategoriesAction())
+            return resp
+        } else {
+            return rejectWithValue(resp)
+        }
+    }
+)

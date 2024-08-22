@@ -7,7 +7,9 @@ import {
 } from '../../../components'
 import { DUMMY_USER_ID, statusTabs } from '../../../constants/constents'
 import { SubCategory } from '../../../constants/types'
-import { useAppSelector } from '../../../store'
+import { useAppDispatch, useAppSelector } from '../../../store'
+import { editSubCategoryAction } from '../../../store/reducersAndActions/subCategory/subCategory.actions'
+import { showErrorToast } from '../../../utils/toast'
 
 const EditSubCategory = () => {
     const subCategoryList = useAppSelector(
@@ -28,19 +30,34 @@ const EditSubCategory = () => {
         setSubCategory(option)
     }
 
-    // const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch()
 
-    // const editSubCategoryHandler = (data: Category) => {
-    //     dispatch(editSubCategoryAction(data))
-    //     setSubCategory({
-    //         subCategoryName: '',
-    //         description: '',
-    //         isActive: true,
-    //         isDeleted: false,
-    //         insertedUserID: 2,
-    //         updatedUserID: 2,
-    //     })
-    // }
+    const editSubCategoryHandler = (data: SubCategory) => {
+        if (!subCategory.subCategoryID) {
+            showErrorToast('Please Select Sub Category')
+            return
+        }
+
+        if (!subCategory.subCategoryName) {
+            showErrorToast('Sub Category Name Is Required')
+            return
+        }
+
+        if (!subCategory.description) {
+            showErrorToast('Sub Category Description Is Required')
+            return
+        }
+
+        dispatch(editSubCategoryAction(data))
+        setSubCategory({
+            subCategoryName: '',
+            description: '',
+            isActive: true,
+            isDeleted: false,
+            insertedUserID: 2,
+            updatedUserID: 2,
+        })
+    }
 
     const getOptionLabel = (option: (typeof subCategoryList)[0]) =>
         option.subCategoryName || ''
@@ -99,7 +116,11 @@ const EditSubCategory = () => {
                 />
             </div>
             <div className="flex justify-end">
-                <Button width="15%" title="Update" onClick={() => {}} />
+                <Button
+                    width="15%"
+                    title="Update"
+                    onClick={() => editSubCategoryHandler(subCategory)}
+                />
             </div>
         </div>
     )

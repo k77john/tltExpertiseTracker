@@ -3,6 +3,7 @@ import { Button, DropdownInputField } from '../../../components'
 import { Category } from '../../../constants/types'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { deleteCategoryAction } from '../../../store/reducersAndActions/category/category.actions'
+import { showErrorToast } from '../../../utils/toast'
 
 const DeleteCategory = () => {
     const categoryList = useAppSelector((state) => state.category.category)
@@ -12,6 +13,10 @@ const DeleteCategory = () => {
     const dispatch = useAppDispatch()
 
     const deleteCategoryHandler = (data: Category) => {
+        if (!category.categoryID) {
+            showErrorToast('Please Select Category')
+            return
+        }
         dispatch(deleteCategoryAction(data))
         setCategory({})
     }
