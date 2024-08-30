@@ -1,10 +1,3 @@
-// export interface ApiErrorResponse {
-//     status: string
-//     isSuccessful: boolean
-//     statusCode: number
-//     message?: string
-// }
-
 export interface SuccessResponse<T> {
     status?: 'success'
     isSuccessful: true
@@ -43,4 +36,27 @@ export interface SubCategory {
     isDeleted?: boolean
     updatedUserID?: number
     statusMessage?: string | undefined
+}
+
+export interface CategorySubCategoryMaping {
+    mappingId?: number
+    categoryId?: number
+    description?: string
+    subCategoryId?: number
+    isActive?: boolean
+    insertedUserId?: number
+    insertedDate?: string
+    updatedUserId?: number
+    updatedDate?: string
+    isDeleted?: boolean
+    statusMessage?: string | undefined
+}
+
+export interface StatusCodes {
+    statusCode: number
+    description: string
+}
+
+export interface ApiResponsePayload {
+    statusCode: number | string
 }

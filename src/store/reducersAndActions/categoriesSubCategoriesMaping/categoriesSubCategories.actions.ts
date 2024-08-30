@@ -1,18 +1,19 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { SubCategory } from '../../../constants/types'
-import {
-    addSubCategory,
-    deleteSubCategory,
-    editSubCategory,
-    getSubCategories,
-} from '../../../services/subCategory.services'
-import { showSuccessToast } from '../../../utils/toast'
-import { RootState } from '../..'
 
-export const getSubCategoriesAction = createAsyncThunk(
-    'subCategory/getSubCategories',
+import { RootState } from '../..'
+import { CategorySubCategoryMaping } from '../../../constants/types'
+import {
+    addCategoriesSubCategoriesMaping,
+    deleteCategoriesSubCategoriesMaping,
+    editCategoriesSubCategoriesMaping,
+    getCategoriesSubCategoriesMapings,
+} from '../../../services/categorySubCategoryMaping.services'
+import { showSuccessToast } from '../../../utils/toast'
+
+export const getCategoriesSubCategoriesAction = createAsyncThunk(
+    'CategorySubCategoryMapping/GetAllCategorySubCategoryMapping',
     async (_, { rejectWithValue }) => {
-        const resp = await getSubCategories()
+        const resp = await getCategoriesSubCategoriesMapings()
         if (resp?.isSuccessful) {
             const updatedData = resp.data.filter((item) => !item.isDeleted)
             resp.data = updatedData
@@ -23,12 +24,15 @@ export const getSubCategoriesAction = createAsyncThunk(
     }
 )
 
-export const addSubCategoryAction = createAsyncThunk(
-    'subCategory/addSubCategories',
-    async (payload: SubCategory, { rejectWithValue, dispatch, getState }) => {
+export const addCategoriesSubCategoriesAction = createAsyncThunk(
+    'CategorySubCategoryMapping/AddCategorySubCategoryMapping',
+    async (
+        payload: CategorySubCategoryMaping,
+        { rejectWithValue, dispatch, getState }
+    ) => {
         console.log(payload)
 
-        const resp = await addSubCategory(payload)
+        const resp = await addCategoriesSubCategoriesMaping(payload)
         const state = getState() as RootState
         const statusCodes = state.apiStatusCodes.statusCodes
 
@@ -39,7 +43,7 @@ export const addSubCategoryAction = createAsyncThunk(
             if (status) {
                 showSuccessToast(status.description || '')
             }
-            dispatch(getSubCategoriesAction())
+            dispatch(getCategoriesSubCategoriesAction())
             return resp
         } else {
             return rejectWithValue(resp)
@@ -47,12 +51,15 @@ export const addSubCategoryAction = createAsyncThunk(
     }
 )
 
-export const deleteSubCategoryAction = createAsyncThunk(
-    'subSategory/deleteSubCategories',
-    async (payload: SubCategory, { rejectWithValue, dispatch, getState }) => {
+export const deleteCategorySubCategoryMappingAction = createAsyncThunk(
+    'CategorySubCategoryMapping/DeleteCategorySubCategoryMapping',
+    async (
+        payload: CategorySubCategoryMaping,
+        { rejectWithValue, dispatch, getState }
+    ) => {
         const state = getState() as RootState
         const statusCodes = state.apiStatusCodes.statusCodes
-        const resp = await deleteSubCategory(payload)
+        const resp = await deleteCategoriesSubCategoriesMaping(payload)
 
         if (resp?.isSuccessful) {
             const status = statusCodes.find(
@@ -61,7 +68,7 @@ export const deleteSubCategoryAction = createAsyncThunk(
             if (status) {
                 showSuccessToast(status.description || '')
             }
-            dispatch(getSubCategoriesAction())
+            dispatch(getCategoriesSubCategoriesAction())
             return resp
         } else {
             return rejectWithValue(resp)
@@ -69,12 +76,15 @@ export const deleteSubCategoryAction = createAsyncThunk(
     }
 )
 
-export const editSubCategoryAction = createAsyncThunk(
-    'subCategory/editSubCategories',
-    async (payload: SubCategory, { rejectWithValue, dispatch, getState }) => {
+export const editCategorySubCategoryMapingAction = createAsyncThunk(
+    'CategorySubCategoryMapping/UpdateCategorySubCategoryMapping',
+    async (
+        payload: CategorySubCategoryMaping,
+        { rejectWithValue, dispatch, getState }
+    ) => {
         console.log(payload)
 
-        const resp = await editSubCategory(payload)
+        const resp = await editCategoriesSubCategoriesMaping(payload)
         const state = getState() as RootState
         const statusCodes = state.apiStatusCodes.statusCodes
 
@@ -85,7 +95,7 @@ export const editSubCategoryAction = createAsyncThunk(
             if (status) {
                 showSuccessToast(status.description || '')
             }
-            dispatch(getSubCategoriesAction())
+            dispatch(getCategoriesSubCategoriesAction())
             return resp
         } else {
             return rejectWithValue(resp)

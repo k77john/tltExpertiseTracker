@@ -10,6 +10,7 @@ interface DropdownInputFieldProps<T> {
     onSelect?: (option: T) => void
     options: T[]
     getOptionLabel: (option: T) => string
+    selectedOption?: T
 }
 
 const DropdownInputField = <T extends object>({
@@ -22,6 +23,7 @@ const DropdownInputField = <T extends object>({
     onSelect = () => {},
     options,
     getOptionLabel,
+    selectedOption,
 }: DropdownInputFieldProps<T>) => {
     const [filteredOptions, setFilteredOptions] = useState<T[]>(options)
     const [inputValue, setInputValue] = useState<string>('')
@@ -30,6 +32,13 @@ const DropdownInputField = <T extends object>({
         'down'
     )
     const dropdownRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        if (selectedOption) {
+            setInputValue(getOptionLabel(selectedOption))
+            // setFilteredOptions([selectedOption])
+        }
+    }, [selectedOption, getOptionLabel])
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value
@@ -59,7 +68,7 @@ const DropdownInputField = <T extends object>({
 
     const handleOptionClick = (option: T) => {
         setInputValue(getOptionLabel(option))
-        setFilteredOptions([])
+        setFilteredOptions(options)
         setIsDropdownOpen(false)
         onSelect(option)
     }
@@ -109,7 +118,7 @@ const DropdownInputField = <T extends object>({
                     {filteredOptions.map((option) => (
                         <li
                             key={getOptionLabel(option)}
-                            className="p-2 text-xs sm:text-sm cursor-pointer hover:bg-gray-100"
+                            className={`p-2 text-xs sm:text-sm cursor-pointer hover:bg-gray-100 ${getOptionLabel(option) === inputValue ? 'bg-gray-100' : 'bg-white-color'}`}
                             onClick={() => handleOptionClick(option)}
                         >
                             {getOptionLabel(option)}

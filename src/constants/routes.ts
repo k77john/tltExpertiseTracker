@@ -16,4 +16,13 @@ export const API_ROUTES = {
     getSubCategories: '/SubCategory/getSubCategories',
     updateSubCategory: '/SubCategory/updateSubCategory',
     deleteSubCategory: '/SubCategory/DeleteCategories',
+
+    getApiStatusCodes: '/Response/GetAllResponseStatuses',
+
+    getAllCategorySubCategoryMaping:
+        '/CategorySubCategoryMapping/GetAllCategorySubCategoryMapping',
+    addCategorySubCategoryMaping:
+        '/CategorySubCategoryMapping/AddCategorySubCategoryMapping',
+    deleteCategorySubCategoryMaping:
+        '/CategorySubCategoryMapping/DeleteCategorySubCategoryMapping',
 }

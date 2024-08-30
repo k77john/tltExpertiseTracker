@@ -29,8 +29,11 @@ axiosRetry(apiClient, {
 })
 
 // Error handler
-const handleError = (e: AxiosError<ErrorResponseData>): ErrorResponse => {
-    console.log(e)
+const handleError = (
+    e: AxiosError<ErrorResponseData>,
+    url: string
+): ErrorResponse => {
+    console.log(url, e)
     const statusCode = e.response?.status || 'unknown'
     const errorMessage =
         e.response?.data?.error || e.message || 'An unknown error occurred'
@@ -88,7 +91,7 @@ export const get = async <T>(
         })
         return handleSuccess(response.data, response.status)
     } catch (e) {
-        return handleError(e as AxiosError<ErrorResponseData>)
+        return handleError(e as AxiosError<ErrorResponseData>, url)
     }
 }
 
@@ -103,7 +106,7 @@ export const post = async <T>(
         })
         return handleSuccess(response.data, response.status)
     } catch (e) {
-        return handleError(e as AxiosError<ErrorResponseData>)
+        return handleError(e as AxiosError<ErrorResponseData>, url)
     }
 }
 
@@ -118,7 +121,7 @@ export const update = async <T>(
         })
         return handleSuccess(response.data, response.status)
     } catch (e) {
-        return handleError(e as AxiosError<ErrorResponseData>)
+        return handleError(e as AxiosError<ErrorResponseData>, url)
     }
 }
 
@@ -133,7 +136,7 @@ export const patch = async <T>(
         })
         return handleSuccess(response.data, response.status)
     } catch (e) {
-        return handleError(e as AxiosError<ErrorResponseData>)
+        return handleError(e as AxiosError<ErrorResponseData>, url)
     }
 }
 
@@ -147,6 +150,6 @@ export const remove = async <T>(
         })
         return handleSuccess(response.data, response.status)
     } catch (e) {
-        return handleError(e as AxiosError<ErrorResponseData>)
+        return handleError(e as AxiosError<ErrorResponseData>, url)
     }
 }

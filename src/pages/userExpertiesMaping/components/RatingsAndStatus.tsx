@@ -44,7 +44,7 @@ const RatingsAndStatus: FC<RatingsAndStatusProps> = ({
             </div>
             <div className="p-4">
                 <div
-                    className={`flex flex-col gap-4 md:flex-row ${forDelete ? 'justify-end' : 'justify-between'}  items-center`}
+                    className={`flex flex-col gap-4 md:flex-row ${forDelete ? 'justify-end' : 'justify-between'}`}
                 >
                     {!forDelete && (
                         <div className="flex gap-4 flex-col lg:flex-row">
