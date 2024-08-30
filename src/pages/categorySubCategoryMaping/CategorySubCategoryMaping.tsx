@@ -1,21 +1,16 @@
 import { useState } from 'react'
+import { Header, Loader } from '../../components'
+import { useAppSelector } from '../../store'
 import {
-    Button,
-    DropdownInputField,
-    Header,
-    InputField,
-    Switchtabs,
-} from '../../components'
+    AddCategoriesSubCategories,
+    DeleteCategoriesSubCategories,
+    EditCategoriesSubCategories,
+} from './components'
 
 interface CategoryTabs {
     new: string
     edit: string
     delete: string
-}
-
-interface StatusTabs {
-    left: string
-    right: string
 }
 
 const CategorySubCategoryMaping = () => {
@@ -25,16 +20,13 @@ const CategorySubCategoryMaping = () => {
         delete: 'Delete Category Sub Category Maping',
     }
 
-    const statusTabs: StatusTabs = {
-        left: 'Active',
-        right: 'In Active',
-    }
-
     const [currentTab, setCurrentTab] = useState<string>(
         CateogrySubCategoryMapingTabs.new
     )
 
-    const [status, setStatus] = useState<boolean>(false)
+    const loading = useAppSelector(
+        (state) => state.categoriesSubCategories.loading
+    )
 
     const handleTabs = (value: string) => {
         setCurrentTab(value)
@@ -42,6 +34,7 @@ const CategorySubCategoryMaping = () => {
 
     return (
         <div>
+            {loading && <Loader />}
             <Header title="Manage Sub Categories" />
             <div className="bg-white-color rounded-lg border border-light-gray-color">
                 <div className="flex flex-col">
@@ -67,137 +60,14 @@ const CategorySubCategoryMaping = () => {
                             {currentTab}
                         </h4>
                         {currentTab === CateogrySubCategoryMapingTabs.new && (
-                            <div className="flex flex-col gap-4">
-                                <div className="flex flex-col gap-4 md:flex-row">
-                                    <DropdownInputField
-                                        options={[]}
-                                        getOptionLabel={() => 'Demo'}
-                                        label="Select category"
-                                        placeholder="Select value"
-                                        width="65%"
-                                    />
-                                    <Switchtabs
-                                        label="Status"
-                                        setSelectedTab={(value) =>
-                                            setStatus(value)
-                                        }
-                                        tabValues={statusTabs}
-                                        selectedTab={status}
-                                    />
-                                </div>
-                                <div className="flex flex-col gap-4">
-                                    <DropdownInputField
-                                        options={[]}
-                                        getOptionLabel={() => 'Demo'}
-                                        label="Select sub category"
-                                        placeholder="Select value"
-                                        width="65%"
-                                    />
-                                </div>
-                                <div className="flex flex-col gap-4">
-                                    <InputField
-                                        label="Description"
-                                        placeholder="Enter value"
-                                        width="65%"
-                                        type="textarea"
-                                        height="10rem"
-                                        onChange={() => {}}
-                                    />
-                                </div>
-                                <div className="flex justify-end">
-                                    <Button
-                                        width="15%"
-                                        title="Submit"
-                                        onClick={() => {}}
-                                    />
-                                </div>
-                            </div>
+                            <AddCategoriesSubCategories />
                         )}
                         {currentTab === CateogrySubCategoryMapingTabs.edit && (
-                            <div className="flex flex-col gap-4">
-                                <div className="flex flex-col gap-4 md:flex-row">
-                                    <DropdownInputField
-                                        options={[]}
-                                        getOptionLabel={() => 'Demo'}
-                                        label="Select category"
-                                        placeholder="Select value"
-                                        width="65%"
-                                    />
-                                    <Switchtabs
-                                        label="Status"
-                                        setSelectedTab={(value) =>
-                                            setStatus(value)
-                                        }
-                                        tabValues={statusTabs}
-                                        selectedTab={status}
-                                    />
-                                </div>
-                                <div className="flex flex-col gap-4">
-                                    <DropdownInputField
-                                        options={[]}
-                                        getOptionLabel={() => 'Demo'}
-                                        label="Select mapped sub category"
-                                        placeholder="Select value"
-                                        width="65%"
-                                    />
-                                </div>
-                                <div className="flex flex-col gap-4">
-                                    <DropdownInputField
-                                        options={[]}
-                                        getOptionLabel={() => 'Demo'}
-                                        label="Change sub category"
-                                        placeholder="Select value"
-                                        width="65%"
-                                    />
-                                </div>
-                                <div className="flex flex-col gap-4">
-                                    <InputField
-                                        label="Description"
-                                        placeholder="Enter value"
-                                        width="65%"
-                                        type="textarea"
-                                        height="10rem"
-                                        onChange={() => {}}
-                                    />
-                                </div>
-                                <div className="flex justify-end">
-                                    <Button
-                                        width="15%"
-                                        title="Update"
-                                        onClick={() => {}}
-                                    />
-                                </div>
-                            </div>
+                            <EditCategoriesSubCategories />
                         )}
                         {currentTab ===
                             CateogrySubCategoryMapingTabs.delete && (
-                            <div className="flex flex-col gap-4">
-                                <div className="flex flex-col gap-4 md:flex-row">
-                                    <DropdownInputField
-                                        options={[]}
-                                        getOptionLabel={() => 'Demo'}
-                                        label="Select category"
-                                        placeholder="Select value"
-                                        width="65%"
-                                    />
-                                </div>
-                                <div className="flex flex-col gap-4">
-                                    <DropdownInputField
-                                        options={[]}
-                                        getOptionLabel={() => 'Demo'}
-                                        label="Select mapped sub category"
-                                        placeholder="Select value"
-                                        width="65%"
-                                    />
-                                </div>
-                                <div className="flex justify-end">
-                                    <Button
-                                        width="15%"
-                                        title="Delete"
-                                        onClick={() => {}}
-                                    />
-                                </div>
-                            </div>
+                            <DeleteCategoriesSubCategories />
                         )}
                     </div>
                 </div>

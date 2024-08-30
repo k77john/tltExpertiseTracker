@@ -60,7 +60,6 @@ const UserExpertiesMaping = () => {
                         {currentTab === tabs.new && (
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-col gap-4 md:flex-row">
-                                    \{' '}
                                     <DropdownInputField
                                         options={[]}
                                         getOptionLabel={() => 'Demo'}

@@ -1,23 +1,31 @@
+import { useState } from 'react'
 import { Button, DropdownInputField } from '../../../components'
-import { useAppSelector } from '../../../store'
+import { SubCategory } from '../../../constants/types'
+import { useAppDispatch, useAppSelector } from '../../../store'
+import { deleteSubCategoryAction } from '../../../store/reducersAndActions/subCategory/subCategory.actions'
+import { showErrorToast } from '../../../utils/toast'
 
 const DeleteSubCategory = () => {
     const subCategoryList = useAppSelector(
         (state) => state.subCategory.subCategory
     )
 
-    // const [subCategory, setSubCategory] = useState<SubCategory>({})
+    const [subCategory, setSubCategory] = useState<SubCategory>({})
 
-    // const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch()
 
-    // const deleteCategoryHandler = (data: SubCategory) => {
-    //     dispatch(deleteCategoryAction(data))
-    //     setSubCategory({})
-    // }
+    const deleteCategoryHandler = (data: SubCategory) => {
+        if (!subCategory.subCategoryID) {
+            showErrorToast('Please Select Sub Category')
+            return
+        }
+        dispatch(deleteSubCategoryAction(data))
+        setSubCategory({})
+    }
 
     const handleSelect = (option: (typeof subCategoryList)[0]) => {
         console.log('Selected option:', option)
-        // setSubCategory(option)
+        setSubCategory(option)
     }
 
     const getOptionLabel = (option: (typeof subCategoryList)[0]) =>
@@ -36,7 +44,11 @@ const DeleteSubCategory = () => {
                 />
             </div>
             <div className="flex justify-end">
-                <Button width="15%" title="Delete" onClick={() => {}} />
+                <Button
+                    width="15%"
+                    title="Delete"
+                    onClick={() => deleteCategoryHandler(subCategory)}
+                />
             </div>
         </div>
     )

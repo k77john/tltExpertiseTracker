@@ -6,6 +6,7 @@ import Header from './header/Header'
 import Switchtabs from './switchTabs/Switchtabs'
 import Ratings from './ratings/Ratings'
 import Loader from './Loader/Loader'
+import NavBar from './NavBar/NavBar'
 
 export {
     SideBarMenu,
@@ -16,4 +17,5 @@ export {
     Switchtabs,
     Ratings,
     Loader,
+    NavBar,
 }

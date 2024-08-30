@@ -20,12 +20,12 @@ const AddSubCategory = () => {
 
     const addSubCategoryHandler = (data: SubCategory) => {
         if (!subCategory.subCategoryName) {
-            showErrorToast('Category Name Is Required')
+            showErrorToast('Sub Category Name Is Required')
             return
         }
 
         if (!subCategory.description) {
-            showErrorToast('Category Description Is Required')
+            showErrorToast('Sub Category Description Is Required')
             return
         }
 

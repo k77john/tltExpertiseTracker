@@ -11,8 +11,6 @@ interface ButtonProps {
 const Button: React.FC<ButtonProps> = ({
     title,
     onClick,
-    width = 'auto',
-    height = 'auto',
     state = 'primary',
 }) => {
     let buttonClass = 'bg-primary-color text-white'
@@ -30,15 +28,13 @@ const Button: React.FC<ButtonProps> = ({
             break
     }
 
-    const buttonStyles: React.CSSProperties = {
-        width: typeof width === 'number' ? `${width}rem` : width,
-        height: typeof height === 'number' ? `${height}rem` : height,
-    }
+    // const buttonStyles: React.CSSProperties = {
+    //     height: typeof height === 'number' ? `${height}rem` : height,
+    // }
 
     return (
         <button
-            className={`px-2 py-1 sm:px-4 sm:py-2 md:px-6 md:py-3 lg:px-3 lg:py-3 cursor-pointer text-xs sm:text-sm md:text-sm lg:text-sm rounded ${buttonClass}`}
-            style={buttonStyles}
+            className={`px-4 py-3 h-fit w-full sm:w-52 md:w-40 lg:w-52 sm:px-4 sm:py-2 md:px-6 md:py-3 lg:px-3 lg:py-3 cursor-pointer text-xs sm:text-sm md:text-sm lg:text-sm rounded ${buttonClass}`}
             onClick={onClick}
             disabled={state === 'disabled'}
         >

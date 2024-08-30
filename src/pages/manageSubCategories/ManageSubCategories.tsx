@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Header, Loader } from '../../components'
-import { useAppDispatch, useAppSelector } from '../../store'
-import { getSubCategoriesAction } from '../../store/reducersAndActions/subCategory/subCategory.actions'
 import {
     AddSubCategory,
     DeleteSubCategory,
     EditSubCategory,
 } from './components'
+import { useAppSelector } from '../../store'
 
 interface CategoryTabs {
     new: string
@@ -15,9 +14,6 @@ interface CategoryTabs {
 }
 
 const ManageSubCategories = () => {
-    const dispatch = useAppDispatch()
-    const loading = useAppSelector((state) => state.subCategory.loading)
-
     const subCateogryTabs: CategoryTabs = {
         new: 'New Sub Category',
         edit: 'Edit Sub Category',
@@ -32,13 +28,7 @@ const ManageSubCategories = () => {
         setSubCurrentCategoryTab(value)
     }
 
-    const getSubCategories = async () => {
-        dispatch(getSubCategoriesAction())
-    }
-
-    useEffect(() => {
-        getSubCategories()
-    }, [])
+    const loading = useAppSelector((state) => state.subCategory.loading)
 
     return (
         <div>
