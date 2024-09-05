@@ -1,32 +1,33 @@
-import { useState } from 'react'
-import {
-    Button,
-    DropdownInputField,
-    InputField,
-    Switchtabs,
-} from '../../../components'
+import React, { useState } from 'react'
+import { Button, InputField, Switchtabs } from '../../../components'
 import { DUMMY_USER_ID, statusTabs } from '../../../constants/constents'
 import { Category } from '../../../constants/types'
-import { useAppDispatch, useAppSelector } from '../../../store'
+import { useAppDispatch } from '../../../store'
 import { editCategoryAction } from '../../../store/reducersAndActions/category/category.actions'
 import { showErrorToast } from '../../../utils/toast'
 
-const EditCategory = () => {
-    const categoryList = useAppSelector((state) => state.category.category)
+interface EditCategoryProps {
+    data: Category
+    setModal: (value: boolean) => void
+}
+
+const EditCategory: React.FC<EditCategoryProps> = ({ data, setModal }) => {
+    // const categoryList = useAppSelector((state) => state.category.category)
 
     const [category, setCategory] = useState<Category>({
-        categoryName: '',
-        description: '',
-        isActive: true,
-        isDeleted: false,
+        categoryID: data.categoryID,
+        categoryName: data.categoryName || '',
+        description: data.description || '',
+        isActive: data.isActive,
+        isDeleted: data.isDeleted,
         insertedUserID: DUMMY_USER_ID,
         updatedUserID: DUMMY_USER_ID,
     })
 
-    const handleSelect = (option: (typeof categoryList)[0]) => {
-        console.log('Selected option:', option)
-        setCategory(option)
-    }
+    // const handleSelect = (option: (typeof categoryList)[0]) => {
+    //     console.log('Selected option:', option)
+    //     setCategory(option)
+    // }
 
     const dispatch = useAppDispatch()
 
@@ -45,7 +46,7 @@ const EditCategory = () => {
             showErrorToast('Category Description Is Required')
             return
         }
-        dispatch(editCategoryAction(data))
+        dispatch(editCategoryAction(data)).then(() => setModal(false))
         setCategory({
             categoryName: '',
             description: '',
@@ -56,12 +57,12 @@ const EditCategory = () => {
         })
     }
 
-    const getOptionLabel = (option: (typeof categoryList)[0]) =>
-        option.categoryName || ''
+    // const getOptionLabel = (option: (typeof categoryList)[0]) =>
+    //     option.categoryName || ''
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-4 md:flex-row">
+            {/* <div className="flex flex-col gap-4 md:flex-row">
                 <DropdownInputField
                     getOptionLabel={getOptionLabel}
                     options={categoryList}
@@ -70,7 +71,7 @@ const EditCategory = () => {
                     width="65%"
                     onSelect={handleSelect}
                 />
-            </div>
+            </div> */}
             <div className="flex flex-col gap-4 md:flex-row">
                 <InputField
                     label="Category"

@@ -2,6 +2,7 @@ import { ROUTES } from '../../constants/routes'
 import { NavLink } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../store'
 import { menu } from '../../store/reducersAndActions/sideBarMenu/sideBarMenu.reducer'
+import { BrandLogo } from '../../assets/images'
 
 const SideBarMenu: React.FC = () => {
     const sideBarMenue = useAppSelector((state) => state.sideBar.menu)
@@ -10,13 +11,16 @@ const SideBarMenu: React.FC = () => {
     return (
         <section className={`${sideBarMenue ? '' : 'hidden'}`}>
             <div className="fixed left-0 top-0 w-[80%] sm:w-[60%] md:w-[35%] lg:w-[23%] h-full shadow-lg bg-[#ffffff] sidebar-menu transition-transform z-40">
-                <div className="flex items-center px-4 py-5  border-b border-b-gray-200 ">
-                    <h2 className="font-bold text-xl">
+                <div className="flex items-center px-4 py-3  border-b border-b-gray-200 h-16  ">
+                    {/* <h2 className="font-bold text-xl">
                         Thought Line{' '}
                         <span className="bg-[#7a9e3e] text-white px-2 rounded-md">
                             Tech
                         </span>
-                    </h2>
+                    </h2> */}
+                    <div className="w-auto h-full ">
+                        <img src={BrandLogo} className="h-full w-full" />
+                    </div>
                 </div>
                 <div className="flex flex-col gap-4 p-4 ">
                     <NavLink

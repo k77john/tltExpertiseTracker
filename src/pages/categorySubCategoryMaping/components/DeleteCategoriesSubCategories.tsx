@@ -34,7 +34,7 @@ const DeleteCategoriesSubCategories = () => {
     const dispatch = useAppDispatch()
 
     const deleteMapingHandler = (data: CategorySubCategoryMaping) => {
-        if (!categoriesSubCategory.mappingId) {
+        if (!categoriesSubCategory?.mappingId) {
             showErrorToast('Please Select Maping that you want to edit')
             return
         }
@@ -54,7 +54,6 @@ const DeleteCategoriesSubCategories = () => {
                     placeholder="Select value"
                     width="65%"
                     onSelect={handleSelectMaping}
-                    id={categoriesSubCategory.mappingId}
                     selectedOption={categoriesSubCategories.find(
                         (item) =>
                             item.mappingId === categoriesSubCategory.mappingId

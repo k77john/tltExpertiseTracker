@@ -13,12 +13,13 @@ const NavBar = () => {
     const dispatch = useAppDispatch()
 
     return (
-        <div className="py-2 px-6 bg-[#ffffff] flex items-center shadow-md shadow-black/5 sticky top-0 left-0 z-10 ">
+        <div className="py-2 px-6 h-16 bg-[#ffffff] flex items-center shadow-md shadow-black/5 sticky top-0 left-0 z-10 ">
             <button
                 onClick={() => dispatch(menu())}
                 type="button"
                 className="text-lg text-gray-900 font-semibold sidebar-toggle flex gap-1 flex-col"
             >
+                <div className="h-1 w-6 bg-gray-900 rounded-3xl" />
                 <div className="h-1 w-6 bg-gray-900 rounded-3xl" />
                 <div className="h-1 w-6 bg-gray-900 rounded-3xl" />
             </button>

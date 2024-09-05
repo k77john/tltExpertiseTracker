@@ -7,6 +7,7 @@ import Switchtabs from './switchTabs/Switchtabs'
 import Ratings from './ratings/Ratings'
 import Loader from './Loader/Loader'
 import NavBar from './NavBar/NavBar'
+import CustomModal from './customModal/CustomModal'
 
 export {
     SideBarMenu,
@@ -18,4 +19,5 @@ export {
     Ratings,
     Loader,
     NavBar,
+    CustomModal,
 }

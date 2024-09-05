@@ -6,7 +6,11 @@ import { useAppDispatch } from '../../../store'
 import { addCategoryAction } from '../../../store/reducersAndActions/category/category.actions'
 import { showErrorToast } from '../../../utils/toast'
 
-const AddNewCategory = () => {
+interface AddNewCategoryProps {
+    setModal: (value: boolean) => void
+}
+
+const AddNewCategory: React.FC<AddNewCategoryProps> = ({ setModal }) => {
     const [category, setCategory] = useState<Category>({
         categoryName: '',
         description: '',
@@ -29,7 +33,7 @@ const AddNewCategory = () => {
             return
         }
 
-        dispatch(addCategoryAction(data))
+        dispatch(addCategoryAction(data)).then(() => setModal(false))
 
         setCategory({
             categoryName: '',
@@ -42,7 +46,7 @@ const AddNewCategory = () => {
     }
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 w-full ">
             <div className="flex flex-col gap-4 md:flex-row">
                 <InputField
                     label="Category"
@@ -72,7 +76,7 @@ const AddNewCategory = () => {
                 <InputField
                     label="Description"
                     placeholder="Enter value"
-                    width="65%"
+                    width="100%"
                     type="textarea"
                     height="10rem"
                     value={category.description}
