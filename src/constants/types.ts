@@ -25,6 +25,8 @@ export interface Category {
     updatedDate?: string
     updatedUserID?: number
     statusMessage?: string | undefined
+    insertedUser?: string
+    updatedUser?: string
 }
 
 export interface SubCategory {
@@ -35,10 +37,14 @@ export interface SubCategory {
     isActive?: boolean
     isDeleted?: boolean
     updatedUserID?: number
+    insertedDate?: string
     statusMessage?: string | undefined
+    insertedUser?: string
+    updatedUser?: string
+    updatedDate: string
 }
 
-export interface CategorySubCategoryMaping {
+export interface CategorySubCategoryMapping {
     mappingId?: number
     categoryId?: number
     description?: string
@@ -50,6 +56,10 @@ export interface CategorySubCategoryMaping {
     updatedDate?: string
     isDeleted?: boolean
     statusMessage?: string | undefined
+    insertedUser?: string
+    updatedUser?: string
+    subCategoryName?: string
+    categoryName?: string
 }
 
 export interface StatusCodes {

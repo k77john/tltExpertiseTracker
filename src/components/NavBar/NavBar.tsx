@@ -13,7 +13,7 @@ const NavBar = () => {
     const dispatch = useAppDispatch()
 
     return (
-        <div className="py-2 px-6 h-16 bg-[#ffffff] flex items-center shadow-md shadow-black/5 sticky top-0 left-0 z-10 ">
+        <div className="py-2 px-6 h-16 bg-[#ffffff] flex items-center shadow-md shadow-black/5 left-0 z-10 ">
             <button
                 onClick={() => dispatch(menu())}
                 type="button"

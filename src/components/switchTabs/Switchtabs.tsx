@@ -20,22 +20,22 @@ const Switchtabs: FC<SwitchtabsProps> = ({
     return (
         <div className="flex flex-col gap-2 w-fit">
             <p className="text-xs">{label}</p>
-            <div className="flex items-center p-1 bg-gray-300 rounded-md w-fit">
+            <div className="flex items-center  bg-gray-100 border border-gray-200 rounded-md w-fit">
                 <button
-                    className={`py-2 px-3 text-xs cursor-pointer border-none w-28 rounded-md ${
+                    className={`py-3 px-3 text-xs cursor-pointer border-none w-28 rounded-md ${
                         selectedTab
-                            ? 'bg-white text-black'
-                            : 'bg-gray-300 text-gray-600'
+                            ? 'bg-primary-color text-white'
+                            : 'bg-gray-100 text-gray-600'
                     }`}
                     onClick={() => handleTabClick(true)}
                 >
                     {tabValues.left}
                 </button>
                 <button
-                    className={`py-2 px-3 text-xs cursor-pointer border-none w-28 rounded-md ${
+                    className={`py-3 px-3 text-xs cursor-pointer border-none w-28 rounded-md ${
                         !selectedTab
-                            ? 'bg-white text-black'
-                            : 'bg-gray-300 text-gray-600'
+                            ? 'bg-primary-color text-white'
+                            : 'bg-gray-100 text-gray-600'
                     }`}
                     onClick={() => handleTabClick(false)}
                 >

@@ -11,6 +11,13 @@ export const getCategories = async () => {
     return response
 }
 
+export const getCategoryByID = async (values: number) => {
+    const response = await get<Category>(
+        `${API_ROUTES.getCategoryByID}?categoryID=${values}`
+    )
+    return response
+}
+
 export const addCategory = async (values: Category) => {
     const response = await post(API_ROUTES.addCategory, values)
     return response

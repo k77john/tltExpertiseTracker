@@ -2,20 +2,19 @@ import { Outlet, Route, Routes } from 'react-router-dom'
 import './App.css'
 
 import { useEffect } from 'react'
-import { Loader, NavBar, SideBarMenu } from './components'
+import { Loader, SideBarMenu } from './components'
 import { ROUTES } from './constants/routes'
 import {
-    CategorySubCategoryMaping,
+    CategorySubCategoryMapping,
     DashBoard,
+    Login,
     ManageCategories,
     ManageSubCategories,
-    UserExpertiesMaping,
+    UserExpertiesMapping,
 } from './pages'
 import { useAppDispatch, useAppSelector } from './store'
 import { getStatusCodesAction } from './store/reducersAndActions/apiStatusCodes/apiStatusCode.actions'
-import { getCategoriesSubCategoriesAction } from './store/reducersAndActions/categoriesSubCategoriesMaping/categoriesSubCategories.actions'
-import { getCategoriesAction } from './store/reducersAndActions/category/category.actions'
-import { getSubCategoriesAction } from './store/reducersAndActions/subCategory/subCategory.actions'
+import ProtectedRoute from './navigations/ProtactedRoutes'
 
 function App() {
     const dispatch = useAppDispatch()
@@ -23,33 +22,36 @@ function App() {
 
     useEffect(() => {
         dispatch(getStatusCodesAction())
-        dispatch(getSubCategoriesAction())
-        dispatch(getCategoriesAction())
-        dispatch(getCategoriesSubCategoriesAction())
     }, [])
 
     return (
         <>
             {loading && <Loader />}
             <Routes>
-                <Route element={<Layout />}>
-                    <Route path={ROUTES.dashBoard} element={<DashBoard />} />
-                    <Route
-                        path={ROUTES.manageCategories}
-                        element={<ManageCategories />}
-                    />
-                    <Route
-                        path={ROUTES.manageSubCategories}
-                        element={<ManageSubCategories />}
-                    />
-                    <Route
-                        path={ROUTES.categorySubCategoryMaping}
-                        element={<CategorySubCategoryMaping />}
-                    />
-                    <Route
-                        path={ROUTES.userExpertiesMaping}
-                        element={<UserExpertiesMaping />}
-                    />
+                <Route path={ROUTES.login} element={<Login />} />
+                <Route element={<ProtectedRoute />}>
+                    <Route element={<Layout />}>
+                        <Route
+                            path={ROUTES.dashBoard}
+                            element={<DashBoard />}
+                        />
+                        <Route
+                            path={ROUTES.manageCategories}
+                            element={<ManageCategories />}
+                        />
+                        <Route
+                            path={ROUTES.manageSubCategories}
+                            element={<ManageSubCategories />}
+                        />
+                        <Route
+                            path={ROUTES.categorySubCategoryMapping}
+                            element={<CategorySubCategoryMapping />}
+                        />
+                        <Route
+                            path={ROUTES.userExpertiesMapping}
+                            element={<UserExpertiesMapping />}
+                        />
+                    </Route>
                 </Route>
             </Routes>
         </>
@@ -60,17 +62,14 @@ function Layout() {
     const sideBarMenue = useAppSelector((state) => state.sideBar.menu)
 
     return (
-        <div className="flex flex-col md:flex-row w-full bg-white-color h-screen">
+        <div className="flex flex-col md:flex-row w-full bg-white-color">
             <div
-                className={` transition-all ${sideBarMenue ? 'w-[80%] sm:w-[60%] md:w-[35%] lg:w-[23%]' : 'w-0'}`}
+                className={`${sideBarMenue ? 'w-[80%] sm:w-[60%] md:w-0 lg:w-[23%]' : 'w-0'}`}
             >
                 <SideBarMenu />
             </div>
-            <div className="flex-1 transition-all">
-                <NavBar />
-                <div className="p-4 md:p-4">
-                    <Outlet />
-                </div>
+            <div className="flex-1 transition-all h-screen  overflow-y-auto">
+                <Outlet />
             </div>
         </div>
     )

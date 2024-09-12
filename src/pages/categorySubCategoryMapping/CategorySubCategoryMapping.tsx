@@ -1,56 +1,55 @@
 import { useEffect, useState } from 'react'
 import { DeleteIcon, EditWhiteIcon, EyeWhiteIcon } from '../../assets/icons'
 import { CustomModal, Header, ListingDetails, Loader } from '../../components'
-import { SubCategory } from '../../constants/types'
-import { getSubCategoryByID } from '../../services/subCategory.services'
+import { CategorySubCategoryMapping as CategorySubCategoryMappingTypes } from '../../constants/types'
 import { useAppDispatch, useAppSelector } from '../../store'
-import { getSubCategoriesAction } from '../../store/reducersAndActions/subCategory/subCategory.actions'
-import { SubCategoryActions } from './components'
+import { getCategoriesSubCategoriesAction } from '../../store/reducersAndActions/categoriesSubCategoriesMapping/categoriesSubCategories.actions'
+import { CategorySubCategoryMappingActions } from './components'
+import { getCategorySubCategoryMappingsByID } from '../../services/categorySubCategoryMapping.services'
 import ErrorBoundary from '../../utils/ErrorBoundary'
 
-const ManageSubCategories = () => {
-    const { loading, subCategory } = useAppSelector(
-        (state) => state.subCategory
+const CategorySubCategoryMapping = () => {
+    const { loading, categoriesSubCategories } = useAppSelector(
+        (state) => state.categoriesSubCategories
     )
-
     const [loader, setLoader] = useState(false)
 
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        dispatch(getSubCategoriesAction())
+        dispatch(getCategoriesSubCategoriesAction())
     }, [])
 
-    const [selectedSubCategory, setselectedSubCategory] =
-        useState<SubCategory>()
+    const [selectedMapping, setselectedMapping] =
+        useState<CategorySubCategoryMappingTypes>()
 
-    const [addSubCategoryModalOpen, setaddSubCategoryModalOpen] =
+    const [addMappingModalOpen, setaddMappingModalOpen] =
         useState<boolean>(false)
 
-    const [editSubCategoryModalOpen, setEditSubCategoryModalOpen] =
+    const [editMappingModalOpen, setEditMappingModalOpen] =
         useState<boolean>(false)
-    const editHandler = (item: SubCategory) => {
-        setEditSubCategoryModalOpen(true)
-        setselectedSubCategory(item)
+    const editHandler = (item: CategorySubCategoryMappingTypes) => {
+        setEditMappingModalOpen(true)
+        setselectedMapping(item)
     }
 
-    const [deleteSubCategoryModalOpen, setDeleteSubCategoryModalOpen] =
+    const [deleteMappingModalOpen, setDeleteMappingModalOpen] =
         useState<boolean>(false)
-    const deleteHandler = (item: SubCategory) => {
-        setDeleteSubCategoryModalOpen(true)
-        setselectedSubCategory(item)
+    const deleteHandler = (item: CategorySubCategoryMappingTypes) => {
+        setDeleteMappingModalOpen(true)
+        setselectedMapping(item)
     }
 
     const [viewDetailsModalOpen, setViewDetailsModalOpen] =
         useState<boolean>(false)
-    const viewDetailsHandler = async (id: number) => {
+    const viewDetailsHandler = async (id: number | undefined) => {
         setLoader(true)
-        const resp = await getSubCategoryByID(id)
+        const resp = await getCategorySubCategoryMappingsByID(id)
         if (resp) {
             setLoader(false)
             if (resp.isSuccessful) {
                 setViewDetailsModalOpen(true)
-                setselectedSubCategory(resp.data)
+                setselectedMapping(resp.data)
             }
         }
     }
@@ -61,21 +60,24 @@ const ManageSubCategories = () => {
             {loader && <Loader />}
 
             <Header
-                title="Manage Sub Categories"
-                onClick={() => setaddSubCategoryModalOpen(true)}
-                buttonTitle="+ Add Sub Category"
+                title="Manage Mapping"
+                buttonTitle="+ Add Mapping"
+                onClick={() => setaddMappingModalOpen(true)}
             />
             <ErrorBoundary>
                 <div
                     style={{ height: 'calc(100% - 128px)' }}
-                    className="bg-white-colo gap-4 flex flex-col"
+                    className="bg-white-color gap-4 flex flex-col"
                 >
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left  text-gray-500 ">
-                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 sticky top-0">
+                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 sticky top-0 ">
                                 <tr>
                                     <th scope="col" className="px-6 py-3">
-                                        Sub Category name
+                                        Category
+                                    </th>
+                                    <th scope="col" className="px-6 py-3">
+                                        Sub Category
                                     </th>
                                     <th scope="col" className="px-6 py-3">
                                         Status
@@ -83,7 +85,6 @@ const ManageSubCategories = () => {
                                     <th scope="col" className="px-6 py-3">
                                         Description
                                     </th>
-
                                     <th
                                         scope="col"
                                         className="px-6 py-3 text-end"
@@ -93,11 +94,17 @@ const ManageSubCategories = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {subCategory.map((item) => (
+                                {categoriesSubCategories.map((item) => (
                                     <tr
-                                        key={item.subCategoryID}
+                                        key={item.mappingId}
                                         className="bg-white border-b "
                                     >
+                                        <th
+                                            scope="row"
+                                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
+                                        >
+                                            {item.categoryName}
+                                        </th>
                                         <th
                                             scope="row"
                                             className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
@@ -135,7 +142,7 @@ const ManageSubCategories = () => {
                                             <div
                                                 onClick={() =>
                                                     viewDetailsHandler(
-                                                        item.subCategoryID || 0
+                                                        item.mappingId
                                                     )
                                                 }
                                                 className="h-8 w-8 flex items-center justify-center p-2 rounded-full bg-gray-700 cursor-pointer"
@@ -163,60 +170,58 @@ const ManageSubCategories = () => {
                         </table>
                     </div>
                 </div>
-
-                {addSubCategoryModalOpen && (
+                {addMappingModalOpen && (
                     <CustomModal
-                        title="Add Sub Category"
-                        open={addSubCategoryModalOpen}
-                        onClose={() => setaddSubCategoryModalOpen(false)}
+                        title="Add Mapping"
+                        open={addMappingModalOpen}
+                        onClose={() => setaddMappingModalOpen(false)}
                         children={
-                            <SubCategoryActions
+                            <CategorySubCategoryMappingActions
                                 action="Add"
-                                setModal={setaddSubCategoryModalOpen}
+                                setModal={setaddMappingModalOpen}
                             />
                         }
                     />
                 )}
 
-                {editSubCategoryModalOpen && (
+                {editMappingModalOpen && (
                     <CustomModal
-                        title="Edit Sub Category"
-                        open={editSubCategoryModalOpen}
-                        onClose={() => setEditSubCategoryModalOpen(false)}
+                        title="Edit Mapping"
+                        open={editMappingModalOpen}
+                        onClose={() => setEditMappingModalOpen(false)}
                         children={
-                            <SubCategoryActions
+                            <CategorySubCategoryMappingActions
                                 action="Edit"
-                                data={selectedSubCategory}
-                                setModal={setEditSubCategoryModalOpen}
+                                data={selectedMapping}
+                                setModal={setEditMappingModalOpen}
                             />
                         }
                     />
                 )}
 
-                {deleteSubCategoryModalOpen && (
+                {deleteMappingModalOpen && (
                     <CustomModal
-                        title="Delete Sub Category"
-                        open={deleteSubCategoryModalOpen}
-                        onClose={() => setDeleteSubCategoryModalOpen(false)}
+                        title="Delete Mapping"
+                        open={deleteMappingModalOpen}
+                        onClose={() => setDeleteMappingModalOpen(false)}
                         children={
-                            <SubCategoryActions
+                            <CategorySubCategoryMappingActions
                                 action="Delete"
-                                data={selectedSubCategory}
-                                setModal={setDeleteSubCategoryModalOpen}
+                                data={selectedMapping}
+                                setModal={setDeleteMappingModalOpen}
                             />
                         }
                     />
                 )}
-
                 {viewDetailsModalOpen && (
                     <CustomModal
-                        title={selectedSubCategory?.subCategoryName}
+                        title={`Mapping ID - ${selectedMapping?.mappingId}`}
                         open={viewDetailsModalOpen}
                         onClose={() => setViewDetailsModalOpen(false)}
                         children={
                             <ListingDetails
-                                data={selectedSubCategory || {}}
-                                detailsFor="SubCategory"
+                                Mapping={selectedMapping || {}}
+                                detailsFor="Mapping"
                             />
                         }
                     />
@@ -226,4 +231,4 @@ const ManageSubCategories = () => {
     )
 }
 
-export default ManageSubCategories
+export default CategorySubCategoryMapping

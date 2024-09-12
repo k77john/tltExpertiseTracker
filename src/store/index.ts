@@ -3,7 +3,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import categoryReducer from './reducersAndActions/category/category.reducer'
 import subCategoryReducer from './reducersAndActions/subCategory/subCategory.reducer'
 import statusCodesReducer from './reducersAndActions/apiStatusCodes/apiStatusCodes.reducer'
-import categoriesSubCategoriesReducer from './reducersAndActions/categoriesSubCategoriesMaping/categoriesSubCategories.reducer'
+import categoriesSubCategoriesReducer from './reducersAndActions/categoriesSubCategoriesMapping/categoriesSubCategories.reducer'
 
 import sidebarMenueReducer from './reducersAndActions/sideBarMenu/sideBarMenu.reducer'
 

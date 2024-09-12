@@ -15,7 +15,7 @@ const Button: React.FC<ButtonProps> = ({
     state = 'primary',
     className = '',
     width = 'auto',
-    height = 'auto',
+    height = ' h-fit',
 }) => {
     let buttonClass = 'rounded px-4 py-2 text-xs sm:text-sm md:text-sm'
 

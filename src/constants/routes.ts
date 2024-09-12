@@ -2,8 +2,9 @@ export const ROUTES = {
     dashBoard: '/',
     manageCategories: '/manage-categories',
     manageSubCategories: '/manage-sub-categories',
-    categorySubCategoryMaping: '/category-sub-catrgory-maping',
-    userExpertiesMaping: '/user-experties-maping',
+    categorySubCategoryMapping: '/category-sub-catrgory-Mapping',
+    userExpertiesMapping: '/user-experties-Mapping',
+    login: '/login',
 }
 
 export const API_ROUTES = {
@@ -11,18 +12,24 @@ export const API_ROUTES = {
     getCategories: '/Category/GetCategories',
     deleteCategory: '/Category/DeleteCategory',
     updateCategory: '/Category/UpdateCategory',
+    getCategoryByID: '/Category/GetCategory',
 
     addSubCategory: '/SubCategory/AddSubCategory',
     getSubCategories: '/SubCategory/getSubCategories',
     updateSubCategory: '/SubCategory/updateSubCategory',
     deleteSubCategory: '/SubCategory/DeleteCategories',
+    getSubCategoryByID: '/SubCategory/GetSUbCategoryById',
 
     getApiStatusCodes: '/Response/GetAllResponseStatuses',
 
-    getAllCategorySubCategoryMaping:
+    getAllCategorySubCategoryMapping:
         '/CategorySubCategoryMapping/GetAllCategorySubCategoryMapping',
-    addCategorySubCategoryMaping:
+    addCategorySubCategoryMapping:
         '/CategorySubCategoryMapping/AddCategorySubCategoryMapping',
-    deleteCategorySubCategoryMaping:
+    deleteCategorySubCategoryMapping:
         '/CategorySubCategoryMapping/DeleteCategorySubCategoryMapping',
+    updateCategorySubCategoryMapping:
+        '/CategorySubCategoryMapping/UpdateCategorySubCategoryMapping',
+    getCategorySubCategoryMapingByID:
+        'CategorySubCategoryMapping/GetCategorySubCategoryMappingById',
 }

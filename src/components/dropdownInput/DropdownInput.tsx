@@ -97,7 +97,7 @@ const DropdownInputField = <T extends object>({
         >
             <p className="text-sm text-black-color">{label}</p>
             <input
-                className="w-full p-3 sm:p-4 border border-light-gray-color rounded-md text-sm"
+                className="w-full p-3 sm:p-4 border border-light-gray-color rounded-md text-sm outline-primary-color"
                 style={{ height, backgroundColor }}
                 type="text"
                 title={label}

@@ -11,6 +11,13 @@ export const getSubCategories = async () => {
     return response
 }
 
+export const getSubCategoryByID = async (values: number) => {
+    const response = await get<SubCategory>(
+        `${API_ROUTES.getSubCategoryByID}?subCategoryId=${values}`
+    )
+    return response
+}
+
 export const addSubCategory = async (values: SubCategory) => {
     const response = await post(API_ROUTES.addSubCategory, values)
     return response

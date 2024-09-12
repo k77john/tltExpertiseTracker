@@ -38,14 +38,14 @@ const InputField: FC<InputFieldProps> = ({
                 disabled={disabled}
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
-                className="p-4 rounded border border-light-gray-color w-full text-sm"
+                className="p-4 rounded border border-light-gray-color w-full text-sm outline-primary-color"
             />
         </div>
     ) : (
         <div className="flex flex-col gap-2" style={{ width }}>
             <p className="text-sm text-black-color">{label}</p>
             <input
-                className="p-4 rounded border border-light-gray-color w-full text-sm"
+                className="p-4 rounded border border-light-gray-color w-full text-sm outline-primary-color"
                 style={commonStyles}
                 type={type}
                 value={value}

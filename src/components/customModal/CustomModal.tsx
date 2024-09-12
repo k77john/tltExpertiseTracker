@@ -1,5 +1,4 @@
 import React from 'react'
-import { Modal } from '@mui/material'
 
 interface CustomModalProps {
     children: React.ReactNode
@@ -10,20 +9,23 @@ interface CustomModalProps {
 
 const CustomModal: React.FC<CustomModalProps> = ({
     children,
-    open,
     onClose,
     title,
+    open,
 }) => {
     return (
-        <Modal
-            open={open}
-            onClose={onClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
+        <div
+            className={`w-full h-full bg-transparent fixed top-0 left-0 z-50 flex ${!open && 'hidden'}`}
         >
-            <div className="flex justify-center items-center w-full h-full">
-                <div className="bg-white  rounded-lg shadow-lg w-1/2">
-                    <div className=" px-6 py-4 border-b border-b-gray-200 flex w-full justify-between items-center">
+            <div
+                onClick={onClose}
+                className="h-full lg:w-[70%] md:w-[50%] sm:w-[30%] w-0 bg-transparent"
+            ></div>
+            <div className="lg:w-[30%] md:w-[50%] sm:w-[70%] w-full h-full bg-white shadow-lg">
+                <div
+                    className={`bg-white rounded-lg shadow-lg w-full  h-full transition-all overflow-hidden`}
+                >
+                    <div className=" px-6 py-4 border-b border-b-gray-200 h-[8%] flex w-full justify-between items-center">
                         <h1 className="text-2xl font-semibold">{title}</h1>
                         <button onClick={onClose}>
                             <svg
@@ -41,10 +43,12 @@ const CustomModal: React.FC<CustomModalProps> = ({
                             </svg>
                         </button>
                     </div>
-                    <div className="p-6">{children}</div>
+                    <div className="py-6 h-[92%] overflow-y-auto relative">
+                        <div className=" px-6 overflow-y-auto">{children}</div>
+                    </div>
                 </div>
             </div>
-        </Modal>
+        </div>
     )
 }
 

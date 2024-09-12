@@ -1,13 +1,15 @@
 import DashBoard from './employeeExpertiseDashboard/DashBoard'
 import ManageCategories from './manageCategories/ManageCategories'
 import ManageSubCategories from './manageSubCategories/ManageSubCategories'
-import CategorySubCategoryMaping from './categorySubCategoryMaping/CategorySubCategoryMaping'
-import UserExpertiesMaping from './userExpertiesMaping/UserExpertiesMaping'
+import CategorySubCategoryMapping from './categorySubCategoryMapping/CategorySubCategoryMapping'
+import UserExpertiesMapping from './userExpertiesMapping/UserExpertiesMapping'
+import Login from './login/Login'
 
 export {
     DashBoard,
     ManageCategories,
     ManageSubCategories,
-    CategorySubCategoryMaping,
-    UserExpertiesMaping,
+    CategorySubCategoryMapping,
+    UserExpertiesMapping,
+    Login,
 }
