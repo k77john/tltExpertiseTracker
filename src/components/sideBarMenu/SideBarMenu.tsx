@@ -10,7 +10,10 @@ const SideBarMenu: React.FC = () => {
 
     return (
         <section className={`${sideBarMenue ? '' : 'hidden'}`}>
-            <div className=" fixed left-0 top-0 w-[80%] sm:w-[60%] md:w-[35%] lg:w-[23%] h-full shadow-lg bg-[#ffffff] sidebar-menu transition-transform z-50">
+            <div
+                style={{ zIndex: 9999 }}
+                className=" fixed left-0 top-0 w-[80%] sm:w-[60%] md:w-[35%] lg:w-[23%] h-full shadow-lg bg-[#ffffff] sidebar-menu transition-transform "
+            >
                 <div className="flex items-center px-4 py-3  border-b border-b-gray-200 h-16  ">
                     <div className="w-auto h-full ">
                         <img src={BrandLogo} className="h-full w-full" />
@@ -61,7 +64,7 @@ const SideBarMenu: React.FC = () => {
             </div>
             <div
                 onClick={() => dispatch(menu())}
-                className="fixed top-0 left-0 w-full h-full bg-black/50 z-30 lg:hidden sidebar-overlay"
+                className="fixed top-0 left-0 w-full h-full bg-black/50 z-50 lg:hidden sidebar-overlay"
             ></div>
         </section>
     )

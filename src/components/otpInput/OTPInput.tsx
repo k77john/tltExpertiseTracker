@@ -1,7 +1,13 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 
-const OTPInput: React.FC = () => {
+interface OTPInputType {
+    setOtp: (value: string) => void
+    onSubmit?: () => void
+}
+
+const OTPInput: React.FC<OTPInputType> = ({ setOtp, onSubmit = () => {} }) => {
     const inputs = useRef<(HTMLInputElement | null)[]>([])
+    const [otp, setOtpState] = useState<string>('')
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement>,
@@ -13,6 +19,11 @@ const OTPInput: React.FC = () => {
             e.target.value = ''
             return
         }
+
+        const newOtp = otp.slice(0, index) + value + otp.slice(index + 1)
+        setOtpState(newOtp)
+
+        setOtp(newOtp)
 
         if (value && inputs.current[index + 1]) {
             inputs.current[index + 1]?.focus()
@@ -28,6 +39,12 @@ const OTPInput: React.FC = () => {
                 if (index > 0) {
                     inputs.current[index - 1]?.focus()
                 }
+            }
+        }
+
+        if (index === 3) {
+            if (e.key === 'Enter') {
+                onSubmit()
             }
         }
     }

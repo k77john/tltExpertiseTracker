@@ -13,3 +13,10 @@ export const showSuccessToast = (message: string) => {
         autoClose: 3000,
     })
 }
+
+export const showToast = (message: string) => {
+    toast.info(message, {
+        position: 'top-center',
+        autoClose: 3000,
+    })
+}

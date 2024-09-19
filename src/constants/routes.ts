@@ -5,9 +5,13 @@ export const ROUTES = {
     categorySubCategoryMapping: '/category-sub-catrgory-Mapping',
     userExpertiesMapping: '/user-experties-Mapping',
     login: '/login',
+    vertifyOTP: '/verify',
 }
 
 export const API_ROUTES = {
+    login: '/Login/UserLogin',
+    verifyOtp: '/Login/UserLoginOtpVerfication',
+
     addCategory: '/Category/AddCategory',
     getCategories: '/Category/GetCategories',
     deleteCategory: '/Category/DeleteCategory',

@@ -51,6 +51,15 @@ const ManageCategories = () => {
         }
     }
 
+    const [filteredOptions, setFilteredOptions] = useState<Category[]>([])
+
+    const getCategoryOptionLabel = (option: (typeof category)[0]) =>
+        option.categoryName || ''
+
+    useEffect(() => {
+        setFilteredOptions(category)
+    }, [category])
+
     return (
         <div className="h-full">
             {loading && <Loader />}
@@ -59,6 +68,11 @@ const ManageCategories = () => {
                 title="Manage Categories"
                 buttonTitle={'+ Add Category'}
                 onClick={() => setaddCategoryModalOpen(true)}
+                searchBar={true}
+                options={category}
+                getOptionLabel={getCategoryOptionLabel}
+                setFilteredOptions={setFilteredOptions}
+                getOptionDescription={(option) => option.description || ''}
             />
             <ErrorBoundary>
                 <div
@@ -88,7 +102,7 @@ const ManageCategories = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {category.map((item) => (
+                                {filteredOptions.map((item) => (
                                     <tr
                                         key={item.categoryID}
                                         className="bg-white border-b "

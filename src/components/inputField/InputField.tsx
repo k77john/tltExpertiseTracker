@@ -9,6 +9,7 @@ interface InputFieldProps {
     disabled?: boolean
     backgroundColor?: string
     onChange: (e: string) => void
+    onSubmit?: () => void
     value?: string
 }
 
@@ -22,10 +23,17 @@ const InputField: FC<InputFieldProps> = ({
     backgroundColor = 'white',
     onChange,
     value,
+    onSubmit = () => {},
 }) => {
     const commonStyles: CSSProperties = {
         height,
         backgroundColor,
+    }
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            onSubmit()
+        }
     }
 
     return type === 'textarea' ? (
@@ -49,6 +57,7 @@ const InputField: FC<InputFieldProps> = ({
                 style={commonStyles}
                 type={type}
                 value={value}
+                onKeyDown={handleKeyDown}
                 title={label}
                 placeholder={placeholder}
                 disabled={disabled}

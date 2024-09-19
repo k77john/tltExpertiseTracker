@@ -54,6 +54,18 @@ const CategorySubCategoryMapping = () => {
         }
     }
 
+    const [filteredOptions, setFilteredOptions] = useState<
+        CategorySubCategoryMappingTypes[]
+    >([])
+
+    const getCategoryMapingLabel = (
+        option: (typeof categoriesSubCategories)[0]
+    ) => option.categoryName || option.subCategoryName || ''
+
+    useEffect(() => {
+        setFilteredOptions(categoriesSubCategories)
+    }, [categoriesSubCategories])
+
     return (
         <div className="h-full">
             {loading && <Loader />}
@@ -63,6 +75,12 @@ const CategorySubCategoryMapping = () => {
                 title="Manage Mapping"
                 buttonTitle="+ Add Mapping"
                 onClick={() => setaddMappingModalOpen(true)}
+                options={categoriesSubCategories}
+                getOptionLabel={getCategoryMapingLabel}
+                setFilteredOptions={setFilteredOptions}
+                getOptionDescription={(option) => option.description || ''}
+                getOptionsOnOther={(option) => option.subCategoryName || ''}
+                searchBar
             />
             <ErrorBoundary>
                 <div
@@ -94,7 +112,7 @@ const CategorySubCategoryMapping = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {categoriesSubCategories.map((item) => (
+                                {filteredOptions.map((item) => (
                                     <tr
                                         key={item.mappingId}
                                         className="bg-white border-b "
@@ -215,7 +233,7 @@ const CategorySubCategoryMapping = () => {
                 )}
                 {viewDetailsModalOpen && (
                     <CustomModal
-                        title={`Mapping ID - ${selectedMapping?.mappingId}`}
+                        title={selectedMapping?.description}
                         open={viewDetailsModalOpen}
                         onClose={() => setViewDetailsModalOpen(false)}
                         children={

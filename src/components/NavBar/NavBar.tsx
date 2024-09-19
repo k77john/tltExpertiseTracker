@@ -1,5 +1,8 @@
-import { useAppDispatch } from '../../store'
+import { useAppDispatch, useAppSelector } from '../../store'
+import { logOutAction } from '../../store/reducersAndActions/authentication/auth.actions'
 import { menu } from '../../store/reducersAndActions/sideBarMenu/sideBarMenu.reducer'
+import Button from '../button/Button'
+import CustomDropDown from '../customDropdown/CustomDropdown'
 
 const NavBar = () => {
     const toggleFullscreen = () => {
@@ -11,6 +14,8 @@ const NavBar = () => {
     }
 
     const dispatch = useAppDispatch()
+
+    const { user } = useAppSelector((state) => state.auth)
 
     return (
         <div className="py-2 px-6 h-16 bg-[#ffffff] flex items-center shadow-md shadow-black/5 left-0 z-10 ">
@@ -37,30 +42,50 @@ const NavBar = () => {
                     </svg>
                 </button>
                 <li className="dropdown ml-3">
-                    <button
-                        type="button"
-                        className="dropdown-toggle flex items-center"
-                    >
-                        <div className="flex-shrink-0 w-10 h-10 relative">
-                            <div className="p-1 bg-white rounded-full focus:outline-none focus:ring">
-                                <img
-                                    className="w-8 h-8 rounded-full"
-                                    src="https://laravelui.spruko.com/tailwind/ynex/build/assets/images/faces/9.jpg"
-                                    alt=""
+                    <CustomDropDown
+                        children={
+                            <button
+                                type="button"
+                                className="dropdown-toggle flex items-center"
+                            >
+                                <div className="flex-shrink-0 w-10 h-10 relative">
+                                    <div className="p-1 bg-white rounded-full focus:outline-none focus:ring">
+                                        <img
+                                            className="w-8 h-8 rounded-full"
+                                            src="https://laravelui.spruko.com/tailwind/ynex/build/assets/images/faces/9.jpg"
+                                            alt=""
+                                        />
+                                        <div className="top-0 left-7 absolute w-3 h-3 bg-lime-400 border-2 border-white rounded-full animate-ping"></div>
+                                        <div className="top-0 left-7 absolute w-3 h-3 bg-lime-500 border-2 border-white rounded-full"></div>
+                                    </div>
+                                </div>
+                                <div className="p-2 md:block text-left">
+                                    <h2 className="text-sm font-semibold text-gray-800">
+                                        {user?.employeeName}
+                                    </h2>
+                                    <p className="text-xs text-gray-500">
+                                        {user?.userName}
+                                    </p>
+                                </div>
+                            </button>
+                        }
+                        dropdownComponent={
+                            <div className="flex flex-col gap-3  w-full">
+                                <p className="text-sm font-medium cursor-pointer">
+                                    View Profile
+                                </p>
+                                <p className="text-sm font-medium cursor-pointer">
+                                    Settings
+                                </p>
+                                <hr className="bg-gray-200" />
+                                <Button
+                                    onClick={() => dispatch(logOutAction())}
+                                    title="Log Out"
+                                    width={'w-full'}
                                 />
-                                <div className="top-0 left-7 absolute w-3 h-3 bg-lime-400 border-2 border-white rounded-full animate-ping"></div>
-                                <div className="top-0 left-7 absolute w-3 h-3 bg-lime-500 border-2 border-white rounded-full"></div>
                             </div>
-                        </div>
-                        <div className="p-2 md:block text-left">
-                            <h2 className="text-sm font-semibold text-gray-800">
-                                Arvind Dave
-                            </h2>
-                            <p className="text-xs text-gray-500">
-                                Administrator
-                            </p>
-                        </div>
-                    </button>
+                        }
+                    />
                 </li>
             </ul>
         </div>

@@ -4,11 +4,12 @@ import categoryReducer from './reducersAndActions/category/category.reducer'
 import subCategoryReducer from './reducersAndActions/subCategory/subCategory.reducer'
 import statusCodesReducer from './reducersAndActions/apiStatusCodes/apiStatusCodes.reducer'
 import categoriesSubCategoriesReducer from './reducersAndActions/categoriesSubCategoriesMapping/categoriesSubCategories.reducer'
-
 import sidebarMenueReducer from './reducersAndActions/sideBarMenu/sideBarMenu.reducer'
+import authReducer from './reducersAndActions/authentication/auth.reducer'
 
 const reduxStore = configureStore({
     reducer: {
+        auth: authReducer,
         category: categoryReducer,
         subCategory: subCategoryReducer,
         categoriesSubCategories: categoriesSubCategoriesReducer,

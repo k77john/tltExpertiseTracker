@@ -14,6 +14,21 @@ export interface ErrorResponse {
 
 export type ApiResponse<T> = SuccessResponse<T> | ErrorResponse
 
+export interface User {
+    employeeID?: number
+    employeeName?: string
+    userName?: string
+    email?: string
+    mobileNumber?: string
+    status?: number
+    isAuthinticated?: boolean
+}
+
+export interface LoginInputs {
+    loginUserName?: string
+    otp?: string
+}
+
 export interface Category {
     categoryID?: number
     categoryName?: string
@@ -41,7 +56,7 @@ export interface SubCategory {
     statusMessage?: string | undefined
     insertedUser?: string
     updatedUser?: string
-    updatedDate: string
+    updatedDate?: string
 }
 
 export interface CategorySubCategoryMapping {

@@ -55,6 +55,15 @@ const ManageSubCategories = () => {
         }
     }
 
+    const [filteredOptions, setFilteredOptions] = useState<SubCategory[]>([])
+
+    const getSubCategoryOptionLabel = (option: (typeof subCategory)[0]) =>
+        option.subCategoryName || ''
+
+    useEffect(() => {
+        setFilteredOptions(subCategory)
+    }, [subCategory])
+
     return (
         <div className="h-full">
             {loading && <Loader />}
@@ -64,6 +73,11 @@ const ManageSubCategories = () => {
                 title="Manage Sub Categories"
                 onClick={() => setaddSubCategoryModalOpen(true)}
                 buttonTitle="+ Add Sub Category"
+                searchBar
+                getOptionLabel={getSubCategoryOptionLabel}
+                options={subCategory}
+                setFilteredOptions={setFilteredOptions}
+                getOptionDescription={(option) => option.description || ''}
             />
             <ErrorBoundary>
                 <div
@@ -93,7 +107,7 @@ const ManageSubCategories = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {subCategory.map((item) => (
+                                {filteredOptions.map((item) => (
                                     <tr
                                         key={item.subCategoryID}
                                         className="bg-white border-b "
