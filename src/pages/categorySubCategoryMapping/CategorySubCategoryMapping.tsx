@@ -1,101 +1,111 @@
 import { useEffect, useState } from 'react'
 import { DeleteIcon, EditWhiteIcon, EyeWhiteIcon } from '../../assets/icons'
 import { CustomModal, Header, ListingDetails, Loader } from '../../components'
-import { Category } from '../../constants/types'
-import { getCategoryByID } from '../../services/category.services'
+import { CategorySubCategoryMapping as CategorySubCategoryMappingTypes } from '../../constants/types'
 import { useAppDispatch, useAppSelector } from '../../store'
-import { getCategoriesAction } from '../../store/reducersAndActions/category/category.actions'
-import { CategoryActions } from './components'
+import { getCategoriesSubCategoriesAction } from '../../store/reducersAndActions/categoriesSubCategoriesMapping/categoriesSubCategories.actions'
+import { CategorySubCategoryMappingActions } from './components'
+import { getCategorySubCategoryMappingsByID } from '../../services/categorySubCategoryMapping.services'
 import ErrorBoundary from '../../utils/ErrorBoundary'
 
-const ManageCategories = () => {
-    const { loading, category } = useAppSelector((state) => state.category)
+const CategorySubCategoryMapping = () => {
+    const { loading, categoriesSubCategories } = useAppSelector(
+        (state) => state.categoriesSubCategories
+    )
     const [loader, setLoader] = useState(false)
 
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        dispatch(getCategoriesAction())
+        dispatch(getCategoriesSubCategoriesAction())
     }, [])
 
-    const [selectedCategory, setselectedCategory] = useState<Category>()
+    const [selectedMapping, setselectedMapping] =
+        useState<CategorySubCategoryMappingTypes>()
 
-    const [addCategoryModalOpen, setaddCategoryModalOpen] =
+    const [addMappingModalOpen, setaddMappingModalOpen] =
         useState<boolean>(false)
 
-    const [editCategoryModalOpen, setEditCategoryModalOpen] =
+    const [editMappingModalOpen, setEditMappingModalOpen] =
         useState<boolean>(false)
-    const editHandler = (item: Category) => {
-        setEditCategoryModalOpen(true)
-        setselectedCategory(item)
+    const editHandler = (item: CategorySubCategoryMappingTypes) => {
+        setEditMappingModalOpen(true)
+        setselectedMapping(item)
     }
 
-    const [deleteCategoryModalOpen, setDeleteCategoryModalOpen] =
+    const [deleteMappingModalOpen, setDeleteMappingModalOpen] =
         useState<boolean>(false)
-    const deleteHandler = (item: Category) => {
-        setDeleteCategoryModalOpen(true)
-        setselectedCategory(item)
+    const deleteHandler = (item: CategorySubCategoryMappingTypes) => {
+        setDeleteMappingModalOpen(true)
+        setselectedMapping(item)
     }
 
     const [viewDetailsModalOpen, setViewDetailsModalOpen] =
         useState<boolean>(false)
-    const viewDetailsHandler = async (id: number) => {
+    const viewDetailsHandler = async (id: number | undefined) => {
         setLoader(true)
-        const resp = await getCategoryByID(id)
+        const resp = await getCategorySubCategoryMappingsByID(id)
         if (resp) {
             setLoader(false)
             if (resp.isSuccessful) {
                 setViewDetailsModalOpen(true)
-                setselectedCategory(resp.data)
+                setselectedMapping(resp.data)
             }
         }
     }
 
-    const [filteredOptions, setFilteredOptions] = useState<Category[]>([])
+    const [filteredOptions, setFilteredOptions] = useState<
+        CategorySubCategoryMappingTypes[]
+    >([])
 
-    const getCategoryOptionLabel = (option: (typeof category)[0]) =>
-        option.categoryName || ''
+    const getCategoryMapingLabel = (
+        option: (typeof categoriesSubCategories)[0]
+    ) => option.categoryName || option.subCategoryName || ''
 
     useEffect(() => {
-        setFilteredOptions(category)
-    }, [category])
+        setFilteredOptions(categoriesSubCategories)
+    }, [categoriesSubCategories])
 
     return (
         <div className="h-full">
             {loading && <Loader />}
             {loader && <Loader />}
+
             <Header
-                title="Manage Categories"
-                buttonTitle={'+ Add Category'}
-                onClick={() => setaddCategoryModalOpen(true)}
-                searchBar={true}
-                options={category}
-                getOptionLabel={getCategoryOptionLabel}
+                title="Manage Mapping"
+                buttonTitle="+ Add Mapping"
+                onClick={() => setaddMappingModalOpen(true)}
+                options={categoriesSubCategories}
+                getOptionLabel={getCategoryMapingLabel}
                 setFilteredOptions={setFilteredOptions}
                 getOptionDescription={(option) => option.description || ''}
+                getOptionsOnOther={(option) => option.subCategoryName || ''}
+                searchBar
             />
             <ErrorBoundary>
                 <div
                     style={{ height: 'calc(100% - 128px)' }}
-                    className="bg-white gap-4  flex flex-col"
+                    className="bg-white-color gap-4 flex flex-col"
                 >
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left  text-gray-500 ">
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50 sticky top-0 ">
                                 <tr>
                                     <th scope="col" className="px-6 py-3">
-                                        Category name
+                                        Category
+                                    </th>
+                                    <th scope="col" className="px-6 py-3">
+                                        Sub Category
                                     </th>
                                     <th scope="col" className="px-6 py-3">
                                         Status
                                     </th>
                                     <th scope="col" className="px-6 py-3">
-                                        Description
+                                        Mapping
                                     </th>
-
                                     <th
                                         scope="col"
-                                        className="px-6 py-3 text-right"
+                                        className="px-6 py-3 text-end"
                                     >
                                         Action
                                     </th>
@@ -104,7 +114,7 @@ const ManageCategories = () => {
                             <tbody>
                                 {filteredOptions.map((item) => (
                                     <tr
-                                        key={item.categoryID}
+                                        key={item.mappingId}
                                         className="bg-white border-b "
                                     >
                                         <th
@@ -112,6 +122,12 @@ const ManageCategories = () => {
                                             className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
                                         >
                                             {item.categoryName}
+                                        </th>
+                                        <th
+                                            scope="row"
+                                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
+                                        >
+                                            {item.subCategoryName}
                                         </th>
                                         <td className="px-6 py-4">
                                             {item.isActive ? (
@@ -125,7 +141,7 @@ const ManageCategories = () => {
                                             )}
                                         </td>
                                         <td className="px-6 py-4 md:max-w-80 lg:max-w-80 text-xs">
-                                            <p className="line-clamp-3">
+                                            <p className="line-clamp-2">
                                                 {item.description}
                                             </p>
                                         </td>
@@ -144,7 +160,7 @@ const ManageCategories = () => {
                                             <div
                                                 onClick={() =>
                                                     viewDetailsHandler(
-                                                        item.categoryID || 0
+                                                        item.mappingId
                                                     )
                                                 }
                                                 className="h-8 w-8 flex items-center justify-center p-2 rounded-full bg-gray-700 cursor-pointer"
@@ -172,60 +188,58 @@ const ManageCategories = () => {
                         </table>
                     </div>
                 </div>
-
-                {addCategoryModalOpen && (
+                {addMappingModalOpen && (
                     <CustomModal
-                        title="Add Category"
-                        open={addCategoryModalOpen}
-                        onClose={() => setaddCategoryModalOpen(false)}
+                        title="Add Mapping"
+                        open={addMappingModalOpen}
+                        onClose={() => setaddMappingModalOpen(false)}
                         children={
-                            <CategoryActions
+                            <CategorySubCategoryMappingActions
                                 action="Add"
-                                setModal={setaddCategoryModalOpen}
+                                setModal={setaddMappingModalOpen}
                             />
                         }
                     />
                 )}
 
-                {editCategoryModalOpen && (
+                {editMappingModalOpen && (
                     <CustomModal
-                        title="Edit Category"
-                        open={editCategoryModalOpen}
-                        onClose={() => setEditCategoryModalOpen(false)}
+                        title="Edit Mapping"
+                        open={editMappingModalOpen}
+                        onClose={() => setEditMappingModalOpen(false)}
                         children={
-                            <CategoryActions
+                            <CategorySubCategoryMappingActions
                                 action="Edit"
-                                data={selectedCategory}
-                                setModal={setEditCategoryModalOpen}
+                                data={selectedMapping}
+                                setModal={setEditMappingModalOpen}
                             />
                         }
                     />
                 )}
 
-                {deleteCategoryModalOpen && (
+                {deleteMappingModalOpen && (
                     <CustomModal
-                        title="Delete Category"
-                        open={deleteCategoryModalOpen}
-                        onClose={() => setDeleteCategoryModalOpen(false)}
+                        title="Delete Mapping"
+                        open={deleteMappingModalOpen}
+                        onClose={() => setDeleteMappingModalOpen(false)}
                         children={
-                            <CategoryActions
+                            <CategorySubCategoryMappingActions
                                 action="Delete"
-                                data={selectedCategory}
-                                setModal={setDeleteCategoryModalOpen}
+                                data={selectedMapping}
+                                setModal={setDeleteMappingModalOpen}
                             />
                         }
                     />
                 )}
-
                 {viewDetailsModalOpen && (
                     <CustomModal
-                        title={selectedCategory?.categoryName}
+                        title={selectedMapping?.description}
                         open={viewDetailsModalOpen}
                         onClose={() => setViewDetailsModalOpen(false)}
                         children={
                             <ListingDetails
-                                data={selectedCategory || {}}
-                                detailsFor="Category"
+                                Mapping={selectedMapping || {}}
+                                detailsFor="Mapping"
                             />
                         }
                     />
@@ -235,4 +249,4 @@ const ManageCategories = () => {
     )
 }
 
-export default ManageCategories
+export default CategorySubCategoryMapping

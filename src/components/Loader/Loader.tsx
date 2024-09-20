@@ -1,9 +1,16 @@
 import { Loading } from '../../assets/images'
 
-const Loader = () => {
+interface LoaderProps {
+    type?: 'fixed' | 'fit'
+}
+
+const Loader: React.FC<LoaderProps> = ({ type = 'fixed' }) => {
     return (
-        <div className="h-screen w-screen flex items-center justify-center fixed top-0 left-0 z-50 bg-[#00000082]">
-            <div className="h-20 w-20 rounded-lg bg-white-color flex items-center justify-center p-2">
+        <div
+            className={`${type === 'fixed' ? 'h-screen w-screen fixed ' : 'h-full w-full absolute'} top-0 left-0 flex items-center justify-center  bg-transparent`}
+            style={{ zIndex: 99999 }}
+        >
+            <div className="h-16 w-16 shadow-md rounded-lg bg-white-color flex items-center justify-center p-2">
                 <img src={Loading} className="h-full w-full" />
             </div>
         </div>

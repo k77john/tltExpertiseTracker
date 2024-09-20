@@ -25,7 +25,7 @@ const RatingsAndStatus: FC<RatingsAndStatusProps> = ({
     const [status, setStatus] = useState<boolean>(false)
     const [ratings, setRatings] = useState<number>(0)
 
-    const handleMaping = (ratings: number, status: boolean) => {
+    const handleMapping = (ratings: number, status: boolean) => {
         onClick({
             status: status,
             ratings: ratings,
@@ -44,7 +44,7 @@ const RatingsAndStatus: FC<RatingsAndStatusProps> = ({
             </div>
             <div className="p-4">
                 <div
-                    className={`flex flex-col gap-4 md:flex-row ${forDelete ? 'justify-end' : 'justify-between'}`}
+                    className={`flex flex-col items-center gap-4 md:flex-row ${forDelete ? 'justify-end' : 'justify-between'}`}
                 >
                     {!forDelete && (
                         <div className="flex gap-4 flex-col lg:flex-row">
@@ -62,7 +62,7 @@ const RatingsAndStatus: FC<RatingsAndStatusProps> = ({
                         </div>
                     )}
                     <Button
-                        onClick={() => handleMaping(ratings, status)}
+                        onClick={() => handleMapping(ratings, status)}
                         title={buttonTitle}
                         width={'20%'}
                     />

@@ -14,6 +14,21 @@ export interface ErrorResponse {
 
 export type ApiResponse<T> = SuccessResponse<T> | ErrorResponse
 
+export interface User {
+    employeeID?: number
+    employeeName?: string
+    userName?: string
+    email?: string
+    mobileNumber?: string
+    status?: number
+    isAuthinticated?: boolean
+}
+
+export interface LoginInputs {
+    loginUserName?: string
+    otp?: string
+}
+
 export interface Category {
     categoryID?: number
     categoryName?: string
@@ -25,6 +40,8 @@ export interface Category {
     updatedDate?: string
     updatedUserID?: number
     statusMessage?: string | undefined
+    insertedUser?: string
+    updatedUser?: string
 }
 
 export interface SubCategory {
@@ -35,10 +52,14 @@ export interface SubCategory {
     isActive?: boolean
     isDeleted?: boolean
     updatedUserID?: number
+    insertedDate?: string
     statusMessage?: string | undefined
+    insertedUser?: string
+    updatedUser?: string
+    updatedDate?: string
 }
 
-export interface CategorySubCategoryMaping {
+export interface CategorySubCategoryMapping {
     mappingId?: number
     categoryId?: number
     description?: string
@@ -50,6 +71,10 @@ export interface CategorySubCategoryMaping {
     updatedDate?: string
     isDeleted?: boolean
     statusMessage?: string | undefined
+    insertedUser?: string
+    updatedUser?: string
+    subCategoryName?: string
+    categoryName?: string
 }
 
 export interface StatusCodes {
