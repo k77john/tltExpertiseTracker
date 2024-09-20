@@ -53,12 +53,12 @@ const SideBarMenu: React.FC = () => {
                         Category Sub Category Mapping
                     </NavLink>
                     <NavLink
-                        to={ROUTES.userExpertiesMapping}
+                        to={ROUTES.userExpertiseMapping}
                         className={({ isActive }) =>
                             `${isActive ? 'bg-primary-color text-white-color' : 'bg-white'} flex font-medium text-sm items-center py-4 px-4 text-gray-900 ${!isActive && 'hover:bg-gray-100 hover:text-gray-900'} rounded-md`
                         }
                     >
-                        User Experties Mapping
+                        User Expertise Mapping
                     </NavLink>
                 </div>
             </div>

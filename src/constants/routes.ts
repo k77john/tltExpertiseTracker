@@ -3,7 +3,7 @@ export const ROUTES = {
     manageCategories: '/manage-categories',
     manageSubCategories: '/manage-sub-categories',
     categorySubCategoryMapping: '/category-sub-catrgory-Mapping',
-    userExpertiesMapping: '/user-experties-Mapping',
+    userExpertiseMapping: '/user-expertise-Mapping',
     login: '/login',
     vertifyOTP: '/verify',
 }

@@ -70,7 +70,7 @@ const Header = <T extends object>({
                             className={`sm:w-2/3 w-[90%] flex justify-between border overflow-hidden relative rounded-md text-xs ${isFocused ? 'border-primary-color' : 'border-light-gray-color'}`}
                         >
                             <input
-                                className="p-1 sm:p-1 outline-none w-[90%]"
+                                className="p-1 sm:p-2 outline-none w-[90%]"
                                 placeholder={'Search...'}
                                 value={inputValue}
                                 onFocus={() => setIsFocused(true)}

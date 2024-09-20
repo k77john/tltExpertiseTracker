@@ -43,8 +43,10 @@ const CustomModal: React.FC<CustomModalProps> = ({
                             </svg>
                         </button>
                     </div>
-                    <div className="py-6 h-[92%] overflow-y-auto relative">
-                        <div className=" px-6 overflow-y-auto">{children}</div>
+                    <div className="py-6 h-[92%] overflow-y-autorelative ">
+                        <div className=" px-6 overflow-y-autorelative h-full">
+                            {children}
+                        </div>
                     </div>
                 </div>
             </div>

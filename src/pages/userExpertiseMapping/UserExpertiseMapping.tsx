@@ -8,11 +8,11 @@ interface Tabs {
     delete: string
 }
 
-const UserExpertiesMapping = () => {
+const UserExpertiseMapping = () => {
     const tabs: Tabs = {
-        new: 'New User Experties Mapping',
-        edit: 'Edit User Experties Mapping',
-        delete: 'Delete User Experties Mapping',
+        new: 'New User Expertise Mapping',
+        edit: 'Edit User Expertise Mapping',
+        delete: 'Delete User Expertise Mapping',
     }
 
     const [currentTab, setCurrentTab] = useState<string>(tabs.new)
@@ -170,4 +170,4 @@ const UserExpertiesMapping = () => {
     )
 }
 
-export default UserExpertiesMapping
+export default UserExpertiseMapping

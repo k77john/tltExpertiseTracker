@@ -142,6 +142,21 @@ const CategorySubCategoryMappingActions: React.FC<
         <div className="flex flex-col gap-4">
             {action !== 'Delete' && (
                 <>
+                    <div className="flex flex-col gap-4">
+                        <InputField
+                            label="Mapping"
+                            placeholder="Enter value"
+                            width="100%"
+                            type="text"
+                            value={categoriesSubCategory.description}
+                            onChange={(v) =>
+                                setcategoriesSubCategory((prev) => ({
+                                    ...prev,
+                                    description: v,
+                                }))
+                            }
+                        />
+                    </div>
                     <div className="flex flex-col gap-4 md:flex-row">
                         <DropdownInputField
                             options={category}
@@ -155,21 +170,6 @@ const CategorySubCategoryMappingActions: React.FC<
                                     item.categoryID ===
                                     categoriesSubCategory.categoryId
                             )}
-                        />
-                    </div>
-                    <div className="flex flex-col gap-4 md:flex-row">
-                        <Switchtabs
-                            label="Status"
-                            setSelectedTab={(v) =>
-                                setcategoriesSubCategory((prev) => ({
-                                    ...prev,
-                                    isActive: v,
-                                }))
-                            }
-                            tabValues={statusTabs}
-                            selectedTab={
-                                categoriesSubCategory.isActive || false
-                            }
                         />
                     </div>
                     <div className="flex flex-col gap-4">
@@ -187,19 +187,18 @@ const CategorySubCategoryMappingActions: React.FC<
                             )}
                         />
                     </div>
-                    <div className="flex flex-col gap-4">
-                        <InputField
-                            label="Description"
-                            placeholder="Enter value"
-                            width="100%"
-                            type="textarea"
-                            height="20rem"
-                            value={categoriesSubCategory.description}
-                            onChange={(v) =>
+                    <div className="flex flex-col gap-4 md:flex-row">
+                        <Switchtabs
+                            label="Status"
+                            setSelectedTab={(v) =>
                                 setcategoriesSubCategory((prev) => ({
                                     ...prev,
-                                    description: v,
+                                    isActive: v,
                                 }))
+                            }
+                            tabValues={statusTabs}
+                            selectedTab={
+                                categoriesSubCategory.isActive || false
                             }
                         />
                     </div>

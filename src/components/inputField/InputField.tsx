@@ -11,6 +11,7 @@ interface InputFieldProps {
     onChange: (e: string) => void
     onSubmit?: () => void
     value?: string
+    maxLength?: number
 }
 
 const InputField: FC<InputFieldProps> = ({
@@ -24,6 +25,7 @@ const InputField: FC<InputFieldProps> = ({
     onChange,
     value,
     onSubmit = () => {},
+    maxLength = 200,
 }) => {
     const commonStyles: CSSProperties = {
         height,
@@ -45,6 +47,7 @@ const InputField: FC<InputFieldProps> = ({
                 placeholder={placeholder}
                 disabled={disabled}
                 value={value}
+                maxLength={maxLength}
                 onChange={(e) => onChange(e.target.value)}
                 className="p-4 rounded border border-light-gray-color w-full text-sm outline-primary-color"
             />
@@ -61,6 +64,7 @@ const InputField: FC<InputFieldProps> = ({
                 title={label}
                 placeholder={placeholder}
                 disabled={disabled}
+                maxLength={maxLength}
                 onChange={(e) => onChange(e.target.value)}
             />
         </div>

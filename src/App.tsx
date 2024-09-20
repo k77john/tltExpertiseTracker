@@ -10,7 +10,7 @@ import {
     Login,
     ManageCategories,
     ManageSubCategories,
-    UserExpertiesMapping,
+    UserExpertiseMapping,
     VerifyOTP,
 } from './pages'
 import { useAppDispatch, useAppSelector } from './store'
@@ -88,8 +88,8 @@ function App() {
                                         element={<CategorySubCategoryMapping />}
                                     />
                                     <Route
-                                        path={ROUTES.userExpertiesMapping}
-                                        element={<UserExpertiesMapping />}
+                                        path={ROUTES.userExpertiseMapping}
+                                        element={<UserExpertiseMapping />}
                                     />
                                     <Route
                                         path="*"
