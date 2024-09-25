@@ -32,6 +32,7 @@ const ManageCategories = () => {
 
     const [deleteCategoryModalOpen, setDeleteCategoryModalOpen] =
         useState<boolean>(false)
+
     const deleteHandler = (item: Category) => {
         setDeleteCategoryModalOpen(true)
         setselectedCategory(item)
@@ -39,6 +40,7 @@ const ManageCategories = () => {
 
     const [viewDetailsModalOpen, setViewDetailsModalOpen] =
         useState<boolean>(false)
+
     const viewDetailsHandler = async (id: number) => {
         setLoader(true)
         const resp = await getCategoryByID(id)

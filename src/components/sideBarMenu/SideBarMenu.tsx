@@ -20,21 +20,21 @@ const SideBarMenu: React.FC = () => {
                     </div>
                 </div>
                 <div className="flex flex-col gap-4 p-4 ">
-                    <NavLink
+                    {/* <NavLink
                         to={ROUTES.dashBoard}
                         className={({ isActive }) =>
                             `${isActive ? 'bg-primary-color text-white-color' : 'bg-white'} flex font-medium text-sm items-center py-4 px-4 text-gray-900 ${!isActive && 'hover:bg-gray-100 hover:text-gray-900'} rounded-md`
                         }
                     >
                         Employee Expertise Dashboard
-                    </NavLink>
+                    </NavLink> */}
                     <NavLink
                         to={ROUTES.manageCategories}
                         className={({ isActive }) =>
                             `${isActive ? 'bg-primary-color text-white-color' : 'bg-white'} flex font-medium text-sm items-center py-4 px-4 text-gray-900 ${!isActive && 'hover:bg-gray-100 hover:text-gray-900'} rounded-md`
                         }
                     >
-                        Manage Categories
+                        Domain
                     </NavLink>
                     <NavLink
                         to={ROUTES.manageSubCategories}
@@ -42,7 +42,7 @@ const SideBarMenu: React.FC = () => {
                             `${isActive ? 'bg-primary-color text-white-color' : 'bg-white'} flex font-medium text-sm items-center py-4 px-4 text-gray-900 ${!isActive && 'hover:bg-gray-100 hover:text-gray-900'} rounded-md`
                         }
                     >
-                        Manage Sub Categories
+                        Sub-Domain
                     </NavLink>
                     <NavLink
                         to={ROUTES.categorySubCategoryMapping}
@@ -50,7 +50,7 @@ const SideBarMenu: React.FC = () => {
                             `${isActive ? 'bg-primary-color text-white-color' : 'bg-white'} flex font-medium text-sm items-center py-4 px-4 text-gray-900 ${!isActive && 'hover:bg-gray-100 hover:text-gray-900'}  rounded-md`
                         }
                     >
-                        Category Sub Category Mapping
+                        Domain Sub-Domain Mapping
                     </NavLink>
                     <NavLink
                         to={ROUTES.userExpertiseMapping}

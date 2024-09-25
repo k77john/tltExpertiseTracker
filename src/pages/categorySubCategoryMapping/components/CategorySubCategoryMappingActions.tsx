@@ -5,7 +5,7 @@ import {
     InputField,
     Switchtabs,
 } from '../../../components'
-import { DUMMY_USER_ID, statusTabs } from '../../../constants/constents'
+import { statusTabs } from '../../../constants/constents'
 import { CategorySubCategoryMapping } from '../../../constants/types'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import {
@@ -13,9 +13,9 @@ import {
     deleteCategorySubCategoryMappingAction,
     editCategorySubCategoryMappingAction,
 } from '../../../store/reducersAndActions/categoriesSubCategoriesMapping/categoriesSubCategories.actions'
-import { showErrorToast } from '../../../utils/toast'
-import { getSubCategoriesAction } from '../../../store/reducersAndActions/subCategory/subCategory.actions'
 import { getCategoriesAction } from '../../../store/reducersAndActions/category/category.actions'
+import { getSubCategoriesAction } from '../../../store/reducersAndActions/subCategory/subCategory.actions'
+import { showErrorToast } from '../../../utils/toast'
 
 interface CategorySubCategoryMappingActionsProps {
     setModal: (value: boolean) => void
@@ -28,6 +28,7 @@ const CategorySubCategoryMappingActions: React.FC<
 > = ({ data, action, setModal }) => {
     const { category } = useAppSelector((state) => state.category)
     const { subCategory } = useAppSelector((state) => state.subCategory)
+    const { user } = useAppSelector((state) => state.auth)
 
     const dispatch = useAppDispatch()
 
@@ -43,7 +44,7 @@ const CategorySubCategoryMappingActions: React.FC<
             description: data?.description,
             isActive: data?.isActive,
             isDeleted: data?.isDeleted,
-            insertedUserId: DUMMY_USER_ID,
+            insertedUserId: user?.employeeID,
         })
 
     const handleSelectCategory = (option: (typeof category)[0]) => {
@@ -124,7 +125,7 @@ const CategorySubCategoryMappingActions: React.FC<
             subCategoryId: undefined,
             description: '',
             isActive: true,
-            updatedUserId: DUMMY_USER_ID,
+            updatedUserId: user?.employeeID,
         })
     }
 
@@ -134,7 +135,7 @@ const CategorySubCategoryMappingActions: React.FC<
         )
         setcategoriesSubCategory({
             mappingId: undefined,
-            updatedUserId: DUMMY_USER_ID,
+            updatedUserId: user?.employeeID,
         })
     }
 

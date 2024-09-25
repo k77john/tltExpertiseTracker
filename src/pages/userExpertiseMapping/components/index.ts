@@ -1,3 +1,5 @@
 import RatingsAndStatus from './RatingsAndStatus'
+import MapExpertiseActions from './MapExpertiseAction'
+import EditExpertiseMapping from './EditExpertiseMapping'
 
-export { RatingsAndStatus }
+export { RatingsAndStatus, MapExpertiseActions, EditExpertiseMapping }

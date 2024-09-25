@@ -1,8 +1,8 @@
 export const ROUTES = {
     dashBoard: '/',
-    manageCategories: '/manage-categories',
-    manageSubCategories: '/manage-sub-categories',
-    categorySubCategoryMapping: '/category-sub-catrgory-Mapping',
+    manageCategories: '/domain',
+    manageSubCategories: '/sub-domain',
+    categorySubCategoryMapping: '/domain-sub-domain-Mapping',
     userExpertiseMapping: '/user-expertise-Mapping',
     login: '/login',
     vertifyOTP: '/verify',
@@ -11,6 +11,7 @@ export const ROUTES = {
 export const API_ROUTES = {
     login: '/Login/UserLogin',
     verifyOtp: '/Login/UserLoginOtpVerfication',
+    getAllUsersDetails: '/Employee/GetAllEmployeeDetails',
 
     addCategory: '/Category/AddCategory',
     getCategories: '/Category/GetCategories',
@@ -23,6 +24,7 @@ export const API_ROUTES = {
     updateSubCategory: '/SubCategory/updateSubCategory',
     deleteSubCategory: '/SubCategory/DeleteCategories',
     getSubCategoryByID: '/SubCategory/GetSUbCategoryById',
+    getSubCategoryByCategoryID: '/ExpertiseMapping/GetSubCategoryByCategoryID',
 
     getApiStatusCodes: '/Response/GetAllResponseStatuses',
 
@@ -36,4 +38,11 @@ export const API_ROUTES = {
         '/CategorySubCategoryMapping/UpdateCategorySubCategoryMapping',
     getCategorySubCategoryMapingByID:
         'CategorySubCategoryMapping/GetCategorySubCategoryMappingById',
+
+    getExpertiseMapping: '/ExpertiseMapping/GetExpertiseMapping',
+    getExpertiesMappingByCatSubCat:
+        '/ExpertiseMapping/GetMappingByCategoryIDandSubCategoryID',
+    addExpertiseMapping: '/ExpertiseMapping/AddExpertiseMapping',
+    updateExpertiseMapping: '/ExpertiseMapping/UpdateExpertiseMapping',
+    getExpertiseMappingDetails: '/ExpertiseMapping/GetExpertiseMappingByID',
 }

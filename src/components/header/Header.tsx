@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react'
 import Button from '../button/Button'
-import NavBar from '../navBar/NavBar'
+import NavBar from '../NavBar/NavBar'
 
 interface HeaderProps<T> {
     title: string

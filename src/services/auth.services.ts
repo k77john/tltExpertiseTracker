@@ -19,3 +19,15 @@ export const verifyOTP = async (value: LoginInputs) => {
     )
     return response
 }
+
+export const checkLogin = async (value: LoginInputs) => {
+    const response = await get<User>(
+        `${API_ROUTES.verifyOtp}?loginUserName=${value.loginUserName}&otp=${value.otp}`
+    )
+    return response
+}
+
+export const getUsersList = async () => {
+    const response = await get<User[]>(API_ROUTES.getAllUsersDetails)
+    return response
+}

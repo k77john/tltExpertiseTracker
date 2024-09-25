@@ -16,7 +16,6 @@ function VerifyOTP() {
     const { loading, user } = useAppSelector((state) => state.auth)
     const [searchParams] = useSearchParams()
     const userName = searchParams.get('userName')
-    const email = searchParams.get('email')
 
     const [otp, setOtp] = useState<string>()
 
@@ -69,8 +68,7 @@ function VerifyOTP() {
                         <div className="flex flex-col gap-2 items-center">
                             <h1 className="text-4xl font-bold">Verify OTP</h1>
                             <p className="text-sm text-gray-600 text-center">
-                                Enter OTP send to your email{' '}
-                                <strong>"{email}"</strong>
+                                Enter OTP send to your email
                             </p>
                         </div>
                         <div className="flex flex-col gap-2 w-4/5">

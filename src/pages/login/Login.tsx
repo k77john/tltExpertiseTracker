@@ -27,9 +27,7 @@ function Login() {
 
     useEffect(() => {
         if (user?.status === 4) {
-            navigate(
-                `${ROUTES.vertifyOTP}?userName=${loginValues}&email=${user.email}`
-            )
+            navigate(`${ROUTES.vertifyOTP}?userName=${loginValues}`)
         }
     }, [user?.status])
 

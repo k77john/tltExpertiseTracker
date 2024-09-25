@@ -2,6 +2,7 @@ import { createSlice, SerializedError } from '@reduxjs/toolkit'
 import { ErrorResponse, User } from '../../../constants/types'
 import {
     checkLoginAction,
+    getUsersListAction,
     loginAction,
     logOutAction,
     verifyOtpAction,
@@ -10,6 +11,7 @@ import {
 interface ApiUserInfo {
     loading: boolean
     user: User | null
+    usersList: User[]
     isAuthenticated: boolean
     error: ErrorResponse | null
 }
@@ -17,6 +19,7 @@ interface ApiUserInfo {
 const initialState: ApiUserInfo = {
     loading: false,
     user: null,
+    usersList: [],
     isAuthenticated: false,
     error: null,
 }
@@ -94,6 +97,20 @@ const authSlice = createSlice({
             .addCase(logOutAction.fulfilled, (state) => {
                 state.user = null
                 state.isAuthenticated = false
+            })
+
+            .addCase(getUsersListAction.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(getUsersListAction.fulfilled, (state, action) => {
+                state.usersList = action.payload.data
+                state.loading = false
+            })
+            .addCase(getUsersListAction.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.error
+                    ? mapSerializedErrorToApiError(action.error)
+                    : null
             })
     },
 })

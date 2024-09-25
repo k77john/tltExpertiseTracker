@@ -11,6 +11,13 @@ export const getSubCategories = async () => {
     return response
 }
 
+export const getSubCategoriesBasedOnCategory = async (value: number) => {
+    const response = await get<SubCategory[]>(
+        `${API_ROUTES.getSubCategoryByCategoryID}?CategoryId=${value}`
+    )
+    return response
+}
+
 export const getSubCategoryByID = async (values: number) => {
     const response = await get<SubCategory>(
         `${API_ROUTES.getSubCategoryByID}?subCategoryId=${values}`

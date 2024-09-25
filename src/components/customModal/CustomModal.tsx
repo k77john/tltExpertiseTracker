@@ -5,6 +5,7 @@ interface CustomModalProps {
     open: boolean
     onClose: () => void
     title?: string
+    width?: string
 }
 
 const CustomModal: React.FC<CustomModalProps> = ({
@@ -12,16 +13,14 @@ const CustomModal: React.FC<CustomModalProps> = ({
     onClose,
     title,
     open,
+    width = 'lg:w-[30%] md:w-[50%] sm:w-[70%]',
 }) => {
     return (
         <div
             className={`w-full h-full bg-transparent fixed top-0 left-0 z-50 flex ${!open && 'hidden'}`}
         >
-            <div
-                onClick={onClose}
-                className="h-full lg:w-[70%] md:w-[50%] sm:w-[30%] w-0 bg-transparent"
-            ></div>
-            <div className="lg:w-[30%] md:w-[50%] sm:w-[70%] w-full h-full bg-white shadow-lg">
+            <div onClick={onClose} className="flex-1 bg-transparent"></div>
+            <div className={`${width} w-full h-full bg-white shadow-lg`}>
                 <div
                     className={`bg-white rounded-lg shadow-lg w-full  h-full transition-all overflow-hidden`}
                 >
@@ -43,7 +42,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
                             </svg>
                         </button>
                     </div>
-                    <div className="py-6 h-[92%] overflow-y-autorelative ">
+                    <div className="py-6 h-[92%] overflow-y-auto relative ">
                         <div className=" px-6 overflow-y-autorelative h-full">
                             {children}
                         </div>

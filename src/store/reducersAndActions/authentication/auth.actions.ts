@@ -1,7 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { RootState } from '../..'
 import { LoginInputs } from '../../../constants/types'
-import { loginUser, verifyOTP } from '../../../services/auth.services'
+import {
+    getUsersList,
+    loginUser,
+    verifyOTP,
+} from '../../../services/auth.services'
 import { showToast } from '../../../utils/toast'
 import {
     clearStorage,
@@ -72,3 +76,16 @@ export const logOutAction = createAsyncThunk('login/logOut', async () => {
     clearStorage()
     return {}
 })
+
+export const getUsersListAction = createAsyncThunk(
+    'login/userList',
+    async (_, { rejectWithValue }) => {
+        const resp = await getUsersList()
+
+        if (resp?.isSuccessful) {
+            return resp
+        } else {
+            return rejectWithValue(resp)
+        }
+    }
+)

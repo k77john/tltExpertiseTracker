@@ -1,5 +1,7 @@
 import { useState, FC } from 'react'
 import { Button, Ratings, Switchtabs } from '../../../components'
+import { CategorySubCategoryMapping } from '../../../constants/types'
+import { Mapping } from './MapExpertiseAction'
 
 interface StatusTabs {
     left: string
@@ -8,14 +10,16 @@ interface StatusTabs {
 
 interface RatingsAndStatusProps {
     buttonTitle: string
+    data: CategorySubCategoryMapping
     forDelete?: boolean
-    onClick: (value: { status: boolean; ratings: number }) => void
+    onClick: (value: Mapping) => void
 }
 
 const RatingsAndStatus: FC<RatingsAndStatusProps> = ({
     buttonTitle,
     forDelete,
     onClick,
+    data,
 }) => {
     const statusTabs: StatusTabs = {
         left: 'Active',
@@ -25,10 +29,11 @@ const RatingsAndStatus: FC<RatingsAndStatusProps> = ({
     const [status, setStatus] = useState<boolean>(false)
     const [ratings, setRatings] = useState<number>(0)
 
-    const handleMapping = (ratings: number, status: boolean) => {
+    const handleMapping = (value: Mapping) => {
         onClick({
-            status: status,
-            ratings: ratings,
+            status: value.status,
+            ratings: value.ratings,
+            mappingId: value.mappingId,
         })
     }
 
@@ -36,15 +41,15 @@ const RatingsAndStatus: FC<RatingsAndStatusProps> = ({
         <div className="bg-white rounded-lg border border-light-gray-color">
             <div className="flex items-center justify-between gap-4 border-b border-light-gray-color p-4">
                 <h4 className="text-base text-black-color font-semibold">
-                    Flufy
+                    {data.description}
                 </h4>
                 <p className="text-sm text-body-text-color">
-                    👋 Mapped Sub Category
+                    👋 {data.subCategoryName}
                 </p>
             </div>
             <div className="p-4">
                 <div
-                    className={`flex flex-col items-center gap-4 md:flex-row ${forDelete ? 'justify-end' : 'justify-between'}`}
+                    className={`flex flex-col sm:md:flex-row md:items-center gap-4 md:flex-row ${forDelete ? 'justify-end' : 'justify-between'}`}
                 >
                     {!forDelete && (
                         <div className="flex gap-4 flex-col lg:flex-row">
@@ -62,7 +67,13 @@ const RatingsAndStatus: FC<RatingsAndStatusProps> = ({
                         </div>
                     )}
                     <Button
-                        onClick={() => handleMapping(ratings, status)}
+                        onClick={() =>
+                            handleMapping({
+                                mappingId: data.mappingId || 0,
+                                status: status,
+                                ratings: ratings,
+                            })
+                        }
                         title={buttonTitle}
                         width={'20%'}
                     />

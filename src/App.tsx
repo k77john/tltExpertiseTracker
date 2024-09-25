@@ -6,7 +6,6 @@ import { Loader, SideBarMenu } from './components'
 import { ROUTES } from './constants/routes'
 import {
     CategorySubCategoryMapping,
-    DashBoard,
     Login,
     ManageCategories,
     ManageSubCategories,
@@ -73,7 +72,11 @@ function App() {
                                 <Route element={<Layout />}>
                                     <Route
                                         path={ROUTES.dashBoard}
-                                        element={<DashBoard />}
+                                        element={
+                                            <Navigate
+                                                to={ROUTES.manageCategories}
+                                            />
+                                        }
                                     />
                                     <Route
                                         path={ROUTES.manageCategories}

@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { Button, InputField, Switchtabs } from '../../../components'
+import { statusTabs } from '../../../constants/constents'
 import { SubCategory } from '../../../constants/types'
-import { DUMMY_USER_ID, statusTabs } from '../../../constants/constents'
-import { useAppDispatch } from '../../../store'
-import { showErrorToast } from '../../../utils/toast'
+import { useAppDispatch, useAppSelector } from '../../../store'
 import {
     addSubCategoryAction,
     deleteSubCategoryAction,
     editSubCategoryAction,
 } from '../../../store/reducersAndActions/subCategory/subCategory.actions'
+import { showErrorToast } from '../../../utils/toast'
 
 interface SubCategoryActionsProps {
     setModal: (value: boolean) => void
@@ -21,13 +21,15 @@ const SubCategoryActions: React.FC<SubCategoryActionsProps> = ({
     setModal,
     action,
 }) => {
+    const { user } = useAppSelector((state) => state.auth)
+
     const [subCategory, setSubCategory] = useState<SubCategory>({
         subCategoryName: data?.subCategoryName || '',
         description: data?.description || '',
         isActive: data?.isActive,
         isDeleted: data?.isDeleted,
-        insertedUserID: DUMMY_USER_ID,
-        updatedUserID: DUMMY_USER_ID,
+        insertedUserID: user?.employeeID,
+        updatedUserID: user?.employeeID,
     })
 
     const dispatch = useAppDispatch()

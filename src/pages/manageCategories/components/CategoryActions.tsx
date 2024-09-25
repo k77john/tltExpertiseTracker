@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Button, InputField, Switchtabs } from '../../../components'
-import { DUMMY_USER_ID, statusTabs } from '../../../constants/constents'
+import { statusTabs } from '../../../constants/constents'
 import { Category } from '../../../constants/types'
-import { useAppDispatch } from '../../../store'
+import { useAppDispatch, useAppSelector } from '../../../store'
 import {
     addCategoryAction,
     deleteCategoryAction,
@@ -21,13 +21,15 @@ const CategoryActions: React.FC<CategoryActionsProps> = ({
     data,
     action,
 }) => {
+    const { user } = useAppSelector((state) => state.auth)
+
     const [category, setCategory] = useState<Category>({
         categoryName: data?.categoryName || '',
         description: data?.description || '',
         isActive: data?.isActive,
         isDeleted: data?.isDeleted,
-        insertedUserID: DUMMY_USER_ID,
-        updatedUserID: DUMMY_USER_ID,
+        insertedUserID: user?.employeeID,
+        updatedUserID: user?.employeeID,
     })
 
     const dispatch = useAppDispatch()
@@ -73,8 +75,8 @@ const CategoryActions: React.FC<CategoryActionsProps> = ({
             description: '',
             isActive: true,
             isDeleted: false,
-            insertedUserID: DUMMY_USER_ID,
-            updatedUserID: DUMMY_USER_ID,
+            insertedUserID: user?.employeeID,
+            updatedUserID: user?.employeeID,
         })
     }
 
@@ -85,8 +87,8 @@ const CategoryActions: React.FC<CategoryActionsProps> = ({
             description: '',
             isActive: true,
             isDeleted: false,
-            insertedUserID: DUMMY_USER_ID,
-            updatedUserID: DUMMY_USER_ID,
+            insertedUserID: user?.employeeID,
+            updatedUserID: user?.employeeID,
         })
     }
 
