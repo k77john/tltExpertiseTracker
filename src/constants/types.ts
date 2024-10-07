@@ -106,3 +106,30 @@ export interface SelectedCatSubCatIdOptionTypes {
     subCategoryId: number | undefined
     categoryId: number | undefined
 }
+
+interface Mapping {
+    mappingId: number
+    categoryId: number
+    subCategoryId: number
+    description: string
+    isActive: boolean
+    insertedUserId: number
+    insertedDate: string
+    updatedUserId: number
+    updatedDate: string
+    isDeleted: boolean
+    categoryName: string
+    subCategoryName: string
+    insertedUser: string
+    updatedUser: string
+}
+
+interface SubDomainWithMappings {
+    subDomain: SubCategory
+    mappings: CategorySubCategoryMapping[]
+}
+
+export interface MainInterface {
+    domain: Category
+    subDomains: SubDomainWithMappings[]
+}

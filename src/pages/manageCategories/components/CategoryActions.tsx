@@ -36,12 +36,12 @@ const CategoryActions: React.FC<CategoryActionsProps> = ({
 
     const addCategoryHandler = (data: Category) => {
         if (!category.categoryName) {
-            showErrorToast('Category Name Is Required')
+            showErrorToast('Domain Name Is Required')
             return
         }
 
         if (!category.description) {
-            showErrorToast('Category Description Is Required')
+            showErrorToast('Domain Description Is Required')
             return
         }
 
@@ -59,12 +59,12 @@ const CategoryActions: React.FC<CategoryActionsProps> = ({
 
     const editCategoryHandler = (category: Category) => {
         if (!category.categoryName) {
-            showErrorToast('Category Name Is Required')
+            showErrorToast('Domain Name Is Required')
             return
         }
 
         if (!category.description) {
-            showErrorToast('Category Description Is Required')
+            showErrorToast('Domain Description Is Required')
             return
         }
         dispatch(
@@ -98,7 +98,7 @@ const CategoryActions: React.FC<CategoryActionsProps> = ({
                 <>
                     <div className="flex flex-col gap-4 md:flex-row">
                         <InputField
-                            label="Category"
+                            label="Domain"
                             placeholder="Enter value"
                             width="100%"
                             value={category.categoryName}
@@ -145,8 +145,8 @@ const CategoryActions: React.FC<CategoryActionsProps> = ({
             {action === 'Delete' && (
                 <div className="flex flex-col gap-4 md:flex-row">
                     <h1 className="text-md font-normal">
-                        Do you want to delete
-                        <strong>{category.categoryName}</strong> category?
+                        Do you want to delete{' '}
+                        <strong>{category.categoryName}</strong> Domain?
                     </h1>
                 </div>
             )}

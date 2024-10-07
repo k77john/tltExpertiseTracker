@@ -21,7 +21,7 @@ const ListingDetails: React.FC<ListingDetailsProps> = ({
     expertiseMapping,
 }) => {
     return (
-        <div className="flex flex-col  gap-6 w-full">
+        <div className="flex flex-col gap-6 w-full pb-6">
             <div className="flex flex-col items-cente  gap-1 w-full">
                 <h3 className=" text-sm font-semibold ">Status</h3>
                 {data?.isActive ||
@@ -39,18 +39,16 @@ const ListingDetails: React.FC<ListingDetailsProps> = ({
             {detailsFor === 'Mapping' && (
                 <>
                     <div className="flex flex-col items-cente  gap-1 w-full">
-                        <h3 className=" text-sm font-semibold  ">Category</h3>
+                        <h3 className=" text-sm font-semibold  ">Domain</h3>
                         <p className="font-semibold text-base text-primary-color ">
-                            {Mapping?.categoryName}
+                            {Mapping?.categoryName || '-'}
                         </p>
                     </div>
 
                     <div className="flex flex-col items-cente  gap-1 w-full">
-                        <h3 className=" text-sm font-semibold ">
-                            Sub Category
-                        </h3>
+                        <h3 className=" text-sm font-semibold ">Sub Domain</h3>
                         <p className="font-semibold text-base text-primary-color ">
-                            {Mapping?.subCategoryName}
+                            {Mapping?.subCategoryName || '-'}
                         </p>
                     </div>
                 </>

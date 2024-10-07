@@ -1,5 +1,8 @@
 import { API_ROUTES } from '../constants/routes'
-import { CategorySubCategoryMapping } from '../constants/types'
+import {
+    CategorySubCategoryMapping,
+    DomainSubDomainMappingTree,
+} from '../constants/types'
 import { get, post, remove } from './service.common'
 
 export interface StatusMessageResponse {
@@ -7,8 +10,8 @@ export interface StatusMessageResponse {
 }
 
 export const getCategoriesSubCategoriesMappings = async () => {
-    const response = await get<CategorySubCategoryMapping[]>(
-        API_ROUTES.getAllCategorySubCategoryMapping
+    const response = await get<DomainSubDomainMappingTree[]>(
+        API_ROUTES.getAllDomainSubDomainMapping
     )
     return response
 }

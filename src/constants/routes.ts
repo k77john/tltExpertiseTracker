@@ -30,6 +30,8 @@ export const API_ROUTES = {
 
     getAllCategorySubCategoryMapping:
         '/CategorySubCategoryMapping/GetAllCategorySubCategoryMapping',
+    getAllDomainSubDomainMapping:
+        'http://192.168.5.11:8012/api/DomainSubDomain/GetAllDomainSubDomainMapping',
     addCategorySubCategoryMapping:
         '/CategorySubCategoryMapping/AddCategorySubCategoryMapping',
     deleteCategorySubCategoryMapping:

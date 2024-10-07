@@ -70,9 +70,9 @@ const ManageSubCategories = () => {
             {loader && <Loader />}
 
             <Header
-                title="Manage Sub Categories"
+                title="Manage Sub Domain"
                 onClick={() => setaddSubCategoryModalOpen(true)}
-                buttonTitle="+ Add Sub Category"
+                buttonTitle="+ Add Sub Domain"
                 searchBar
                 getOptionLabel={getSubCategoryOptionLabel}
                 options={subCategory}
@@ -89,7 +89,7 @@ const ManageSubCategories = () => {
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50 sticky top-0">
                                 <tr>
                                     <th scope="col" className="px-6 py-3">
-                                        Sub Category name
+                                        Sub Domain name
                                     </th>
                                     <th scope="col" className="px-6 py-3">
                                         Status
@@ -180,7 +180,7 @@ const ManageSubCategories = () => {
 
                 {addSubCategoryModalOpen && (
                     <CustomModal
-                        title="Add Sub Category"
+                        title="Add Sub Domain"
                         open={addSubCategoryModalOpen}
                         onClose={() => setaddSubCategoryModalOpen(false)}
                         children={
@@ -209,7 +209,7 @@ const ManageSubCategories = () => {
 
                 {deleteSubCategoryModalOpen && (
                     <CustomModal
-                        title="Delete Sub Category"
+                        title="Delete Sub Domain"
                         open={deleteSubCategoryModalOpen}
                         onClose={() => setDeleteSubCategoryModalOpen(false)}
                         children={

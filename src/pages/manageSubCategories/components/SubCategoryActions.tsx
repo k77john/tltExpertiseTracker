@@ -59,12 +59,12 @@ const SubCategoryActions: React.FC<SubCategoryActionsProps> = ({
 
     const editSubCategoryHandler = (subCategory: SubCategory) => {
         if (!subCategory.subCategoryName) {
-            showErrorToast('Sub Category Name Is Required')
+            showErrorToast('Sub Domain Name Is Required')
             return
         }
 
         if (!subCategory.description) {
-            showErrorToast('Sub Category Description Is Required')
+            showErrorToast('Sub Domain Description Is Required')
             return
         }
 
@@ -102,7 +102,7 @@ const SubCategoryActions: React.FC<SubCategoryActionsProps> = ({
                 <>
                     <div className="flex flex-col gap-4 md:flex-row">
                         <InputField
-                            label="Sub Category"
+                            label="Sub Domain"
                             placeholder="Enter value"
                             width="100%"
                             value={subCategory.subCategoryName}
@@ -150,7 +150,8 @@ const SubCategoryActions: React.FC<SubCategoryActionsProps> = ({
                 <div className="flex flex-col gap-4 md:flex-row">
                     <h1 className="text-md font-normal">
                         Do you want to delete{' '}
-                        <strong>{subCategory.subCategoryName}</strong> category?
+                        <strong>{subCategory.subCategoryName}</strong> Sub
+                        Domain?
                     </h1>
                 </div>
             )}

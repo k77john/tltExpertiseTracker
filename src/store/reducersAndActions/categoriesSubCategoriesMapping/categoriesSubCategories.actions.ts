@@ -14,8 +14,34 @@ export const getCategoriesSubCategoriesAction = createAsyncThunk(
     'CategorySubCategoryMapping/GetAllCategorySubCategoryMapping',
     async (_, { rejectWithValue }) => {
         const resp = await getCategoriesSubCategoriesMappings()
+
         if (resp?.isSuccessful) {
-            const updatedData = resp.data.filter((item) => !item.isDeleted)
+            const updatedData = resp.data
+                .map((domainItem) => {
+                    const filteredSubDomains = domainItem.subDomains
+                        .map((subDomainItem) => {
+                            const filteredMappings =
+                                subDomainItem.mappings.filter(
+                                    (mapping) => mapping.isDeleted === false
+                                )
+                            return filteredMappings.length > 0
+                                ? {
+                                      ...subDomainItem,
+                                      mappings: filteredMappings,
+                                  }
+                                : null
+                        })
+                        .filter((subDomain) => subDomain !== null)
+
+                    return filteredSubDomains.length > 0
+                        ? {
+                              ...domainItem,
+                              subDomains: filteredSubDomains,
+                          }
+                        : null
+                })
+                .filter((domain) => domain !== null)
+
             resp.data = updatedData
             return resp
         } else {

@@ -88,6 +88,9 @@ const UserExpertiseMapping = () => {
                 options={expertiseMapping}
                 getOptionLabel={getExpertiesMappingOptionLabel}
                 setFilteredOptions={setFilteredOptions}
+                getOptionDescription={(option) =>
+                    option.catSubCategoryMappingDescription || ''
+                }
             />
             <ErrorBoundary>
                 <div

@@ -67,8 +67,8 @@ const ManageCategories = () => {
             {loading && <Loader />}
             {loader && <Loader />}
             <Header
-                title="Manage Categories"
-                buttonTitle={'+ Add Category'}
+                title="Manage Domain"
+                buttonTitle={'+ Add Domain'}
                 onClick={() => setaddCategoryModalOpen(true)}
                 searchBar={true}
                 options={category}
@@ -86,7 +86,7 @@ const ManageCategories = () => {
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50 sticky top-0 ">
                                 <tr>
                                     <th scope="col" className="px-6 py-3">
-                                        Category name
+                                        Domain name
                                     </th>
                                     <th scope="col" className="px-6 py-3">
                                         Status
@@ -177,7 +177,7 @@ const ManageCategories = () => {
 
                 {addCategoryModalOpen && (
                     <CustomModal
-                        title="Add Category"
+                        title="Add Domain"
                         open={addCategoryModalOpen}
                         onClose={() => setaddCategoryModalOpen(false)}
                         children={
@@ -191,7 +191,7 @@ const ManageCategories = () => {
 
                 {editCategoryModalOpen && (
                     <CustomModal
-                        title="Edit Category"
+                        title="Edit Domain"
                         open={editCategoryModalOpen}
                         onClose={() => setEditCategoryModalOpen(false)}
                         children={
@@ -206,7 +206,7 @@ const ManageCategories = () => {
 
                 {deleteCategoryModalOpen && (
                     <CustomModal
-                        title="Delete Category"
+                        title="Delete Domain"
                         open={deleteCategoryModalOpen}
                         onClose={() => setDeleteCategoryModalOpen(false)}
                         children={
@@ -221,7 +221,7 @@ const ManageCategories = () => {
 
                 {viewDetailsModalOpen && (
                     <CustomModal
-                        title={selectedCategory?.categoryName}
+                        title={selectedCategory?.categoryName || 'No Info'}
                         open={viewDetailsModalOpen}
                         onClose={() => setViewDetailsModalOpen(false)}
                         children={

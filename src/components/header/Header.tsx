@@ -45,6 +45,15 @@ const Header = <T extends object>({
                         .includes(value.toLowerCase())
             ) || []
         )
+        console.log('====================================')
+        console.log(
+            options?.filter((option) =>
+                getOptionLabel(option)
+                    .toLowerCase()
+                    .includes(value.toLowerCase())
+            )
+        )
+        console.log('====================================')
     }
 
     const handleClearInput = () => {

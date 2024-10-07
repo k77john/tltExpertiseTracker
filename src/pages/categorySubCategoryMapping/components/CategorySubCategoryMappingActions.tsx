@@ -101,17 +101,17 @@ const CategorySubCategoryMappingActions: React.FC<
 
     const editMappingHandler = (Mapping: CategorySubCategoryMapping) => {
         if (!categoriesSubCategory.categoryId) {
-            showErrorToast('Please Select Category')
+            showErrorToast('Please Select Domain')
             return
         }
 
         if (!categoriesSubCategory.subCategoryId) {
-            showErrorToast('Please Select Sub Category')
+            showErrorToast('Please Select Sub Domain')
             return
         }
 
         if (!categoriesSubCategory.description) {
-            showErrorToast('Category Description Is Required')
+            showErrorToast('Domain Description Is Required')
             return
         }
         dispatch(
@@ -163,7 +163,7 @@ const CategorySubCategoryMappingActions: React.FC<
                             options={category}
                             getOptionLabel={getCategoryOptionLabel}
                             onSelect={handleSelectCategory}
-                            label="Select category"
+                            label="Select Domain"
                             placeholder="Select value"
                             width="100%"
                             selectedOption={category.find(
@@ -178,7 +178,7 @@ const CategorySubCategoryMappingActions: React.FC<
                             options={subCategory}
                             getOptionLabel={getCategorySubOptionLabel}
                             onSelect={handleSelectSubCategory}
-                            label="Select sub category"
+                            label="Select Sub Domain"
                             placeholder="Select value"
                             width="100%"
                             selectedOption={subCategory.find(
@@ -209,8 +209,7 @@ const CategorySubCategoryMappingActions: React.FC<
                 <div className="flex flex-col gap-4 md:flex-row">
                     <h1 className="text-md font-normal">
                         Do you want to delete{' '}
-                        <strong>Mapping ID - {data?.mappingId}</strong>{' '}
-                        category?
+                        <strong>Mapping ID - {data?.mappingId}</strong> Domain?
                     </h1>
                 </div>
             )}

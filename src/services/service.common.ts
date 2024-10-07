@@ -13,7 +13,7 @@ interface ErrorResponseData {
 // Axios instance
 const apiClient = axios.create({
     baseURL: 'http://192.168.5.11:8012/api',
-    timeout: 10000,
+    timeout: 20000,
 })
 
 // Axios retry

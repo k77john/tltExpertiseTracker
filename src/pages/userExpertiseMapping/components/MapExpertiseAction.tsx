@@ -128,7 +128,7 @@ const MapExpertiseActions: React.FC<MapExpertiseActionsProps> = () => {
                             options={category}
                             getOptionLabel={getCategoryOptionLabel}
                             onSelect={handleSelectCategory}
-                            label="Select category"
+                            label="Select Domain"
                             placeholder="Select value"
                             // width="48%"
                         />
@@ -137,7 +137,7 @@ const MapExpertiseActions: React.FC<MapExpertiseActionsProps> = () => {
                                 options={subCategory}
                                 getOptionLabel={getCategorySubOptionLabel}
                                 onSelect={handleSelectSubCategory}
-                                label="Select sub category"
+                                label="Select sub Domain"
                                 placeholder="Select value"
                                 // width="48%"
                             />
