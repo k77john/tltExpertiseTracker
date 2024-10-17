@@ -23,7 +23,7 @@ const Button: React.FC<ButtonProps> = ({
                 ' bg-white text-primary-color border border-primary-color'
             break
         case 'disabled':
-            buttonClass += ' bg-gray-400 text-gray-600 cursor-not-allowed'
+            buttonClass += ' bg-gray-300 text-gray-600 cursor-not-allowed'
             break
         case 'delete':
             buttonClass += ' bg-red-50 text-red-600 '

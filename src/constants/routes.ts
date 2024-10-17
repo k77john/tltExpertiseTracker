@@ -14,7 +14,8 @@ export const API_ROUTES = {
     getAllUsersDetails: '/Employee/GetAllEmployeeDetails',
 
     addCategory: '/Category/AddCategory',
-    getCategories: '/Category/GetCategories',
+    getCategories: '/Category/GetPaginatedCategories',
+    getCategoriesAllList: '/Category/GetCategories',
     deleteCategory: '/Category/DeleteCategory',
     updateCategory: '/Category/UpdateCategory',
     getCategoryByID: '/Category/GetCategory',
@@ -31,7 +32,7 @@ export const API_ROUTES = {
     getAllCategorySubCategoryMapping:
         '/CategorySubCategoryMapping/GetAllCategorySubCategoryMapping',
     getAllDomainSubDomainMapping:
-        'http://192.168.5.11:8012/api/DomainSubDomain/GetAllDomainSubDomainMapping',
+        '/DomainSubDomain/GetAllDomainSubDomainMapping',
     addCategorySubCategoryMapping:
         '/CategorySubCategoryMapping/AddCategorySubCategoryMapping',
     deleteCategorySubCategoryMapping:

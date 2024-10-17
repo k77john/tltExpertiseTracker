@@ -10,6 +10,7 @@ export default function AccordionUsage() {
         (panel: string) =>
         (event: React.SyntheticEvent, isExpanded: boolean) => {
             setExpanded(isExpanded ? panel : false)
+            console.log(event)
         }
     return (
         <div>

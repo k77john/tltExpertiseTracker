@@ -6,10 +6,7 @@ import {
     EyeWhiteIcon,
 } from '../../assets/icons'
 import { CustomModal, Header, ListingDetails, Loader } from '../../components'
-import {
-    CategorySubCategoryMapping as CategorySubCategoryMappingTypes,
-    DomainSubDomainMappingTree,
-} from '../../constants/types'
+import { CategorySubCategoryMapping as CategorySubCategoryMappingTypes } from '../../constants/types'
 import { getCategorySubCategoryMappingsByID } from '../../services/categorySubCategoryMapping.services'
 import { useAppDispatch, useAppSelector } from '../../store'
 import { getCategoriesSubCategoriesAction } from '../../store/reducersAndActions/categoriesSubCategoriesMapping/categoriesSubCategories.actions'
@@ -28,9 +25,11 @@ const CategorySubCategoryMapping = () => {
 
     const dispatch = useAppDispatch()
 
+    const [searchInput, setSearchInput] = useState<string>('')
+
     useEffect(() => {
-        dispatch(getCategoriesSubCategoriesAction())
-    }, [])
+        dispatch(getCategoriesSubCategoriesAction({ search: searchInput }))
+    }, [searchInput])
 
     const [selectedMapping, setselectedMapping] =
         useState<CategorySubCategoryMappingTypes>()
@@ -40,9 +39,16 @@ const CategorySubCategoryMapping = () => {
 
     const [editMappingModalOpen, setEditMappingModalOpen] =
         useState<boolean>(false)
-    const editHandler = (item: CategorySubCategoryMappingTypes) => {
-        setEditMappingModalOpen(true)
-        setselectedMapping(item)
+    const editHandler = async (id: number | undefined) => {
+        setLoader(true)
+        const resp = await getCategorySubCategoryMappingsByID(id)
+        if (resp) {
+            setLoader(false)
+            if (resp.isSuccessful) {
+                setEditMappingModalOpen(true)
+                setselectedMapping(resp.data)
+            }
+        }
     }
 
     const [deleteMappingModalOpen, setDeleteMappingModalOpen] =
@@ -66,35 +72,23 @@ const CategorySubCategoryMapping = () => {
         }
     }
 
-    const [filteredOptions, setFilteredOptions] = useState<
-        DomainSubDomainMappingTree[]
-    >([])
-
-    const getCategoryMapingLabel = (
-        option: (typeof categoriesSubCategories)[0]
-    ) => option.domain.categoryName || ''
-
     const [categoryExpanded, setCategoryExpanded] = useState<string | false>(
         false
     )
-    const [subCategoryExpanded, setSubCategoryExpanded] = useState<
-        string | false
-    >(false)
+    // const [subCategoryExpanded, setSubCategoryExpanded] = useState<
+    //     boolean
+    // >(false)
     const handleOpenCategory =
         (panel: string) =>
         (event: React.SyntheticEvent, isExpanded: boolean) => {
             setCategoryExpanded(isExpanded ? panel : false)
+            console.log(event)
         }
 
-    const handleOpenSubCategory =
-        (panel: string) =>
-        (event: React.SyntheticEvent, isExpanded: boolean) => {
-            setSubCategoryExpanded(isExpanded ? panel : false)
-        }
-
-    useEffect(() => {
-        setFilteredOptions(categoriesSubCategories)
-    }, [categoriesSubCategories])
+    // const handleOpenSubCategory =
+    //     () => {
+    //         setSubCategoryExpanded((prev)=>!prev)
+    //     }
 
     return (
         <div className="h-full">
@@ -105,225 +99,27 @@ const CategorySubCategoryMapping = () => {
                 title="Manage Mapping"
                 buttonTitle="+ Add Mapping"
                 onClick={() => setaddMappingModalOpen(true)}
-                options={categoriesSubCategories}
-                getOptionLabel={getCategoryMapingLabel}
-                setFilteredOptions={setFilteredOptions}
                 searchBar
+                setSearchInput={setSearchInput}
+                apiSearch
             />
             <ErrorBoundary>
                 <div
                     style={{ height: 'calc(100% - 128px)' }}
                     className="bg-white-color gap-4 flex flex-col"
                 >
-                    {/* <div className="overflow-x-auto">
-                        <table className="w-full text-sm text-left  text-gray-500 ">
-                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 sticky top-0 ">
-                                <tr>
-                                    <th scope="col" className="px-6 py-3">
-                                        Domain
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
-                                        Sub Domain
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
-                                        Status
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
-                                        Mapping
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-6 py-3 text-end"
-                                    >
-                                        Action
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredOptions.map((item) => (
-                                    <tr
-                                        key={item.mappingId}
-                                        className="bg-white border-b "
-                                    >
-                                        <th
-                                            scope="row"
-                                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
-                                        >
-                                            {item.categoryName}
-                                        </th>
-                                        <th
-                                            scope="row"
-                                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
-                                        >
-                                            {item.subCategoryName}
-                                        </th>
-                                        <td className="px-6 py-4">
-                                            {item.isActive ? (
-                                                <p className="lg:px-2 md:px-2 px-1 py-1 text-white bg-primary-color rounded-md text-xs text-center w-fit">
-                                                    Active
-                                                </p>
-                                            ) : (
-                                                <p className=" lg:px-2 md:px-2 px-1 py-1 text-red-700 bg-red-200 rounded-md text-xs text-center w-fit">
-                                                    Inactive
-                                                </p>
-                                            )}
-                                        </td>
-                                        <td className="px-6 py-4 md:max-w-80 lg:max-w-80 text-xs">
-                                            <p className="line-clamp-2">
-                                                {item.description}
-                                            </p>
-                                        </td>
-                                        <td className="px-6 py-4 flex gap-4 justify-end">
-                                            <div
-                                                onClick={() =>
-                                                    editHandler(item)
-                                                }
-                                                className="h-8 w-8 flex items-center justify-center p-2 rounded-full bg-primary-color cursor-pointer"
-                                            >
-                                                <img
-                                                    className="h-4/5 w-4/5"
-                                                    src={EditWhiteIcon}
-                                                />
-                                            </div>
-                                            <div
-                                                onClick={() =>
-                                                    viewDetailsHandler(
-                                                        item.mappingId
-                                                    )
-                                                }
-                                                className="h-8 w-8 flex items-center justify-center p-2 rounded-full bg-gray-700 cursor-pointer"
-                                            >
-                                                <img
-                                                    className="h-4/5 w-4/5"
-                                                    src={EyeWhiteIcon}
-                                                />
-                                            </div>
-                                            <div
-                                                onClick={() =>
-                                                    deleteHandler(item)
-                                                }
-                                                className="h-8 w-8 flex items-center justify-center p-2 rounded-full bg-red-200 cursor-pointer"
-                                            >
-                                                <img
-                                                    className="h-4/5 w-4/5"
-                                                    src={DeleteIcon}
-                                                />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div> */}
-                    {/* <div className="p-4 flex flex-col gap-4 overflow-x-auto">
-                        {filteredOptions.map((item) => (
-                            <div
-                                key={item.domain.categoryID}
-                                className="p-4 bg-gray-100 flex flex-col gap-4 rounded-lg"
-                            >
-                                <p className="font-bold text-base">
-                                    {item.domain.categoryName}
-                                </p>
-                                <div className="flex flex-col gap-4">
-                                    {item.subDomains.map((subDomainItem) => (
-                                        <div
-                                            key={
-                                                subDomainItem.subDomain
-                                                    .subCategoryID
-                                            }
-                                            className="p-4 bg-white rounded-lg flex flex-col gap-4"
-                                        >
-                                            <p className="font-semibold text-base">
-                                                {
-                                                    subDomainItem.subDomain
-                                                        .subCategoryName
-                                                }
-                                            </p>
-                                            <div className="flex flex-col gap-4">
-                                                {subDomainItem.mappings.map(
-                                                    (mappingItem) => (
-                                                        <div
-                                                            key={
-                                                                mappingItem.mappingId
-                                                            }
-                                                            className="flex justify-between items-center px-4 py-2 border border-gray-200 rounded-lg"
-                                                        >
-                                                            <div className="flex gap-4 items-center w-[80%]">
-                                                                <p className="text-sm w-[60%]">
-                                                                    {
-                                                                        mappingItem.description
-                                                                    }
-                                                                </p>
-                                                                {mappingItem.isActive ? (
-                                                                    <p className="lg:px-2 md:px-2 px-1 py-1 text-white bg-primary-color rounded-md text-xs text-center w-fit">
-                                                                        Active
-                                                                    </p>
-                                                                ) : (
-                                                                    <p className=" lg:px-2 md:px-2 px-1 py-1 text-red-700 bg-red-200 rounded-md text-xs text-center w-fit">
-                                                                        Inactive
-                                                                    </p>
-                                                                )}
-                                                            </div>
-                                                            <div className="flex gap-3 justify-end items-center">
-                                                                <div
-                                                                    onClick={() =>
-                                                                        editHandler(
-                                                                            mappingItem
-                                                                        )
-                                                                    }
-                                                                    className="h-8 w-8 flex items-center justify-center p-2 rounded-full bg-primary-color cursor-pointer"
-                                                                >
-                                                                    <img
-                                                                        className="h-4/5 w-4/5"
-                                                                        src={
-                                                                            EditWhiteIcon
-                                                                        }
-                                                                    />
-                                                                </div>
-                                                                <div
-                                                                    onClick={() =>
-                                                                        viewDetailsHandler(
-                                                                            mappingItem.mappingId
-                                                                        )
-                                                                    }
-                                                                    className="h-8 w-8 flex items-center justify-center p-2 rounded-full bg-gray-700 cursor-pointer"
-                                                                >
-                                                                    <img
-                                                                        className="h-4/5 w-4/5"
-                                                                        src={
-                                                                            EyeWhiteIcon
-                                                                        }
-                                                                    />
-                                                                </div>
-                                                                <div
-                                                                    onClick={() =>
-                                                                        deleteHandler(
-                                                                            mappingItem
-                                                                        )
-                                                                    }
-                                                                    className="h-8 w-8 flex items-center justify-center p-2 rounded-full bg-red-200 cursor-pointer"
-                                                                >
-                                                                    <img
-                                                                        className="h-4/5 w-4/5"
-                                                                        src={
-                                                                            DeleteIcon
-                                                                        }
-                                                                    />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    )
-                                                )}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        ))}
-                    </div> */}
                     <div className="p-4 overflow-x-auto">
-                        {filteredOptions.map((item, i) => (
+                        {categoriesSubCategories.length === 0 && !loading && (
+                            <div className="h-[70vh] w-full flex items-center justify-center">
+                                <h1 className="text-lg">No Mappings</h1>
+                            </div>
+                        )}
+                        {categoriesSubCategories.map((item, i) => (
                             <Accordion
+                               style={{
+                                backgroundColor:  categoryExpanded ===
+                                    `${item.domain.categoryID}-${i}`?'#7a9e3e5e':'white'
+                              }}
                                 expanded={
                                     categoryExpanded ===
                                     `${item.domain.categoryID}-${i}`
@@ -351,16 +147,8 @@ const CategorySubCategoryMapping = () => {
                                         `${item.domain.categoryID}-${i}` && (
                                         <>
                                             {item.subDomains.map(
-                                                (subDomainItem, index) => (
-                                                    <Accordion
-                                                        expanded={
-                                                            subCategoryExpanded ===
-                                                            `${subDomainItem.subDomain.subCategoryID}-${index}`
-                                                        }
-                                                        onChange={handleOpenSubCategory(
-                                                            `${subDomainItem.subDomain.subCategoryID}-${index}`
-                                                        )}
-                                                    >
+                                                (subDomainItem) => (
+                                                    <Accordion>
                                                         <AccordionSummary
                                                             expandIcon={
                                                                 <img
@@ -382,8 +170,6 @@ const CategorySubCategoryMapping = () => {
                                                             </p>
                                                         </AccordionSummary>
                                                         <AccordionDetails>
-                                                            {subCategoryExpanded ===
-                                                                `${subDomainItem.subDomain.subCategoryID}-${index}` && (
                                                                 <div className="flex flex-col gap-4">
                                                                     {subDomainItem.mappings.map(
                                                                         (
@@ -415,7 +201,7 @@ const CategorySubCategoryMapping = () => {
                                                                                     <div
                                                                                         onClick={() =>
                                                                                             editHandler(
-                                                                                                mappingItem
+                                                                                                mappingItem.mappingId
                                                                                             )
                                                                                         }
                                                                                         className="h-8 w-8 flex items-center justify-center p-2 rounded-full bg-primary-color cursor-pointer"
@@ -462,7 +248,6 @@ const CategorySubCategoryMapping = () => {
                                                                         )
                                                                     )}
                                                                 </div>
-                                                            )}
                                                         </AccordionDetails>
                                                     </Accordion>
                                                 )

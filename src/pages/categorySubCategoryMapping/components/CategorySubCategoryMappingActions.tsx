@@ -45,6 +45,7 @@ const CategorySubCategoryMappingActions: React.FC<
             isActive: data?.isActive,
             isDeleted: data?.isDeleted,
             insertedUserId: user?.employeeID,
+            updatedUserId: user?.employeeID,
         })
 
     const handleSelectCategory = (option: (typeof category)[0]) => {
@@ -119,18 +120,20 @@ const CategorySubCategoryMappingActions: React.FC<
                 ...Mapping,
                 mappingId: data?.mappingId,
             })
-        ).then(() => setModal(false))
-        setcategoriesSubCategory({
-            categoryId: undefined,
-            subCategoryId: undefined,
-            description: '',
-            isActive: true,
-            updatedUserId: user?.employeeID,
+        ).then(() => {
+            setModal(false)
+            setcategoriesSubCategory({
+                categoryId: undefined,
+                subCategoryId: undefined,
+                description: '',
+                isActive: true,
+                updatedUserId: user?.employeeID,
+            })
         })
     }
 
     const deleteMappingHandler = (data: CategorySubCategoryMapping) => {
-        dispatch(deleteCategorySubCategoryMappingAction(data)).then(() =>
+        dispatch(deleteCategorySubCategoryMappingAction({...data, updatedUserId:user?.employeeID})).then(() =>
             setModal(false)
         )
         setcategoriesSubCategory({

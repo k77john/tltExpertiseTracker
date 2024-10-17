@@ -116,3 +116,12 @@ export interface DomainSubDomainMappingTree {
     domain: Category
     subDomains: SubDomainWithMappings[]
 }
+
+export interface domainSubDomainParameter {
+    search?: string
+}
+
+export interface PaginationTypes{
+    page:string
+    limit:string
+}
