@@ -1,22 +1,36 @@
 import { useEffect, useState } from 'react'
 import { DeleteIcon, EditWhiteIcon, EyeWhiteIcon } from '../../assets/icons'
-import { CustomModal, Header, ListingDetails, Loader } from '../../components'
-import { Category } from '../../constants/types'
-import { getCategoryByID } from '../../services/category.services'
-import { useAppDispatch, useAppSelector } from '../../store'
-import { getCategoriesAction } from '../../store/reducersAndActions/category/category.actions'
-import { CategoryActions } from './components'
+import { Button, CustomModal, Header, ListingDetails, Loader } from '../../components'
+import { Category, PaginationTypes } from '../../constants/types'
+import { getCategories, getCategoryByID } from '../../services/category.services'
 import ErrorBoundary from '../../utils/ErrorBoundary'
+import { CategoryActions } from './components'
+import { useSearchParams } from 'react-router-dom'
 
 const ManageCategories = () => {
-    const { loading, category } = useAppSelector((state) => state.category)
     const [loader, setLoader] = useState(false)
+    const [category, setCategory] = useState<Category[]>([])
+    const [searchParams, setSearchParams] = useSearchParams();
+    const limit = parseInt(searchParams.get('limit') ||  '10');
 
-    const dispatch = useAppDispatch()
+    const page = parseInt(searchParams.get('page') || '1');
+
+    const getCategoriesHandler = async(value:PaginationTypes)=>{
+        setLoader(true)
+        const resp = await getCategories({limit:value.limit, page:value.page})
+        if(resp.isSuccessful){
+            setCategory(resp.data)
+        }
+        setLoader(false)
+    }
 
     useEffect(() => {
-        dispatch(getCategoriesAction())
-    }, [])
+        if(page){
+            getCategoriesHandler({limit:limit.toString(), page:page.toString()})
+        }else{
+            getCategoriesHandler({limit:'10', page:'1'})
+        }
+    }, [page])
 
     const [selectedCategory, setselectedCategory] = useState<Category>()
 
@@ -32,6 +46,7 @@ const ManageCategories = () => {
 
     const [deleteCategoryModalOpen, setDeleteCategoryModalOpen] =
         useState<boolean>(false)
+
     const deleteHandler = (item: Category) => {
         setDeleteCategoryModalOpen(true)
         setselectedCategory(item)
@@ -39,6 +54,7 @@ const ManageCategories = () => {
 
     const [viewDetailsModalOpen, setViewDetailsModalOpen] =
         useState<boolean>(false)
+
     const viewDetailsHandler = async (id: number) => {
         setLoader(true)
         const resp = await getCategoryByID(id)
@@ -62,11 +78,10 @@ const ManageCategories = () => {
 
     return (
         <div className="h-full">
-            {loading && <Loader />}
             {loader && <Loader />}
             <Header
-                title="Manage Categories"
-                buttonTitle={'+ Add Category'}
+                title="Manage Domain"
+                buttonTitle={'+ Add Domain'}
                 onClick={() => setaddCategoryModalOpen(true)}
                 searchBar={true}
                 options={category}
@@ -79,28 +94,36 @@ const ManageCategories = () => {
                     style={{ height: 'calc(100% - 128px)' }}
                     className="bg-white gap-4  flex flex-col"
                 >
+                    {category.length === 0 && !loader && (
+                            <div className="h-[70vh] w-full flex items-center justify-center">
+                                <h1 className="text-lg">No Mappings</h1>
+                            </div>
+                        )}
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left  text-gray-500 ">
+                        {category.length > 0 && (
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50 sticky top-0 ">
-                                <tr>
-                                    <th scope="col" className="px-6 py-3">
-                                        Category name
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
-                                        Status
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
-                                        Description
-                                    </th>
+                            <tr>
+                                <th scope="col" className="px-6 py-3">
+                                    Domain name
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Status
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Description
+                                </th>
 
-                                    <th
-                                        scope="col"
-                                        className="px-6 py-3 text-right"
-                                    >
-                                        Action
-                                    </th>
-                                </tr>
-                            </thead>
+                                <th
+                                    scope="col"
+                                    className="px-6 py-3 text-right"
+                                >
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        )}
+                            
                             <tbody>
                                 {filteredOptions.map((item) => (
                                     <tr
@@ -171,11 +194,15 @@ const ManageCategories = () => {
                             </tbody>
                         </table>
                     </div>
+                    <div className='flex justify-end gap-4 px-4 pb-4'>
+                        <Button state={page===1?'disabled':'primary'} onClick={()=>setSearchParams({ page: ( page - 1).toString()})} title='Prev'/>
+                        <Button state={category.length>1?'primary':'disabled'} onClick={()=>setSearchParams({ page: ( page + 1).toString()})} title='Next'/>
+                    </div>
                 </div>
 
                 {addCategoryModalOpen && (
                     <CustomModal
-                        title="Add Category"
+                        title="Add Domain"
                         open={addCategoryModalOpen}
                         onClose={() => setaddCategoryModalOpen(false)}
                         children={
@@ -189,7 +216,7 @@ const ManageCategories = () => {
 
                 {editCategoryModalOpen && (
                     <CustomModal
-                        title="Edit Category"
+                        title="Edit Domain"
                         open={editCategoryModalOpen}
                         onClose={() => setEditCategoryModalOpen(false)}
                         children={
@@ -204,7 +231,7 @@ const ManageCategories = () => {
 
                 {deleteCategoryModalOpen && (
                     <CustomModal
-                        title="Delete Category"
+                        title="Delete Domain"
                         open={deleteCategoryModalOpen}
                         onClose={() => setDeleteCategoryModalOpen(false)}
                         children={
@@ -219,7 +246,7 @@ const ManageCategories = () => {
 
                 {viewDetailsModalOpen && (
                     <CustomModal
-                        title={selectedCategory?.categoryName}
+                        title={selectedCategory?.categoryName || 'No Info'}
                         open={viewDetailsModalOpen}
                         onClose={() => setViewDetailsModalOpen(false)}
                         children={

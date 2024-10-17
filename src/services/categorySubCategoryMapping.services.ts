@@ -1,15 +1,28 @@
 import { API_ROUTES } from '../constants/routes'
-import { CategorySubCategoryMapping } from '../constants/types'
+import {
+    CategorySubCategoryMapping,
+    DomainSubDomainMappingTree,
+    domainSubDomainParameter,
+} from '../constants/types'
 import { get, post, remove } from './service.common'
 
 export interface StatusMessageResponse {
     statusMessage?: string | undefined
 }
 
-export const getCategoriesSubCategoriesMappings = async () => {
-    const response = await get<CategorySubCategoryMapping[]>(
-        API_ROUTES.getAllCategorySubCategoryMapping
+export const getCategoriesSubCategoriesMappings = async (
+    value: domainSubDomainParameter
+) => {
+    const params = new URLSearchParams()
+
+    if (value?.search) {
+        params.append('searchWord', value.search)
+    }
+
+    const response = await get<DomainSubDomainMappingTree[]>(
+        `${API_ROUTES.getAllDomainSubDomainMapping}${params.toString() ? `?${params.toString()}` : ''}`
     )
+
     return response
 }
 

@@ -5,7 +5,7 @@ import {
     InputField,
     Switchtabs,
 } from '../../../components'
-import { DUMMY_USER_ID, statusTabs } from '../../../constants/constents'
+import { statusTabs } from '../../../constants/constents'
 import { CategorySubCategoryMapping } from '../../../constants/types'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import {
@@ -13,9 +13,9 @@ import {
     deleteCategorySubCategoryMappingAction,
     editCategorySubCategoryMappingAction,
 } from '../../../store/reducersAndActions/categoriesSubCategoriesMapping/categoriesSubCategories.actions'
-import { showErrorToast } from '../../../utils/toast'
-import { getSubCategoriesAction } from '../../../store/reducersAndActions/subCategory/subCategory.actions'
 import { getCategoriesAction } from '../../../store/reducersAndActions/category/category.actions'
+import { getSubCategoriesAction } from '../../../store/reducersAndActions/subCategory/subCategory.actions'
+import { showErrorToast } from '../../../utils/toast'
 
 interface CategorySubCategoryMappingActionsProps {
     setModal: (value: boolean) => void
@@ -28,6 +28,7 @@ const CategorySubCategoryMappingActions: React.FC<
 > = ({ data, action, setModal }) => {
     const { category } = useAppSelector((state) => state.category)
     const { subCategory } = useAppSelector((state) => state.subCategory)
+    const { user } = useAppSelector((state) => state.auth)
 
     const dispatch = useAppDispatch()
 
@@ -43,7 +44,8 @@ const CategorySubCategoryMappingActions: React.FC<
             description: data?.description,
             isActive: data?.isActive,
             isDeleted: data?.isDeleted,
-            insertedUserId: DUMMY_USER_ID,
+            insertedUserId: user?.employeeID,
+            updatedUserId: user?.employeeID,
         })
 
     const handleSelectCategory = (option: (typeof category)[0]) => {
@@ -100,17 +102,17 @@ const CategorySubCategoryMappingActions: React.FC<
 
     const editMappingHandler = (Mapping: CategorySubCategoryMapping) => {
         if (!categoriesSubCategory.categoryId) {
-            showErrorToast('Please Select Category')
+            showErrorToast('Please Select Domain')
             return
         }
 
         if (!categoriesSubCategory.subCategoryId) {
-            showErrorToast('Please Select Sub Category')
+            showErrorToast('Please Select Sub Domain')
             return
         }
 
         if (!categoriesSubCategory.description) {
-            showErrorToast('Category Description Is Required')
+            showErrorToast('Domain Description Is Required')
             return
         }
         dispatch(
@@ -118,23 +120,25 @@ const CategorySubCategoryMappingActions: React.FC<
                 ...Mapping,
                 mappingId: data?.mappingId,
             })
-        ).then(() => setModal(false))
-        setcategoriesSubCategory({
-            categoryId: undefined,
-            subCategoryId: undefined,
-            description: '',
-            isActive: true,
-            updatedUserId: DUMMY_USER_ID,
+        ).then(() => {
+            setModal(false)
+            setcategoriesSubCategory({
+                categoryId: undefined,
+                subCategoryId: undefined,
+                description: '',
+                isActive: true,
+                updatedUserId: user?.employeeID,
+            })
         })
     }
 
     const deleteMappingHandler = (data: CategorySubCategoryMapping) => {
-        dispatch(deleteCategorySubCategoryMappingAction(data)).then(() =>
+        dispatch(deleteCategorySubCategoryMappingAction({...data, updatedUserId:user?.employeeID})).then(() =>
             setModal(false)
         )
         setcategoriesSubCategory({
             mappingId: undefined,
-            updatedUserId: DUMMY_USER_ID,
+            updatedUserId: user?.employeeID,
         })
     }
 
@@ -162,7 +166,7 @@ const CategorySubCategoryMappingActions: React.FC<
                             options={category}
                             getOptionLabel={getCategoryOptionLabel}
                             onSelect={handleSelectCategory}
-                            label="Select category"
+                            label="Select Domain"
                             placeholder="Select value"
                             width="100%"
                             selectedOption={category.find(
@@ -177,7 +181,7 @@ const CategorySubCategoryMappingActions: React.FC<
                             options={subCategory}
                             getOptionLabel={getCategorySubOptionLabel}
                             onSelect={handleSelectSubCategory}
-                            label="Select sub category"
+                            label="Select Sub Domain"
                             placeholder="Select value"
                             width="100%"
                             selectedOption={subCategory.find(
@@ -208,8 +212,7 @@ const CategorySubCategoryMappingActions: React.FC<
                 <div className="flex flex-col gap-4 md:flex-row">
                     <h1 className="text-md font-normal">
                         Do you want to delete{' '}
-                        <strong>Mapping ID - {data?.mappingId}</strong>{' '}
-                        category?
+                        <strong>Mapping ID - {data?.mappingId}</strong> Domain?
                     </h1>
                 </div>
             )}

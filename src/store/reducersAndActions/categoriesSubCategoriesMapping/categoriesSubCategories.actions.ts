@@ -1,7 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
 import { RootState } from '../..'
-import { CategorySubCategoryMapping } from '../../../constants/types'
+import {
+    CategorySubCategoryMapping,
+    domainSubDomainParameter,
+} from '../../../constants/types'
 import {
     addCategoriesSubCategoriesMapping,
     deleteCategoriesSubCategoriesMapping,
@@ -12,11 +15,37 @@ import { showSuccessToast } from '../../../utils/toast'
 
 export const getCategoriesSubCategoriesAction = createAsyncThunk(
     'CategorySubCategoryMapping/GetAllCategorySubCategoryMapping',
-    async (_, { rejectWithValue }) => {
-        const resp = await getCategoriesSubCategoriesMappings()
+    async (payload: domainSubDomainParameter, { rejectWithValue }) => {
+        const resp = await getCategoriesSubCategoriesMappings(payload)
+
         if (resp?.isSuccessful) {
-            const updatedData = resp.data.filter((item) => !item.isDeleted)
-            resp.data = updatedData
+            // const updatedData = resp.data
+            //     .map((domainItem) => {
+            //         const filteredSubDomains = domainItem.subDomains
+            //             .map((subDomainItem) => {
+            //                 const filteredMappings =
+            //                     subDomainItem.mappings.filter(
+            //                         (mapping) => mapping.isDeleted === false
+            //                     )
+            //                 return filteredMappings.length > 0
+            //                     ? {
+            //                           ...subDomainItem,
+            //                           mappings: filteredMappings,
+            //                       }
+            //                     : null
+            //             })
+            //             .filter((subDomain) => subDomain !== null)
+
+            //         return filteredSubDomains.length > 0
+            //             ? {
+            //                   ...domainItem,
+            //                   subDomains: filteredSubDomains,
+            //               }
+            //             : null
+            //     })
+            //     .filter((domain) => domain !== null)
+
+            // resp.data = updatedData
             return resp
         } else {
             return rejectWithValue(resp)
@@ -43,7 +72,7 @@ export const addCategoriesSubCategoriesAction = createAsyncThunk(
             if (status) {
                 showSuccessToast(status.description || '')
             }
-            dispatch(getCategoriesSubCategoriesAction())
+            dispatch(getCategoriesSubCategoriesAction({}))
             return resp
         } else {
             return rejectWithValue(resp)
@@ -68,7 +97,7 @@ export const deleteCategorySubCategoryMappingAction = createAsyncThunk(
             if (status) {
                 showSuccessToast(status.description || '')
             }
-            dispatch(getCategoriesSubCategoriesAction())
+            dispatch(getCategoriesSubCategoriesAction({}))
             return resp
         } else {
             return rejectWithValue(resp)
@@ -95,7 +124,7 @@ export const editCategorySubCategoryMappingAction = createAsyncThunk(
             if (status) {
                 showSuccessToast(status.description || '')
             }
-            dispatch(getCategoriesSubCategoriesAction())
+            dispatch(getCategoriesSubCategoriesAction({}))
             return resp
         } else {
             return rejectWithValue(resp)

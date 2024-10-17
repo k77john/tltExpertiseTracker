@@ -1,13 +1,18 @@
 import { API_ROUTES } from '../constants/routes'
-import { Category } from '../constants/types'
+import { Category, PaginationTypes } from '../constants/types'
 import { get, post, remove } from './service.common'
 
 export interface StatusMessageResponse {
     statusMessage?: string | undefined
 }
 
-export const getCategories = async () => {
-    const response = await get<Category[]>(API_ROUTES.getCategories)
+export const getCategories = async (params:PaginationTypes) => {
+    const response = await get<Category[]>(`${API_ROUTES.getCategories}?pageNumber=${params.page}&pageSize=${params.limit}`)
+    return response
+}
+
+export const getCategoriesAllList = async () => {
+    const response = await get<Category[]>(API_ROUTES.getCategoriesAllList)
     return response
 }
 

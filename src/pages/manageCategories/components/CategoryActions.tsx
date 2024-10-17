@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Button, InputField, Switchtabs } from '../../../components'
-import { DUMMY_USER_ID, statusTabs } from '../../../constants/constents'
+import { statusTabs } from '../../../constants/constents'
 import { Category } from '../../../constants/types'
-import { useAppDispatch } from '../../../store'
+import { useAppDispatch, useAppSelector } from '../../../store'
 import {
     addCategoryAction,
     deleteCategoryAction,
@@ -21,25 +21,27 @@ const CategoryActions: React.FC<CategoryActionsProps> = ({
     data,
     action,
 }) => {
+    const { user } = useAppSelector((state) => state.auth)
+
     const [category, setCategory] = useState<Category>({
         categoryName: data?.categoryName || '',
         description: data?.description || '',
         isActive: data?.isActive,
         isDeleted: data?.isDeleted,
-        insertedUserID: DUMMY_USER_ID,
-        updatedUserID: DUMMY_USER_ID,
+        insertedUserID: user?.employeeID,
+        updatedUserID: user?.employeeID,
     })
 
     const dispatch = useAppDispatch()
 
     const addCategoryHandler = (data: Category) => {
         if (!category.categoryName) {
-            showErrorToast('Category Name Is Required')
+            showErrorToast('Domain Name Is Required')
             return
         }
 
         if (!category.description) {
-            showErrorToast('Category Description Is Required')
+            showErrorToast('Domain Description Is Required')
             return
         }
 
@@ -57,12 +59,12 @@ const CategoryActions: React.FC<CategoryActionsProps> = ({
 
     const editCategoryHandler = (category: Category) => {
         if (!category.categoryName) {
-            showErrorToast('Category Name Is Required')
+            showErrorToast('Domain Name Is Required')
             return
         }
 
         if (!category.description) {
-            showErrorToast('Category Description Is Required')
+            showErrorToast('Domain Description Is Required')
             return
         }
         dispatch(
@@ -73,8 +75,8 @@ const CategoryActions: React.FC<CategoryActionsProps> = ({
             description: '',
             isActive: true,
             isDeleted: false,
-            insertedUserID: DUMMY_USER_ID,
-            updatedUserID: DUMMY_USER_ID,
+            insertedUserID: user?.employeeID,
+            updatedUserID: user?.employeeID,
         })
     }
 
@@ -85,8 +87,8 @@ const CategoryActions: React.FC<CategoryActionsProps> = ({
             description: '',
             isActive: true,
             isDeleted: false,
-            insertedUserID: DUMMY_USER_ID,
-            updatedUserID: DUMMY_USER_ID,
+            insertedUserID: user?.employeeID,
+            updatedUserID: user?.employeeID,
         })
     }
 
@@ -96,7 +98,7 @@ const CategoryActions: React.FC<CategoryActionsProps> = ({
                 <>
                     <div className="flex flex-col gap-4 md:flex-row">
                         <InputField
-                            label="Category"
+                            label="Domain"
                             placeholder="Enter value"
                             width="100%"
                             value={category.categoryName}
@@ -143,8 +145,8 @@ const CategoryActions: React.FC<CategoryActionsProps> = ({
             {action === 'Delete' && (
                 <div className="flex flex-col gap-4 md:flex-row">
                     <h1 className="text-md font-normal">
-                        Do you want to delete
-                        <strong>{category.categoryName}</strong> category?
+                        Do you want to delete{' '}
+                        <strong>{category.categoryName}</strong> Domain?
                     </h1>
                 </div>
             )}

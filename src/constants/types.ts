@@ -77,6 +77,22 @@ export interface CategorySubCategoryMapping {
     categoryName?: string
 }
 
+export interface ExpertiseMapping {
+    expertiseMappingId?: number
+    userId?: number
+    catSubCategoryMappingId?: number
+    rank?: number
+    isActive?: boolean
+    insertedUserId?: number
+    insertedDate?: string
+    updatedUserID?: number
+    updatedDate?: string
+    insertedUser?: string | null
+    updatedUser?: string | null
+    catSubCategoryMappingDescription?: string
+    employeeName?: string
+}
+
 export interface StatusCodes {
     statusCode: number
     description: string
@@ -84,4 +100,28 @@ export interface StatusCodes {
 
 export interface ApiResponsePayload {
     statusCode: number | string
+}
+
+export interface SelectedCatSubCatIdOptionTypes {
+    subCategoryId: number | undefined
+    categoryId: number | undefined
+}
+
+interface SubDomainWithMappings {
+    subDomain: SubCategory
+    mappings: CategorySubCategoryMapping[]
+}
+
+export interface DomainSubDomainMappingTree {
+    domain: Category
+    subDomains: SubDomainWithMappings[]
+}
+
+export interface domainSubDomainParameter {
+    search?: string
+}
+
+export interface PaginationTypes{
+    page:string
+    limit:string
 }

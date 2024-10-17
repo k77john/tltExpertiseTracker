@@ -6,6 +6,7 @@ import statusCodesReducer from './reducersAndActions/apiStatusCodes/apiStatusCod
 import categoriesSubCategoriesReducer from './reducersAndActions/categoriesSubCategoriesMapping/categoriesSubCategories.reducer'
 import sidebarMenueReducer from './reducersAndActions/sideBarMenu/sideBarMenu.reducer'
 import authReducer from './reducersAndActions/authentication/auth.reducer'
+import expertiseMappingReducer from './reducersAndActions/expertiseMapping/expertiseMapping.reducer'
 
 const reduxStore = configureStore({
     reducer: {
@@ -15,6 +16,7 @@ const reduxStore = configureStore({
         categoriesSubCategories: categoriesSubCategoriesReducer,
         apiStatusCodes: statusCodesReducer,
         sideBar: sidebarMenueReducer,
+        expertiseMapping: expertiseMappingReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

@@ -115,9 +115,9 @@ const DropdownInputField = <T extends object>({
                             : 'bottom-full mb-2'
                     }`}
                 >
-                    {filteredOptions.map((option) => (
+                    {filteredOptions.map((option, index) => (
                         <li
-                            key={getOptionLabel(option)}
+                            key={`${getOptionLabel(option)}-${index}`}
                             className={`p-2 text-xs sm:text-sm cursor-pointer hover:bg-gray-100 ${getOptionLabel(option) === inputValue ? 'bg-gray-100' : 'bg-white-color'}`}
                             onClick={() => handleOptionClick(option)}
                         >

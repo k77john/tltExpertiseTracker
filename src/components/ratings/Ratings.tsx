@@ -3,20 +3,23 @@ import Rating from '@mui/material/Rating'
 
 interface RatingsProps {
     width?: string
-    label: string
+    label?: string
     rating?: number
-    setRating: (e: number) => void
+    setRating?: (e: number) => void
+    readOnly?: boolean
 }
 
 const Ratings: FC<RatingsProps> = ({
     width = '100%',
     label = '',
     rating,
-    setRating,
+    setRating = () => {},
+    readOnly = false,
 }) => {
     return (
         <div className="flex flex-col gap-2" style={{ width }}>
-            <p className="text-sm text-black-color">{label}</p>
+            {label && <p className="text-sm text-black-color">{label}</p>}
+
             <div className="flex flex-row">
                 <Rating
                     name="customized-10"
@@ -24,7 +27,7 @@ const Ratings: FC<RatingsProps> = ({
                     onChange={(_, newValue) => {
                         setRating(newValue || 0)
                     }}
-                    precision={0.5}
+                    readOnly={readOnly}
                     max={10}
                     size={'large'}
                 />

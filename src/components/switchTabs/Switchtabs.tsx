@@ -19,7 +19,7 @@ const Switchtabs: FC<SwitchtabsProps> = ({
 
     return (
         <div className="flex flex-col gap-2 w-fit">
-            <p className="text-xs">{label}</p>
+            <p className="text-sm">{label}</p>
             <div className="flex items-center  bg-gray-100 border border-gray-200 rounded-md w-fit">
                 <button
                     className={`py-3 px-3 text-xs cursor-pointer border-none w-28 rounded-md ${

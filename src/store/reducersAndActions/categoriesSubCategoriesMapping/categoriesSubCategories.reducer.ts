@@ -1,6 +1,6 @@
 import { createSlice, SerializedError } from '@reduxjs/toolkit'
 import {
-    CategorySubCategoryMapping,
+    DomainSubDomainMappingTree,
     ErrorResponse,
 } from '../../../constants/types'
 import {
@@ -11,7 +11,7 @@ import {
 
 interface CategoriesSubCategoriesState {
     loading: boolean
-    categoriesSubCategories: CategorySubCategoryMapping[]
+    categoriesSubCategories: DomainSubDomainMappingTree[]
     error: ErrorResponse | null
 }
 
