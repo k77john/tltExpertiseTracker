@@ -92,7 +92,7 @@ const ListingDetails: React.FC<ListingDetailsProps> = ({
                 <p className="font-normal text-sm text-gray-700 ">
                     {data?.updatedUser ||
                         Mapping?.updatedUser ||
-                        expertiseMapping?.updatedDate ||
+                        expertiseMapping?.updatedUser ||
                         '-'}
                 </p>
             </div>

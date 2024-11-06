@@ -121,7 +121,8 @@ export interface domainSubDomainParameter {
     search?: string
 }
 
-export interface PaginationTypes{
-    page:string
-    limit:string
+export interface PaginationTypes {
+    page: string
+    limit: string
+    search?: string
 }

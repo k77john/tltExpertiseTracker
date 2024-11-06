@@ -1,14 +1,16 @@
 import { useState } from 'react'
 import { Button, InputField, Switchtabs } from '../../../components'
-import { statusTabs } from '../../../constants/constents'
+import { ITEMS_LIMIT, statusTabs } from '../../../constants/constents'
 import { SubCategory } from '../../../constants/types'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import {
     addSubCategoryAction,
     deleteSubCategoryAction,
     editSubCategoryAction,
+    getSubCategoriesAction,
 } from '../../../store/reducersAndActions/subCategory/subCategory.actions'
 import { showErrorToast } from '../../../utils/toast'
+import { useSearchParams } from 'react-router-dom'
 
 interface SubCategoryActionsProps {
     setModal: (value: boolean) => void
@@ -32,68 +34,66 @@ const SubCategoryActions: React.FC<SubCategoryActionsProps> = ({
         updatedUserID: user?.employeeID,
     })
 
+    const [searchParams] = useSearchParams()
+
+    const page = parseInt(searchParams.get('page') || '1')
+
     const dispatch = useAppDispatch()
 
-    const addSubCategoryHandler = (data: SubCategory) => {
-        if (!subCategory.subCategoryName) {
-            showErrorToast('Sub Category Name Is Required')
-            return
-        }
-
-        if (!subCategory.description) {
-            showErrorToast('Sub Category Description Is Required')
-            return
-        }
-
-        dispatch(addSubCategoryAction(data)).then(() => setModal(false))
-
+    const reSetSubCategoryState = () => {
         setSubCategory({
             subCategoryName: '',
             description: '',
             isActive: true,
             isDeleted: false,
-            insertedUserID: 2,
-            updatedUserID: 2,
+            insertedUserID: user?.employeeID,
+            updatedUserID: user?.employeeID,
         })
     }
 
-    const editSubCategoryHandler = (subCategory: SubCategory) => {
+    const updateList = () => {
+        dispatch(
+            getSubCategoriesAction({
+                limit: ITEMS_LIMIT.toString(),
+                page: page.toString(),
+            })
+        )
+        setModal(false)
+    }
+
+    const validateSubCategory = (): boolean => {
         if (!subCategory.subCategoryName) {
-            showErrorToast('Sub Domain Name Is Required')
-            return
+            showErrorToast('Sub Category Name Is Required')
+            return false
         }
 
         if (!subCategory.description) {
-            showErrorToast('Sub Domain Description Is Required')
-            return
+            showErrorToast('Sub Category Description Is Required')
+            return false
         }
+        return true
+    }
 
+    const addSubCategoryHandler = (data: SubCategory) => {
+        if (!validateSubCategory()) return
+        dispatch(addSubCategoryAction(data)).then(updateList)
+        reSetSubCategoryState()
+    }
+
+    const editSubCategoryHandler = (subCategory: SubCategory) => {
+        if (!validateSubCategory()) return
         dispatch(
             editSubCategoryAction({
                 ...subCategory,
                 subCategoryID: data?.subCategoryID,
             })
-        ).then(() => setModal(false))
-        setSubCategory({
-            subCategoryName: '',
-            description: '',
-            isActive: true,
-            isDeleted: false,
-            insertedUserID: 2,
-            updatedUserID: 2,
-        })
+        ).then(updateList)
+        reSetSubCategoryState()
     }
 
     const deleteSubCategoryHandler = (data: SubCategory) => {
-        dispatch(deleteSubCategoryAction(data)).then(() => setModal(false))
-        setSubCategory({
-            subCategoryName: '',
-            description: '',
-            isActive: true,
-            isDeleted: false,
-            insertedUserID: 2,
-            updatedUserID: 2,
-        })
+        dispatch(deleteSubCategoryAction(data)).then(updateList)
+        reSetSubCategoryState()
     }
 
     return (

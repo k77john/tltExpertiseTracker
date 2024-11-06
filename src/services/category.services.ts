@@ -6,8 +6,20 @@ export interface StatusMessageResponse {
     statusMessage?: string | undefined
 }
 
-export const getCategories = async (params:PaginationTypes) => {
-    const response = await get<Category[]>(`${API_ROUTES.getCategories}?pageNumber=${params.page}&pageSize=${params.limit}`)
+export const getCategories = async (value: PaginationTypes) => {
+    const params = new URLSearchParams()
+
+    if (value?.search) {
+        params.append('pageNumber', '1')
+        params.append('searchKeyWord', value.search)
+    }
+    params.append('pageNumber', value.page)
+    params.append('pageSize', value.limit)
+
+    const response = await get<Category[]>(
+        `${API_ROUTES.getCategories}${params.toString() ? `?${params.toString()}` : ''}`
+    )
+
     return response
 }
 

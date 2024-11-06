@@ -1,21 +1,19 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { RootState } from '../..'
-import { Category } from '../../../constants/types'
+import { Category, PaginationTypes } from '../../../constants/types'
 import {
     addCategory,
     deleteCategory,
     editCategory,
-    getCategoriesAllList
+    getCategories,
 } from '../../../services/category.services'
 import { showSuccessToast } from '../../../utils/toast'
 
 export const getCategoriesAction = createAsyncThunk(
     'category/getCategories',
-    async (_, { rejectWithValue }) => {
-        const resp = await getCategoriesAllList()
+    async (payload: PaginationTypes, { rejectWithValue }) => {
+        const resp = await getCategories(payload)
         if (resp?.isSuccessful) {
-            const updatedData = resp.data.filter((item) => !item.isDeleted)
-            resp.data = updatedData
             return resp
         } else {
             return rejectWithValue(resp)
@@ -80,6 +78,7 @@ export const editCategoryAction = createAsyncThunk(
             const status = statusCodes.find(
                 (item) => item.statusCode === resp.data
             )
+
             if (status) {
                 showSuccessToast(status.description || '')
             }

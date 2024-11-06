@@ -2,6 +2,7 @@ import { API_ROUTES } from '../constants/routes'
 import {
     CategorySubCategoryMapping,
     ExpertiseMapping,
+    PaginationTypes,
     SelectedCatSubCatIdOptionTypes,
 } from '../constants/types'
 import { get, post } from './service.common'
@@ -10,10 +11,20 @@ export interface StatusMessageResponse {
     statusMessage?: string | undefined
 }
 
-export const getExpertiseMappings = async () => {
+export const getExpertiseMappings = async (value: PaginationTypes) => {
+    const params = new URLSearchParams()
+
+    if (value?.search) {
+        params.append('pageNumber', '1')
+        params.append('searchKeyWord', value.search)
+    }
+    params.append('pageNumber', value.page)
+    params.append('pageSize', value.limit)
+
     const response = await get<ExpertiseMapping[]>(
-        API_ROUTES.getExpertiseMapping
+        `${API_ROUTES.getExpertiseMapping}${params.toString() ? `?${params.toString()}` : ''}`
     )
+
     return response
 }
 

@@ -4,14 +4,14 @@ import {
     getExpertiseMappings,
     updateExpertiseMapping,
 } from '../../../services/expertiseMapping.services'
-import { ExpertiseMapping } from '../../../constants/types'
+import { ExpertiseMapping, PaginationTypes } from '../../../constants/types'
 import { RootState } from '../..'
 import { showSuccessToast } from '../../../utils/toast'
 
 export const getExpertiseMappingAction = createAsyncThunk(
     'expertiseMapping/getExpertiseMapping',
-    async (_, { rejectWithValue }) => {
-        const resp = await getExpertiseMappings()
+    async (payload: PaginationTypes, { rejectWithValue }) => {
+        const resp = await getExpertiseMappings(payload)
         if (resp?.isSuccessful) {
             return resp
         } else {
@@ -22,10 +22,7 @@ export const getExpertiseMappingAction = createAsyncThunk(
 
 export const addExpertiseMappingAction = createAsyncThunk(
     'expertiseMapping/addExpertiseMapping',
-    async (
-        payload: ExpertiseMapping,
-        { rejectWithValue, dispatch, getState }
-    ) => {
+    async (payload: ExpertiseMapping, { rejectWithValue, getState }) => {
         console.log(payload)
 
         const resp = await addExpertiseMapping(payload)
@@ -39,7 +36,6 @@ export const addExpertiseMappingAction = createAsyncThunk(
             if (status) {
                 showSuccessToast(status.description || '')
             }
-            dispatch(getExpertiseMappingAction())
             return resp
         } else {
             return rejectWithValue(resp)
@@ -49,10 +45,7 @@ export const addExpertiseMappingAction = createAsyncThunk(
 
 export const updateExpertiseMappingAction = createAsyncThunk(
     'expertiseMapping/updateExpertiseMapping',
-    async (
-        payload: ExpertiseMapping,
-        { rejectWithValue, dispatch, getState }
-    ) => {
+    async (payload: ExpertiseMapping, { rejectWithValue, getState }) => {
         console.log(payload)
 
         const resp = await updateExpertiseMapping(payload)
@@ -66,7 +59,6 @@ export const updateExpertiseMappingAction = createAsyncThunk(
             if (status) {
                 showSuccessToast(status.description || '')
             }
-            dispatch(getExpertiseMappingAction())
             return resp
         } else {
             return rejectWithValue(resp)

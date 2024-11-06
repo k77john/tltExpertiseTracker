@@ -21,7 +21,8 @@ export const API_ROUTES = {
     getCategoryByID: '/Category/GetCategory',
 
     addSubCategory: '/SubCategory/AddSubCategory',
-    getSubCategories: '/SubCategory/getSubCategories',
+    getSubCategories: '/SubCategory/GetPaginatedSubCategories',
+    getSubCategoriesAllList: '/SubCategory/getSubCategories',
     updateSubCategory: '/SubCategory/updateSubCategory',
     deleteSubCategory: '/SubCategory/DeleteCategories',
     getSubCategoryByID: '/SubCategory/GetSUbCategoryById',

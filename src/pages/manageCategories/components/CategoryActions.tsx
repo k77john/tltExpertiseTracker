@@ -1,14 +1,16 @@
 import { useState } from 'react'
 import { Button, InputField, Switchtabs } from '../../../components'
-import { statusTabs } from '../../../constants/constents'
+import { ITEMS_LIMIT, statusTabs } from '../../../constants/constents'
 import { Category } from '../../../constants/types'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import {
     addCategoryAction,
     deleteCategoryAction,
     editCategoryAction,
+    getCategoriesAction,
 } from '../../../store/reducersAndActions/category/category.actions'
 import { showErrorToast } from '../../../utils/toast'
+import { useSearchParams } from 'react-router-dom'
 
 interface CategoryActionsProps {
     setModal: (value: boolean) => void
@@ -22,6 +24,8 @@ const CategoryActions: React.FC<CategoryActionsProps> = ({
     action,
 }) => {
     const { user } = useAppSelector((state) => state.auth)
+    const [searchParams] = useSearchParams()
+    const page = parseInt(searchParams.get('page') || '1')
 
     const [category, setCategory] = useState<Category>({
         categoryName: data?.categoryName || '',
@@ -32,64 +36,58 @@ const CategoryActions: React.FC<CategoryActionsProps> = ({
         updatedUserID: user?.employeeID,
     })
 
+    const reSetCategoryStates = () => {
+        setCategory({
+            categoryName: '',
+            description: '',
+            isActive: true,
+            isDeleted: false,
+            insertedUserID: user?.employeeID,
+            updatedUserID: user?.employeeID,
+        })
+    }
+
+    const updateList = () => {
+        dispatch(
+            getCategoriesAction({
+                limit: ITEMS_LIMIT.toString(),
+                page: page.toString(),
+            })
+        )
+        setModal(false)
+    }
+
+    const validateCategory = (): boolean => {
+        if (!category.categoryName) {
+            showErrorToast('Domain Name Is Required')
+            return false
+        }
+        if (!category.description) {
+            showErrorToast('Domain Description Is Required')
+            return false
+        }
+        return true
+    }
+
     const dispatch = useAppDispatch()
 
     const addCategoryHandler = (data: Category) => {
-        if (!category.categoryName) {
-            showErrorToast('Domain Name Is Required')
-            return
-        }
-
-        if (!category.description) {
-            showErrorToast('Domain Description Is Required')
-            return
-        }
-
-        dispatch(addCategoryAction(data)).then(() => setModal(false))
-
-        setCategory({
-            categoryName: '',
-            description: '',
-            isActive: true,
-            isDeleted: false,
-            insertedUserID: 2,
-            updatedUserID: 2,
-        })
+        if (!validateCategory()) return
+        dispatch(addCategoryAction(data)).then(updateList)
+        reSetCategoryStates()
     }
 
     const editCategoryHandler = (category: Category) => {
-        if (!category.categoryName) {
-            showErrorToast('Domain Name Is Required')
-            return
-        }
-
-        if (!category.description) {
-            showErrorToast('Domain Description Is Required')
-            return
-        }
+        if (!validateCategory()) return
         dispatch(
             editCategoryAction({ ...category, categoryID: data?.categoryID })
-        ).then(() => setModal(false))
-        setCategory({
-            categoryName: '',
-            description: '',
-            isActive: true,
-            isDeleted: false,
-            insertedUserID: user?.employeeID,
-            updatedUserID: user?.employeeID,
-        })
+        ).then(updateList)
+        reSetCategoryStates()
     }
 
     const deleteCategoryHandler = (data: Category) => {
-        dispatch(deleteCategoryAction(data)).then(() => setModal(false))
-        setCategory({
-            categoryName: '',
-            description: '',
-            isActive: true,
-            isDeleted: false,
-            insertedUserID: user?.employeeID,
-            updatedUserID: user?.employeeID,
-        })
+        dispatch(deleteCategoryAction(data)).then(updateList)
+        reSetCategoryStates()
     }
 
     return (
