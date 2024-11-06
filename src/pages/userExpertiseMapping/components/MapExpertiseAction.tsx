@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { DropdownInputField, Loader } from '../../../components'
+import DomainDropDown from '../../../components/Dropdown/DomainDropDown'
 import {
     CategorySubCategoryMapping,
     SelectedCatSubCatIdOptionTypes,
@@ -9,9 +10,14 @@ import {
 import { getExpertiseMappingByCatSubCatId } from '../../../services/expertiseMapping.services'
 import { getSubCategoriesBasedOnCategory } from '../../../services/subCategory.services'
 import { useAppDispatch, useAppSelector } from '../../../store'
-import RatingsAndStatus from './RatingsAndStatus'
-import { addExpertiseMappingAction } from '../../../store/reducersAndActions/expertiseMapping/expertiseMapping.actions'
+import {
+    addExpertiseMappingAction,
+    getExpertiseMappingAction,
+} from '../../../store/reducersAndActions/expertiseMapping/expertiseMapping.actions'
 import { showErrorToast } from '../../../utils/toast'
+import RatingsAndStatus from './RatingsAndStatus'
+import { ITEMS_LIMIT } from '../../../constants/constents'
+import { useSearchParams } from 'react-router-dom'
 
 interface MapExpertiseActionsProps {
     setModal: (value: boolean) => void
@@ -25,11 +31,15 @@ export interface Mapping {
     mappingId: number
 }
 
-const MapExpertiseActions: React.FC<MapExpertiseActionsProps> = () => {
+const MapExpertiseActions: React.FC<MapExpertiseActionsProps> = ({
+    setModal,
+}) => {
     const { category } = useAppSelector((state) => state.category)
     const { usersList, user } = useAppSelector((state) => state.auth)
     const [subCategory, setSubCategory] = useState<SubCategory[]>([])
     const [loading, setLoading] = useState(false)
+    const [searchParams] = useSearchParams()
+    const page = parseInt(searchParams.get('page') || '1')
 
     const [mapping, setMapping] = useState<CategorySubCategoryMapping[]>([])
 
@@ -77,14 +87,21 @@ const MapExpertiseActions: React.FC<MapExpertiseActionsProps> = () => {
         setSelectedUser(option)
     }
 
-    const getCategoryOptionLabel = (option: (typeof category)[0]) =>
-        option.categoryName || ''
-
     const getUsersOptionLabel = (option: (typeof usersList)[0]) =>
         option.userName || ''
 
     const getCategorySubOptionLabel = (option: (typeof subCategory)[0]) =>
         option.subCategoryName || ''
+
+    const updateList = () => {
+        dispatch(
+            getExpertiseMappingAction({
+                limit: ITEMS_LIMIT.toString(),
+                page: page.toString(),
+            })
+        )
+        setModal(false)
+    }
 
     const handleMapping = (value: Mapping) => {
         if (!selectedUser?.employeeID) {
@@ -100,7 +117,7 @@ const MapExpertiseActions: React.FC<MapExpertiseActionsProps> = () => {
             insertedUserId: user?.employeeID,
         }
 
-        dispatch(addExpertiseMappingAction(data))
+        dispatch(addExpertiseMappingAction(data)).then(updateList)
     }
 
     useEffect(() => {
@@ -124,9 +141,7 @@ const MapExpertiseActions: React.FC<MapExpertiseActionsProps> = () => {
                         />
                     </div>
                     <div className="flex flex-col gap-4 md:flex-row">
-                        <DropdownInputField
-                            options={category}
-                            getOptionLabel={getCategoryOptionLabel}
+                        <DomainDropDown
                             onSelect={handleSelectCategory}
                             label="Select Domain"
                             placeholder="Select value"

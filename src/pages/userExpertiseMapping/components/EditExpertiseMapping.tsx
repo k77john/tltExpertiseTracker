@@ -5,11 +5,15 @@ import {
     Ratings,
     Switchtabs,
 } from '../../../components'
-import { statusTabs } from '../../../constants/constents'
+import { ITEMS_LIMIT, statusTabs } from '../../../constants/constents'
 import { ExpertiseMapping } from '../../../constants/types'
 import { useAppDispatch, useAppSelector } from '../../../store'
-import { updateExpertiseMappingAction } from '../../../store/reducersAndActions/expertiseMapping/expertiseMapping.actions'
+import {
+    getExpertiseMappingAction,
+    updateExpertiseMappingAction,
+} from '../../../store/reducersAndActions/expertiseMapping/expertiseMapping.actions'
 import { showErrorToast } from '../../../utils/toast'
+import { useSearchParams } from 'react-router-dom'
 
 interface MapExpertiseActionsProps {
     setModal: (value: boolean) => void
@@ -30,6 +34,8 @@ const EditExpertiseMapping: React.FC<MapExpertiseActionsProps> = ({
 }) => {
     const { usersList, user } = useAppSelector((state) => state.auth)
     const dispatch = useAppDispatch()
+    const [searchParams] = useSearchParams()
+    const page = parseInt(searchParams.get('page') || '1')
 
     const [expertiseMapping, setExpertiseMapping] = useState<ExpertiseMapping>({
         rank: data?.rank,
@@ -40,6 +46,16 @@ const EditExpertiseMapping: React.FC<MapExpertiseActionsProps> = ({
         updatedUserID: user?.employeeID,
     })
 
+    const updateList = () => {
+        dispatch(
+            getExpertiseMappingAction({
+                limit: ITEMS_LIMIT.toString(),
+                page: page.toString(),
+            })
+        )
+        onClose()
+    }
+
     const getUsersOptionLabel = (option: (typeof usersList)[0]) =>
         option.userName || ''
 
@@ -49,9 +65,7 @@ const EditExpertiseMapping: React.FC<MapExpertiseActionsProps> = ({
             return
         }
 
-        dispatch(updateExpertiseMappingAction(values)).then(() => {
-            onClose()
-        })
+        dispatch(updateExpertiseMappingAction(values)).then(updateList)
     }
 
     return (

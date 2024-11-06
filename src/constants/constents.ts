@@ -18,3 +18,5 @@ export const statusTabs: StatusTabs = {
 }
 
 export const DUMMY_USER_ID = 2
+
+export const ITEMS_LIMIT = 10

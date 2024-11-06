@@ -1,15 +1,21 @@
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { EditWhiteIcon, EyeWhiteIcon, StarIcon } from '../../assets/icons'
-import { CustomModal, Header, ListingDetails, Loader } from '../../components'
-import { ExpertiseMapping } from '../../constants/types'
+import {
+    Button,
+    CustomModal,
+    Header,
+    ListingDetails,
+    Loader,
+} from '../../components'
+import { ITEMS_LIMIT } from '../../constants/constents'
+import { ExpertiseMapping, PaginationTypes } from '../../constants/types'
+import { getExpertiseMappingDetails } from '../../services/expertiseMapping.services'
 import { useAppDispatch, useAppSelector } from '../../store'
 import { getUsersListAction } from '../../store/reducersAndActions/authentication/auth.actions'
-import { getCategoriesAction } from '../../store/reducersAndActions/category/category.actions'
 import { getExpertiseMappingAction } from '../../store/reducersAndActions/expertiseMapping/expertiseMapping.actions'
-import { getSubCategoriesAction } from '../../store/reducersAndActions/subCategory/subCategory.actions'
 import ErrorBoundary from '../../utils/ErrorBoundary'
 import { EditExpertiseMapping, MapExpertiseActions } from './components'
-import { getExpertiseMappingDetails } from '../../services/expertiseMapping.services'
 
 const UserExpertiseMapping = () => {
     const dispatch = useAppDispatch()
@@ -30,8 +36,6 @@ const UserExpertiseMapping = () => {
 
     const mapExpertiesHandler = async () => {
         setLoader(true)
-        await dispatch(getSubCategoriesAction())
-        await dispatch(getCategoriesAction())
         await dispatch(getUsersListAction())
         setLoader(false)
         setMapExpertiesModalOpen(true)
@@ -56,6 +60,11 @@ const UserExpertiseMapping = () => {
         []
     )
 
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchInput, setSearchInput] = useState<string>('')
+
+    const page = parseInt(searchParams.get('page') || '1')
+
     const editHandler = async (item: ExpertiseMapping) => {
         setLoader(true)
         await dispatch(getUsersListAction())
@@ -64,17 +73,35 @@ const UserExpertiseMapping = () => {
         setLoader(false)
     }
 
+    const getExpertiesMappingHandler = (value: PaginationTypes) => {
+        dispatch(
+            getExpertiseMappingAction({
+                limit: value.limit,
+                page: value.page,
+                search: value.search,
+            })
+        )
+    }
+
     useEffect(() => {
-        dispatch(getExpertiseMappingAction())
-    }, [])
+        if (page) {
+            getExpertiesMappingHandler({
+                limit: ITEMS_LIMIT.toString(),
+                page: page.toString(),
+                search: searchInput,
+            })
+        } else {
+            getExpertiesMappingHandler({
+                limit: ITEMS_LIMIT.toString(),
+                page: '1',
+                search: searchInput,
+            })
+        }
+    }, [page, searchInput])
 
     useEffect(() => {
         setFilteredOptions(expertiseMapping)
     }, [expertiseMapping])
-
-    const getExpertiesMappingOptionLabel = (
-        option: (typeof expertiseMapping)[0]
-    ) => option.employeeName || ''
 
     return (
         <div className="h-full">
@@ -85,12 +112,8 @@ const UserExpertiseMapping = () => {
                 buttonTitle={'+ Map Experties'}
                 onClick={() => mapExpertiesHandler()}
                 searchBar={true}
-                options={expertiseMapping}
-                getOptionLabel={getExpertiesMappingOptionLabel}
-                setFilteredOptions={setFilteredOptions}
-                getOptionDescription={(option) =>
-                    option.catSubCategoryMappingDescription || ''
-                }
+                setSearchInput={setSearchInput}
+                apiSearch
             />
             <ErrorBoundary>
                 <div
@@ -199,6 +222,26 @@ const UserExpertiseMapping = () => {
                                 ))}
                             </tbody>
                         </table>
+                    </div>
+                    <div className="flex justify-end gap-4 px-4 pb-4">
+                        <Button
+                            state={page === 1 ? 'disabled' : 'primary'}
+                            onClick={() =>
+                                setSearchParams({ page: (page - 1).toString() })
+                            }
+                            title="Prev"
+                        />
+                        <Button
+                            state={
+                                expertiseMapping.length >= ITEMS_LIMIT
+                                    ? 'primary'
+                                    : 'disabled'
+                            }
+                            onClick={() =>
+                                setSearchParams({ page: (page + 1).toString() })
+                            }
+                            title="Next"
+                        />
                     </div>
                 </div>
 

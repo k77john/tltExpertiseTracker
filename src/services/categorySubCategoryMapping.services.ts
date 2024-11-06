@@ -2,7 +2,7 @@ import { API_ROUTES } from '../constants/routes'
 import {
     CategorySubCategoryMapping,
     DomainSubDomainMappingTree,
-    domainSubDomainParameter,
+    PaginationTypes,
 } from '../constants/types'
 import { get, post, remove } from './service.common'
 
@@ -11,13 +11,16 @@ export interface StatusMessageResponse {
 }
 
 export const getCategoriesSubCategoriesMappings = async (
-    value: domainSubDomainParameter
+    value: PaginationTypes
 ) => {
     const params = new URLSearchParams()
 
     if (value?.search) {
         params.append('searchWord', value.search)
     }
+
+    params.append('page', value.page)
+    params.append('pageSize', value.limit)
 
     const response = await get<DomainSubDomainMappingTree[]>(
         `${API_ROUTES.getAllDomainSubDomainMapping}${params.toString() ? `?${params.toString()}` : ''}`

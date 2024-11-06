@@ -1,10 +1,8 @@
-import { useEffect, useState } from 'react'
-import {
-    Button,
-    DropdownInputField,
-    InputField,
-    Switchtabs,
-} from '../../../components'
+import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { Button, InputField, Switchtabs } from '../../../components'
+import DomainDropDown from '../../../components/Dropdown/DomainDropDown'
+import SubDomainDropDown from '../../../components/Dropdown/SubDomainDropDown'
 import { statusTabs } from '../../../constants/constents'
 import { CategorySubCategoryMapping } from '../../../constants/types'
 import { useAppDispatch, useAppSelector } from '../../../store'
@@ -12,9 +10,8 @@ import {
     addCategoriesSubCategoriesAction,
     deleteCategorySubCategoryMappingAction,
     editCategorySubCategoryMappingAction,
+    getCategoriesSubCategoriesAction,
 } from '../../../store/reducersAndActions/categoriesSubCategoriesMapping/categoriesSubCategories.actions'
-import { getCategoriesAction } from '../../../store/reducersAndActions/category/category.actions'
-import { getSubCategoriesAction } from '../../../store/reducersAndActions/subCategory/subCategory.actions'
 import { showErrorToast } from '../../../utils/toast'
 
 interface CategorySubCategoryMappingActionsProps {
@@ -29,13 +26,11 @@ const CategorySubCategoryMappingActions: React.FC<
     const { category } = useAppSelector((state) => state.category)
     const { subCategory } = useAppSelector((state) => state.subCategory)
     const { user } = useAppSelector((state) => state.auth)
+    const [searchParams] = useSearchParams()
 
     const dispatch = useAppDispatch()
 
-    useEffect(() => {
-        dispatch(getSubCategoriesAction())
-        dispatch(getCategoriesAction())
-    }, [])
+    const page = parseInt(searchParams.get('page') || '1')
 
     const [categoriesSubCategory, setcategoriesSubCategory] =
         useState<CategorySubCategoryMapping>({
@@ -48,6 +43,48 @@ const CategorySubCategoryMappingActions: React.FC<
             updatedUserId: user?.employeeID,
         })
 
+    const reSetMeppingsState = () => {
+        setcategoriesSubCategory({
+            categoryId: undefined,
+            subCategoryId: undefined,
+            description: '',
+            isActive: true,
+            updatedUserId: user?.employeeID,
+        })
+    }
+
+    const updateList = () => {
+        dispatch(
+            getCategoriesSubCategoriesAction({
+                limit: '12',
+                page: page.toString(),
+            })
+        )
+        setModal(false)
+    }
+
+    console.log('====================================')
+    console.log(data)
+    console.log('====================================')
+
+    const validateMapping = (): boolean => {
+        if (!categoriesSubCategory.categoryId) {
+            showErrorToast('Please Select Domain')
+            return false
+        }
+
+        if (!categoriesSubCategory.subCategoryId) {
+            showErrorToast('Please Select Sub Domain')
+            return false
+        }
+
+        if (!categoriesSubCategory.description) {
+            showErrorToast('Domain Description Is Required')
+            return false
+        }
+        return true
+    }
+
     const handleSelectCategory = (option: (typeof category)[0]) => {
         console.log('Selected option:', option)
         setcategoriesSubCategory((prev) => ({
@@ -55,9 +92,6 @@ const CategorySubCategoryMappingActions: React.FC<
             categoryId: option.categoryID,
         }))
     }
-
-    const getCategoryOptionLabel = (option: (typeof category)[0]) =>
-        option.categoryName || ''
 
     const handleSelectSubCategory = (option: (typeof subCategory)[0]) => {
         console.log('Selected option:', option)
@@ -67,79 +101,33 @@ const CategorySubCategoryMappingActions: React.FC<
         }))
     }
 
-    const getCategorySubOptionLabel = (option: (typeof subCategory)[0]) =>
-        option.subCategoryName || ''
-
     const addCategorySubCategoryHandler = (
         data: CategorySubCategoryMapping
     ) => {
-        if (!categoriesSubCategory.categoryId) {
-            showErrorToast('Please select category')
-            return
-        }
-
-        if (!categoriesSubCategory.subCategoryId) {
-            showErrorToast('Please select sub category')
-            return
-        }
-
-        if (!categoriesSubCategory.description) {
-            showErrorToast('Sub Category Description Is Required')
-            return
-        }
-
-        dispatch(addCategoriesSubCategoriesAction(data)).then(() =>
-            setModal(false)
-        )
-
-        setcategoriesSubCategory({
-            categoryId: undefined,
-            subCategoryId: undefined,
-            description: '',
-            isActive: true,
-        })
+        if (!validateMapping()) return
+        dispatch(addCategoriesSubCategoriesAction(data)).then(updateList)
+        reSetMeppingsState()
     }
 
     const editMappingHandler = (Mapping: CategorySubCategoryMapping) => {
-        if (!categoriesSubCategory.categoryId) {
-            showErrorToast('Please Select Domain')
-            return
-        }
-
-        if (!categoriesSubCategory.subCategoryId) {
-            showErrorToast('Please Select Sub Domain')
-            return
-        }
-
-        if (!categoriesSubCategory.description) {
-            showErrorToast('Domain Description Is Required')
-            return
-        }
+        if (!validateMapping()) return
         dispatch(
             editCategorySubCategoryMappingAction({
                 ...Mapping,
                 mappingId: data?.mappingId,
             })
-        ).then(() => {
-            setModal(false)
-            setcategoriesSubCategory({
-                categoryId: undefined,
-                subCategoryId: undefined,
-                description: '',
-                isActive: true,
-                updatedUserId: user?.employeeID,
-            })
-        })
+        ).then(updateList)
+        reSetMeppingsState()
     }
 
     const deleteMappingHandler = (data: CategorySubCategoryMapping) => {
-        dispatch(deleteCategorySubCategoryMappingAction({...data, updatedUserId:user?.employeeID})).then(() =>
-            setModal(false)
-        )
-        setcategoriesSubCategory({
-            mappingId: undefined,
-            updatedUserId: user?.employeeID,
-        })
+        dispatch(
+            deleteCategorySubCategoryMappingAction({
+                ...data,
+                updatedUserId: user?.employeeID,
+            })
+        ).then(updateList)
+        reSetMeppingsState()
     }
 
     return (
@@ -162,33 +150,21 @@ const CategorySubCategoryMappingActions: React.FC<
                         />
                     </div>
                     <div className="flex flex-col gap-4 md:flex-row">
-                        <DropdownInputField
-                            options={category}
-                            getOptionLabel={getCategoryOptionLabel}
+                        <DomainDropDown
                             onSelect={handleSelectCategory}
                             label="Select Domain"
                             placeholder="Select value"
                             width="100%"
-                            selectedOption={category.find(
-                                (item) =>
-                                    item.categoryID ===
-                                    categoriesSubCategory.categoryId
-                            )}
+                            selectedOption={data?.categoryName}
                         />
                     </div>
                     <div className="flex flex-col gap-4">
-                        <DropdownInputField
-                            options={subCategory}
-                            getOptionLabel={getCategorySubOptionLabel}
+                        <SubDomainDropDown
                             onSelect={handleSelectSubCategory}
                             label="Select Sub Domain"
                             placeholder="Select value"
                             width="100%"
-                            selectedOption={subCategory.find(
-                                (item) =>
-                                    item.subCategoryID ===
-                                    categoriesSubCategory.subCategoryId
-                            )}
+                            selectedOption={data?.subCategoryName}
                         />
                     </div>
                     <div className="flex flex-col gap-4 md:flex-row">

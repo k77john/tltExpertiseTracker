@@ -1,25 +1,59 @@
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { DeleteIcon, EditWhiteIcon, EyeWhiteIcon } from '../../assets/icons'
-import { CustomModal, Header, ListingDetails, Loader } from '../../components'
-import { SubCategory } from '../../constants/types'
+import {
+    Button,
+    CustomModal,
+    Header,
+    ListingDetails,
+    Loader,
+} from '../../components'
+import { ITEMS_LIMIT } from '../../constants/constents'
+import { PaginationTypes, SubCategory } from '../../constants/types'
 import { getSubCategoryByID } from '../../services/subCategory.services'
 import { useAppDispatch, useAppSelector } from '../../store'
 import { getSubCategoriesAction } from '../../store/reducersAndActions/subCategory/subCategory.actions'
-import { SubCategoryActions } from './components'
 import ErrorBoundary from '../../utils/ErrorBoundary'
+import { SubCategoryActions } from './components'
 
 const ManageSubCategories = () => {
-    const { loading, subCategory } = useAppSelector(
+    const [loader, setLoader] = useState(false)
+    const { subCategory, loading } = useAppSelector(
         (state) => state.subCategory
     )
 
-    const [loader, setLoader] = useState(false)
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchInput, setSearchInput] = useState<string>('')
+
+    const page = parseInt(searchParams.get('page') || '1')
 
     const dispatch = useAppDispatch()
 
+    const getSubCategoriesHandler = async (value: PaginationTypes) => {
+        dispatch(
+            getSubCategoriesAction({
+                limit: value.limit,
+                page: value.page,
+                search: value.search,
+            })
+        )
+    }
+
     useEffect(() => {
-        dispatch(getSubCategoriesAction())
-    }, [])
+        if (page) {
+            getSubCategoriesHandler({
+                limit: ITEMS_LIMIT.toString(),
+                page: page.toString(),
+                search: searchInput,
+            })
+        } else {
+            getSubCategoriesHandler({
+                limit: ITEMS_LIMIT.toString(),
+                page: '1',
+                search: searchInput,
+            })
+        }
+    }, [page, searchInput])
 
     const [selectedSubCategory, setselectedSubCategory] =
         useState<SubCategory>()
@@ -57,55 +91,57 @@ const ManageSubCategories = () => {
 
     const [filteredOptions, setFilteredOptions] = useState<SubCategory[]>([])
 
-    const getSubCategoryOptionLabel = (option: (typeof subCategory)[0]) =>
-        option.subCategoryName || ''
-
     useEffect(() => {
         setFilteredOptions(subCategory)
     }, [subCategory])
 
     return (
         <div className="h-full">
-            {loading && <Loader />}
             {loader && <Loader />}
-
+            {loading && <Loader />}
             <Header
                 title="Manage Sub Domain"
                 onClick={() => setaddSubCategoryModalOpen(true)}
                 buttonTitle="+ Add Sub Domain"
                 searchBar
-                getOptionLabel={getSubCategoryOptionLabel}
-                options={subCategory}
-                setFilteredOptions={setFilteredOptions}
-                getOptionDescription={(option) => option.description || ''}
+                setSearchInput={setSearchInput}
+                apiSearch
             />
             <ErrorBoundary>
                 <div
                     style={{ height: 'calc(100% - 128px)' }}
                     className="bg-white-colo gap-4 flex flex-col"
                 >
+                    {subCategory.length === 0 && !loader && (
+                        <div className="h-[70vh] w-full flex items-center justify-center">
+                            <h1 className="text-lg">No SubCategories</h1>
+                        </div>
+                    )}
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left  text-gray-500 ">
-                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 sticky top-0">
-                                <tr>
-                                    <th scope="col" className="px-6 py-3">
-                                        Sub Domain name
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
-                                        Status
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
-                                        Description
-                                    </th>
+                            {subCategory.length > 0 && !loader && (
+                                <thead className="text-xs text-gray-700 uppercase bg-gray-50 sticky top-0">
+                                    <tr>
+                                        <th scope="col" className="px-6 py-3">
+                                            Sub Domain name
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            Status
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            Description
+                                        </th>
 
-                                    <th
-                                        scope="col"
-                                        className="px-6 py-3 text-end"
-                                    >
-                                        Action
-                                    </th>
-                                </tr>
-                            </thead>
+                                        <th
+                                            scope="col"
+                                            className="px-6 py-3 text-end"
+                                        >
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                            )}
+
                             <tbody>
                                 {filteredOptions.map((item) => (
                                     <tr
@@ -175,6 +211,26 @@ const ManageSubCategories = () => {
                                 ))}
                             </tbody>
                         </table>
+                    </div>
+                    <div className="flex justify-end gap-4 px-4 pb-4">
+                        <Button
+                            state={page === 1 ? 'disabled' : 'primary'}
+                            onClick={() =>
+                                setSearchParams({ page: (page - 1).toString() })
+                            }
+                            title="Prev"
+                        />
+                        <Button
+                            state={
+                                subCategory.length >= ITEMS_LIMIT
+                                    ? 'primary'
+                                    : 'disabled'
+                            }
+                            onClick={() =>
+                                setSearchParams({ page: (page + 1).toString() })
+                            }
+                            title="Next"
+                        />
                     </div>
                 </div>
 
