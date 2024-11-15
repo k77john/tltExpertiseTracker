@@ -20,7 +20,7 @@ const mapSerializedErrorToApiError = (
     return {
         status: 'error',
         isSuccessful: false,
-        statusCode: 500,
+        statusCode: error.code,
         message: error.message,
     }
 }

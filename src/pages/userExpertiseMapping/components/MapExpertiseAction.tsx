@@ -74,6 +74,8 @@ const MapExpertiseActions: React.FC<MapExpertiseActionsProps> = ({
             subCategoryId: undefined,
             categoryId: option.categoryID,
         })
+
+        setMapping([])
     }
 
     const handleSelectSubCategory = (option: (typeof subCategory)[0]) => {
@@ -88,7 +90,7 @@ const MapExpertiseActions: React.FC<MapExpertiseActionsProps> = ({
     }
 
     const getUsersOptionLabel = (option: (typeof usersList)[0]) =>
-        option.userName || ''
+        option.employeeName || ''
 
     const getCategorySubOptionLabel = (option: (typeof subCategory)[0]) =>
         option.subCategoryName || ''
@@ -152,11 +154,19 @@ const MapExpertiseActions: React.FC<MapExpertiseActionsProps> = ({
                                 options={subCategory}
                                 getOptionLabel={getCategorySubOptionLabel}
                                 onSelect={handleSelectSubCategory}
-                                label="Select sub Domain"
+                                label="Select Sub Domain"
                                 placeholder="Select value"
                                 // width="48%"
                             />
                         )}
+                    </div>
+                    <div>
+                        {subCategory.length === 0 &&
+                            selectedOptions.categoryId && (
+                                <p className="text-xs px-4 text-red-400">
+                                    No "Sub Domain" related to selected "Domain"
+                                </p>
+                            )}
                     </div>
                     {/* <div className="flex justify-end">
                         <Button
