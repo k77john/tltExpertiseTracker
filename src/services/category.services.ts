@@ -20,6 +20,18 @@ export const getCategories = async (value: PaginationTypes) => {
         `${API_ROUTES.getCategories}${params.toString() ? `?${params.toString()}` : ''}`
     )
 
+    if (response.isSuccessful) {
+        console.log('===============demo log=====================')
+        console.log(response.data)
+        console.log('====================================')
+    }
+
+    if (!response.isSuccessful) {
+        console.log('===============demo log Error=====================')
+        console.log(response.message)
+        console.log('====================================')
+    }
+
     return response
 }
 

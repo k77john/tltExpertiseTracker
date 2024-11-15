@@ -57,7 +57,7 @@ const EditExpertiseMapping: React.FC<MapExpertiseActionsProps> = ({
     }
 
     const getUsersOptionLabel = (option: (typeof usersList)[0]) =>
-        option.userName || ''
+        option.employeeName || ''
 
     const updateHandler = (values: ExpertiseMapping) => {
         if (!values.userId) {
